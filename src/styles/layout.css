@@ -1,0 +1,46 @@
+html,
+body,
+#cssp-root {
+  min-height: 100%;
+}
+
+body,
+#cssp-root {
+  min-width: 320px;
+}
+
+#cssp-root {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.cssp-ant-app {
+  height: 100%;
+  min-height: 0;
+}
+
+body {
+  margin: 0;
+}
+
+.dy-sec-shell-fallback {
+  display: flex;
+  min-height: 320px;
+  align-items: center;
+  justify-content: center;
+}
+
+.dy-sec-shell-fallback--loading {
+  flex-direction: column;
+  gap: 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.dy-sec-shell-fallback__title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.dy-sec-shell-fallback__message {
+  font-size: 14px;
+}

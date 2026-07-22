@@ -1,0 +1,316 @@
+/* 日志检索列表与详情业务视图共享的样式。 */
+.searchWorkspace {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actionBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.queryGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.queryGrid :global(.ant-input),
+.queryGrid :global(.ant-picker),
+.queryGrid :global(.ant-select) {
+  width: 100%;
+  min-width: 0;
+}
+
+.queryGrid label {
+  min-width: 0;
+}
+
+.queryKeyword {
+  flex: 1 1 300px;
+  min-width: min(260px, 100%);
+}
+
+.queryService,
+.querySeverity {
+  flex: 0 1 150px;
+  min-width: min(128px, 100%);
+}
+
+.queryTimeRange {
+  flex: 1 1 270px;
+  min-width: min(240px, 100%);
+}
+
+.fieldLabel {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--dy-sec-text-muted);
+  font-size: 12px;
+}
+
+.toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-inline-start: auto;
+}
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.metricCard {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--dy-sec-border-subtle);
+  border-radius: var(--dy-sec-radius-md);
+  background: var(--dy-sec-bg-panel);
+}
+
+.summaryLabel {
+  display: block;
+  color: var(--dy-sec-text-muted);
+  font-size: 12px;
+}
+
+.summaryValue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+  color: var(--dy-sec-text-primary);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+}
+
+.metricHint {
+  display: block;
+  min-height: 18px;
+  margin-top: 4px;
+  color: var(--dy-sec-text-muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.levelBars {
+  display: flex;
+  height: 10px;
+  margin-top: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--dy-sec-bg-content);
+}
+
+.levelDanger {
+  background: var(--dy-sec-error);
+}
+
+.levelWarning {
+  background: var(--dy-sec-warning);
+}
+
+.levelSuccess {
+  background: var(--dy-sec-success);
+}
+
+.levelMuted {
+  background: var(--dy-sec-unknown);
+}
+
+.resultPanel {
+  flex: 1 1 420px;
+  min-height: 520px;
+}
+
+.resultPanelBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.resultTable {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.resultTable :global(.ant-spin-nested-loading),
+.resultTable :global(.ant-spin-container) {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.resultTable :global(.ant-table) {
+  flex: 1;
+}
+
+.resultTable :global(.ant-table-container) {
+  min-height: 100%;
+}
+
+.resultTable :global(.ant-pagination) {
+  margin-block: 12px 0;
+}
+
+.tableRowWarning td {
+  background: color-mix(in srgb, var(--dy-sec-warning) 6%, transparent);
+}
+
+.tableRowDanger td {
+  background: color-mix(in srgb, var(--dy-sec-error) 7%, transparent);
+}
+
+.traceLink {
+  display: inline-flex;
+  height: auto;
+  max-width: 100%;
+  padding: 0;
+  font-family: 'Fira Code', 'SFMono-Regular', Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+.messageCell {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.messageTitle {
+  color: var(--dy-sec-text-primary);
+}
+
+.messageMeta {
+  color: var(--dy-sec-text-muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.insightList {
+  display: grid;
+  gap: 10px;
+}
+
+.insightItem {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--dy-sec-border-subtle);
+}
+
+.insightItem:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.detailGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(min(320px, 100%), 0.8fr);
+  gap: 12px;
+}
+
+.detailTabs {
+  min-width: 0;
+}
+
+.detailTabs :global(.ant-tabs-nav) {
+  margin-bottom: 12px;
+}
+
+.detailTabs :global(.ant-tabs-tab) {
+  padding-block: 8px;
+}
+
+.detailTabs :global(.ant-tabs-content-holder) {
+  min-width: 0;
+}
+
+.fieldGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: 10px;
+}
+
+.fieldItem {
+  min-width: 0;
+}
+
+.fieldValue {
+  margin-top: 4px;
+  color: var(--dy-sec-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.rawLog {
+  max-height: 220px;
+  margin: 0;
+  overflow: auto;
+  color: var(--dy-sec-text-secondary);
+  font-family: 'Fira Code', 'SFMono-Regular', Consolas, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.actionList {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--dy-sec-text-secondary);
+}
+
+.stateStrip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dy-sec-space-2);
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .detailGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .queryGrid {
+    align-items: stretch;
+  }
+
+  .queryKeyword,
+  .queryService,
+  .querySeverity,
+  .queryTimeRange,
+  .toolbar {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .toolbar {
+    justify-content: flex-start;
+    margin-inline-start: 0;
+  }
+
+  .metricGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .metricGrid {
+    grid-template-columns: 1fr;
+  }
+}

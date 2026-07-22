@@ -1,0 +1,77 @@
+{
+  // https://cn.vite.dev/config/#debugging-the-config-file-on-vs-code
+  "debug.javascript.terminalOptions": {
+    "resolveSourceMapLocations": [
+      "${workspaceFolder}/**",
+      "!**/node_modules/**",
+      "**/node_modules/.vite-temp/**"
+    ]
+  },
+
+  // https://code.visualstudio.com/docs/editing/refactoring#_code-actions-on-save
+  // https://biomejs.dev/reference/vscode/
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never",
+    "source.sortImports": "never",
+    "source.removeUnused": "explicit"
+  },
+  // Prettier as default formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // Format on paste
+  "editor.formatOnPaste": true,
+  // Format on save
+  "editor.formatOnSave": true,
+
+  "eslint.enable": true,
+  // ESLint CLI only search `eslint.config.js`, not support `.eslintrc.*`
+  "eslint.useFlatConfig": true,
+  // Enable eslint for all supported languages
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "yaml"
+  ],
+
+  "prettier.enable": true,
+
+  // Using the workspace version of TypeScript
+  // https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+
+  "i18n-ally.localesPaths": "public/locales",
+  "i18n-ally.namespace": true,
+  "i18n-ally.pathMatcher": "{locale}/{namespaces}.json",
+  "i18n-ally.sourceLanguage": "zh-CN",
+  "i18n-ally.displayLanguage": "zh-CN",
+  "i18n-ally.enabledFrameworks": [
+    "react-i18next"
+  ],
+
+  "cSpell.words": [
+    "antd",
+    "ahooks",
+    "Cascader",
+    "clsx",
+    "lokalise",
+    "Popconfirm",
+    "reduxjs",
+    "sider",
+    "svgr",
+    "vitepress",
+    "vite",
+    "taze",
+    "zustand"
+  ],
+  "[toml]": {
+    "editor.defaultFormatter": "Shellomo.enhanced-toml"
+  },
+}

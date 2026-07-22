@@ -1,0 +1,647 @@
+#cssp-root {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dy-sec-shell {
+  display: grid;
+  grid-template-rows: var(--dy-sec-shell-header-height) minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--dy-sec-shell-bg);
+}
+
+.dy-sec-shell--side-compact,
+.dy-sec-shell--side,
+.dy-sec-shell--mix {
+  grid-template-columns: var(--dy-sec-shell-current-aside-width) minmax(0, 1fr);
+}
+
+.dy-sec-shell--side-compact {
+  grid-template-areas:
+    'aside header'
+    'aside main';
+}
+
+.dy-sec-shell--side,
+.dy-sec-shell--mix {
+  grid-template-areas:
+    'header header'
+    'aside main';
+}
+
+.dy-sec-shell--top {
+  grid-template-areas:
+    'header'
+    'main';
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.dy-sec-shell-body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.dy-sec-shell-aside {
+  grid-area: aside;
+  overflow: hidden;
+  border-right: var(--dy-sec-shell-line-width) solid var(--dy-sec-shell-border-color);
+  background: var(--dy-sec-shell-aside-surface) !important;
+}
+
+.dy-sec-shell-aside .ant-layout-sider-children {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.dy-sec-shell-aside .dy-sec-shell-brand.ant-flex {
+  flex: 0 0 auto;
+  height: var(--dy-sec-shell-header-height);
+  min-width: 0;
+  overflow: hidden;
+  padding-block: 0;
+  padding-inline: var(--dy-sec-shell-brand-padding-inline);
+  padding-inline-start: var(--dy-sec-shell-brand-first-icon-inline-start);
+  border-bottom: var(--dy-sec-shell-line-width) solid var(--dy-sec-shell-border-color);
+}
+
+.dy-sec-shell-aside.ant-layout-sider-collapsed .dy-sec-shell-brand.ant-flex {
+  padding-inline: var(--dy-sec-shell-brand-collapsed-padding-inline);
+}
+
+.dy-sec-shell-brand--header.ant-flex {
+  flex: 0 1 auto;
+  height: var(--dy-sec-shell-header-height);
+  min-width: 0;
+  overflow: hidden;
+  padding-inline: 0 12px;
+}
+
+.dy-sec-shell-brand__app-switch {
+  flex: 0 0 auto;
+}
+
+.dy-sec-shell-app-switch-portal {
+  width: min(656px, calc(100vw - 48px));
+  max-width: 656px;
+}
+
+.dy-sec-shell-app-switch-popover.ant-popover .ant-popover-container {
+  padding: 0;
+  border: 1px solid rgb(36 41 46 / 12%);
+  box-shadow: 0 12px 24px -8px rgb(24 26 27 / 18%);
+}
+
+.dy-sec-shell-app-switch-popover--dark.ant-popover .ant-popover-container {
+  border-color: rgb(54 57 64);
+  box-shadow: 0 12px 24px -8px rgb(1 4 9 / 48%);
+}
+
+.dy-sec-shell-app-switch-portal--loading {
+  min-height: 120px;
+}
+
+.dy-sec-shell-app-switch-portal__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dy-sec-shell-app-switch-portal__item {
+  display: flex;
+  min-width: 0;
+  min-height: 72px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border-block-end: 1px solid var(--dy-sec-border-subtle);
+  border-inline-end: 1px solid var(--dy-sec-border-subtle);
+  border-radius: 0;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.dy-sec-shell-app-switch-portal__item:nth-child(even) {
+  border-inline-end: 0;
+}
+
+.dy-sec-shell-app-switch-portal__item:nth-last-child(-n + 2) {
+  border-block-end: 0;
+}
+
+.dy-sec-shell-app-switch-portal__item:hover,
+.dy-sec-shell-app-switch-portal__item:focus-visible {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.dy-sec-shell-app-switch-portal__icon {
+  display: inline-flex;
+  width: var(--dy-sec-shell-action-icon-size);
+  height: var(--dy-sec-shell-action-icon-size);
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.dy-sec-shell-app-switch-portal__body {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dy-sec-shell-app-switch-portal__title,
+.dy-sec-shell-app-switch-portal__description {
+  min-width: 0;
+}
+
+.dy-sec-shell-app-switch-portal__title.ant-typography,
+.dy-sec-shell-app-switch-portal__description.ant-typography {
+  margin: 0;
+}
+
+.dy-sec-shell-app-switch-portal__description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.dy-sec-shell-brand__logo {
+  width: var(--dy-sec-shell-logo-size);
+  height: var(--dy-sec-shell-logo-size);
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.dy-sec-shell-brand__title {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--dy-sec-shell-title-color);
+  font-size: var(--dy-sec-shell-title-font-size);
+  font-weight: var(--dy-sec-shell-title-font-weight);
+  white-space: nowrap;
+}
+
+.dy-sec-shell-aside__menu {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: var(--dy-sec-shell-menu-padding);
+}
+
+.dy-sec-shell-aside__state {
+  margin-block: var(--dy-sec-shell-menu-state-margin-block);
+}
+
+.dy-sec-shell-aside__collapse {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  padding: var(--dy-sec-shell-collapse-padding);
+  border-top: var(--dy-sec-shell-line-width) solid var(--dy-sec-shell-border-color);
+}
+
+.dy-sec-shell-action-button.ant-btn,
+.dy-sec-shell-collapse-button.ant-btn {
+  width: var(--dy-sec-shell-action-button-size);
+  height: var(--dy-sec-shell-action-button-size);
+  padding: 0;
+}
+
+.dy-sec-shell-action-button.ant-btn > .ant-btn-icon,
+.dy-sec-shell-collapse-button.ant-btn > .ant-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dy-sec-shell-collapse-button.ant-btn {
+  color: var(--dy-sec-shell-collapse-button-color);
+}
+
+.dy-sec-shell-collapse-button.ant-btn:hover,
+.dy-sec-shell-collapse-button.ant-btn:focus-visible {
+  color: var(--dy-sec-shell-collapse-button-hover-color);
+}
+
+.dy-sec-shell-collapse-button.ant-btn:active {
+  color: var(--dy-sec-shell-collapse-button-active-color);
+}
+
+.dy-sec-shell :where(a, .ant-typography a, .ant-btn-link) {
+  color: var(--dy-sec-shell-link-color) !important;
+}
+
+.dy-sec-shell :where(a, .ant-typography a, .ant-btn-link):hover,
+.dy-sec-shell :where(a, .ant-typography a, .ant-btn-link):focus-visible {
+  color: var(--dy-sec-shell-link-hover-color) !important;
+}
+
+.dy-sec-shell :where(a, .ant-typography a, .ant-btn-link):active {
+  color: var(--dy-sec-shell-link-active-color) !important;
+}
+
+.dy-sec-shell .ant-btn {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+.dy-sec-shell .ant-btn-default:not(:disabled, .ant-btn-disabled) {
+  border-color: var(--dy-sec-shell-button-default-border) !important;
+  background: var(--dy-sec-shell-button-default-bg) !important;
+  color: var(--dy-sec-shell-button-default-color) !important;
+}
+
+.dy-sec-shell .ant-btn-default:not(:disabled, .ant-btn-disabled):hover,
+.dy-sec-shell .ant-btn-default:not(:disabled, .ant-btn-disabled):focus-visible {
+  border-color: var(--dy-sec-shell-button-default-border-hover) !important;
+  background: var(--dy-sec-shell-button-default-bg-hover) !important;
+  color: var(--dy-sec-shell-button-default-hover-color) !important;
+}
+
+.dy-sec-shell .ant-btn-primary:not(:disabled, .ant-btn-disabled) {
+  border-color: var(--dy-sec-shell-button-primary-bg) !important;
+  background: var(--dy-sec-shell-button-primary-bg) !important;
+  color: var(--dy-sec-shell-button-primary-color) !important;
+}
+
+.dy-sec-shell .ant-btn-primary:not(:disabled, .ant-btn-disabled):hover,
+.dy-sec-shell .ant-btn-primary:not(:disabled, .ant-btn-disabled):focus-visible {
+  border-color: var(--dy-sec-shell-button-primary-bg-hover) !important;
+  background: var(--dy-sec-shell-button-primary-bg-hover) !important;
+  color: var(--dy-sec-shell-button-primary-color) !important;
+}
+
+.dy-sec-shell .ant-btn-primary:not(:disabled, .ant-btn-disabled):active {
+  border-color: var(--dy-sec-shell-button-primary-bg-active) !important;
+  background: var(--dy-sec-shell-button-primary-bg-active) !important;
+  color: var(--dy-sec-shell-button-primary-color) !important;
+}
+
+.dy-sec-shell-menu {
+  background: transparent !important;
+  border-inline-end: 0 !important;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+}
+
+.dy-sec-shell-menu .ant-menu-item,
+.dy-sec-shell-menu .ant-menu-submenu-title {
+  position: relative;
+  height: var(--dy-sec-shell-menu-item-height) !important;
+  line-height: var(--dy-sec-shell-menu-item-height) !important;
+  width: auto !important;
+  margin-block: 0 var(--dy-sec-shell-menu-item-margin-block-end) !important;
+  margin-inline: 0 !important;
+  overflow: visible;
+  border-radius: var(--dy-sec-shell-menu-item-radius) !important;
+  font-size: 13px;
+  /* font-weight: 300; */
+  letter-spacing: 0;
+}
+
+.dy-sec-shell-menu .ant-menu-sub.ant-menu-inline {
+  border-radius: var(--dy-sec-shell-menu-item-radius);
+  background: var(--dy-sec-shell-aside-sub-surface) !important;
+}
+
+.dy-sec-shell-menu.ant-menu-inline .ant-menu-item::after {
+  display: none;
+}
+
+.dy-sec-shell-menu--inline:not(.ant-menu-inline-collapsed) > .ant-menu-item,
+.dy-sec-shell-menu--inline:not(.ant-menu-inline-collapsed) > .ant-menu-submenu > .ant-menu-submenu-title {
+  padding-inline-start: var(--dy-sec-shell-menu-top-level-icon-inline-start) !important;
+  padding-inline-end: 8px !important;
+}
+
+.dy-sec-shell-menu--inline .ant-menu-item-selected::before,
+.dy-sec-shell-menu--inline.ant-menu-inline-collapsed .ant-menu-submenu-selected > .ant-menu-submenu-title::before {
+  position: absolute;
+  inset-block-start: calc((var(--dy-sec-shell-menu-item-height) - var(--dy-sec-shell-menu-active-marker-height)) / 2);
+  inset-inline-start: var(--dy-sec-shell-menu-active-marker-left);
+  width: var(--dy-sec-shell-menu-active-marker-width) !important;
+  height: var(--dy-sec-shell-menu-active-marker-height) !important;
+  border-radius: 2px;
+  background: var(--dy-sec-shell-menu-active-marker-color);
+  content: '';
+}
+
+.dy-sec-shell-menu .ant-menu-title-content {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dy-sec-shell-menu .ant-menu-item .ant-menu-item-icon + .ant-menu-title-content,
+.dy-sec-shell-menu .ant-menu-submenu-title .ant-menu-item-icon + .ant-menu-title-content {
+  margin-inline-start: var(--dy-sec-shell-menu-icon-gap);
+}
+
+.dy-sec-shell-menu .ant-menu-item-icon.dy-sec-shell-menu-icon {
+  display: inline-flex;
+  width: var(--dy-sec-shell-menu-icon-size);
+  height: var(--dy-sec-shell-menu-icon-size);
+  align-items: center;
+  justify-content: center;
+  font-size: var(--dy-sec-shell-menu-icon-size);
+  vertical-align: middle;
+}
+
+.dy-sec-shell-menu.ant-menu-inline-collapsed .ant-menu-item-icon.dy-sec-shell-menu-icon {
+  width: var(--dy-sec-shell-menu-icon-size) !important;
+  min-width: var(--dy-sec-shell-menu-icon-size);
+  max-width: var(--dy-sec-shell-menu-icon-size);
+  inline-size: var(--dy-sec-shell-menu-icon-size);
+  font-size: var(--dy-sec-shell-menu-icon-size);
+}
+
+.dy-sec-shell-menu.ant-menu-inline-collapsed > .ant-menu-item,
+.dy-sec-shell-menu.ant-menu-inline-collapsed > .ant-menu-submenu > .ant-menu-submenu-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 0 !important;
+}
+
+.dy-sec-shell-menu.ant-menu-inline-collapsed .ant-menu-title-content {
+  display: none;
+}
+
+.dy-sec-shell-menu-popup.ant-menu-submenu-popup {
+  padding: 4px;
+  border: 1px solid rgba(36, 41, 46, 0.12);
+  border-radius: 2px;
+  background: #ffffff !important;
+  box-shadow: 0 13px 20px 1px rgb(24 26 27 / 18%);
+}
+
+.dy-sec-shell-menu-popup--horizontal.ant-menu-submenu-popup {
+  /* AntD horizontal Menu 会把弹层锚定到菜单项下沿，这里改为贴齐 48px Header 下沿。 */
+  top: 48px !important;
+  margin-block-start: 0;
+}
+
+.dy-sec-shell-menu-popup--dark.ant-menu-submenu-popup {
+  border-color: rgb(54 57 64);
+  background: #181b1f !important;
+  box-shadow: 0 8px 24px rgb(1 4 9);
+}
+
+.dy-sec-shell-menu-popup.ant-menu-submenu-popup .ant-menu-sub {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.dy-sec-shell-menu-popup.ant-menu-submenu-popup .ant-menu-item {
+  height: var(--dy-sec-shell-menu-item-height, 32px) !important;
+  line-height: var(--dy-sec-shell-menu-item-height, 32px) !important;
+  margin: 0 !important;
+  border-radius: var(--dy-sec-shell-menu-item-radius, 3px) !important;
+  font-size: 13px;
+  /* font-weight: 300; */
+  letter-spacing: 0;
+}
+
+.dy-sec-shell-menu .dy-sec-shell-menu-icon > svg {
+  width: 1em;
+  height: 1em;
+}
+
+.dy-sec-shell-menu.ant-menu-inline-collapsed .dy-sec-shell-menu-icon > svg {
+  width: 1em !important;
+  height: 1em !important;
+  inline-size: 1em;
+  block-size: 1em;
+}
+
+.dy-sec-shell-main {
+  display: flex;
+  grid-area: main;
+  flex-direction: column;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--dy-sec-shell-bg);
+}
+
+.dy-sec-shell.ant-layout-has-sider > .dy-sec-shell-main {
+  /* AntD flex Layout 的兼容规则会设置子 Layout width: 0，Shell 改用 grid 后需要恢复内容列宽。 */
+  width: auto !important;
+}
+
+.dy-sec-shell-header {
+  grid-area: header;
+  flex: 0 0 var(--dy-sec-shell-header-height);
+  height: var(--dy-sec-shell-header-height);
+  padding-block: 0;
+  padding-inline: var(--dy-sec-shell-header-padding-inline);
+  border-bottom: var(--dy-sec-shell-line-width) solid var(--dy-sec-shell-border-color);
+  background: var(--dy-sec-shell-surface);
+}
+
+.dy-sec-shell-header__start,
+.dy-sec-shell-header__end {
+  min-width: 0;
+}
+
+.dy-sec-shell-header__start {
+  flex: 1 1 auto;
+}
+
+.dy-sec-shell-header__center {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.dy-sec-shell-header__breadcrumb {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.dy-sec-shell-header__end {
+  flex: 0 0 auto;
+}
+
+.dy-sec-shell--side .dy-sec-shell-header__start,
+.dy-sec-shell--mix .dy-sec-shell-header__start {
+  gap: 8px;
+}
+
+.dy-sec-shell--mix-top-menu-start .dy-sec-shell-header__start {
+  flex: 1 1 auto;
+}
+
+.dy-sec-shell--mix-top-menu-start .dy-sec-shell-header__start > .ant-space-item:last-child {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.dy-sec-shell--mix-top-menu-start .dy-sec-shell-menu--horizontal.ant-menu {
+  width: 100%;
+}
+
+.dy-sec-shell--top .dy-sec-shell-header__start {
+  flex: 0 1 auto;
+}
+
+.dy-sec-shell--side.dy-sec-shell--breadcrumb-header .dy-sec-shell-header.ant-flex {
+  display: grid;
+  grid-template-columns:
+    calc(
+      var(--dy-sec-shell-aside-width) + var(--dy-sec-shell-content-padding-inline) -
+        var(--dy-sec-shell-header-padding-inline)
+    )
+    minmax(0, 1fr) auto;
+  justify-content: stretch;
+}
+
+.dy-sec-shell--side.dy-sec-shell--breadcrumb-header .dy-sec-shell-header__start {
+  overflow: hidden;
+}
+
+.dy-sec-shell--side-compact.dy-sec-shell--breadcrumb-header .dy-sec-shell-header.ant-flex {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  justify-content: stretch;
+}
+
+.dy-sec-shell--breadcrumb-header .dy-sec-shell-header__breadcrumb .dy-sec-shell-breadcrumb {
+  min-width: 0;
+  overflow: hidden;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dy-sec-shell--breadcrumb-header .dy-sec-shell-header__breadcrumb .ant-breadcrumb,
+.dy-sec-shell--breadcrumb-header .dy-sec-shell-header__breadcrumb .ant-breadcrumb ol {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.dy-sec-shell--breadcrumb-header .dy-sec-shell-header__breadcrumb .ant-breadcrumb ol {
+  flex-wrap: nowrap;
+}
+
+.dy-sec-shell--breadcrumb-header .dy-sec-shell-header__breadcrumb .ant-breadcrumb li:last-child {
+  min-width: 0;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+
+.dy-sec-shell--breadcrumb-header .dy-sec-shell-header__breadcrumb .ant-breadcrumb li:last-child .ant-breadcrumb-link {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dy-sec-shell-menu--horizontal.ant-menu {
+  min-width: 0;
+  border-bottom: 0 !important;
+  background: transparent !important;
+}
+
+.dy-sec-shell-menu--horizontal.ant-menu-horizontal {
+  line-height: var(--dy-sec-shell-menu-item-height);
+}
+
+.dy-sec-shell-menu--horizontal.ant-menu-horizontal::after,
+.dy-sec-shell-menu--horizontal.ant-menu-horizontal > .ant-menu-item::after,
+.dy-sec-shell-menu--horizontal.ant-menu-horizontal > .ant-menu-submenu::after {
+  display: none;
+}
+
+.dy-sec-shell-menu--horizontal.ant-menu-horizontal > .ant-menu-item,
+.dy-sec-shell-menu--horizontal.ant-menu-horizontal > .ant-menu-submenu {
+  display: inline-flex;
+  align-items: center;
+  height: var(--dy-sec-shell-menu-item-height);
+  padding-inline: 8px !important;
+  border-radius: var(--dy-sec-shell-menu-item-radius);
+}
+
+.dy-sec-shell-action-icon {
+  font-size: var(--dy-sec-shell-action-icon-size);
+  color: currentColor;
+}
+
+.dy-sec-shell-action-button.ant-btn {
+  color: var(--dy-sec-shell-action-button-color);
+}
+
+.dy-sec-shell-action-button.ant-btn:hover,
+.dy-sec-shell-action-button.ant-btn:focus-visible,
+.dy-sec-shell-action-button.ant-btn:active {
+  color: var(--dy-sec-shell-action-button-hover-color);
+}
+
+.dy-sec-shell-header__avatar {
+  background: transparent;
+  color: var(--dy-sec-shell-header-avatar-color);
+}
+
+.dy-sec-shell-breadcrumb {
+  flex: 0 0 auto;
+  padding-block-start: var(--dy-sec-shell-breadcrumb-padding-block-start);
+  padding-inline: var(--dy-sec-shell-content-padding-inline);
+}
+
+.dy-sec-shell-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding-block: var(--dy-sec-shell-content-padding-block);
+  padding-inline: var(--dy-sec-shell-content-padding-inline);
+}
+
+.dy-sec-shell-content__inner {
+  min-height: 100%;
+}
+
+.dy-sec-page-layout__container {
+  min-height: 100%;
+}
+
+.dy-sec-shell-footer {
+  flex: 0 0 auto;
+  padding-block-start: var(--dy-sec-shell-footer-padding-block-start);
+  padding-block-end: var(--dy-sec-shell-footer-padding-block-end);
+  padding-inline: var(--dy-sec-shell-footer-padding-inline);
+  text-align: center;
+  background: transparent;
+}
+
+.dy-sec-layout-settings-trigger {
+  position: fixed;
+  inset-block-start: 50%;
+  inset-inline-end: 0;
+  z-index: 1000;
+  width: 38px;
+  height: 44px;
+  border-radius: 8px 0 0 8px;
+}
+
+.cssp-page {
+  width: min(960px, 100%);
+}

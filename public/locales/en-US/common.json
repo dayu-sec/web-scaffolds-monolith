@@ -1,0 +1,16 @@
+{
+  "app_loading": "Preparing the application",
+  "language_auto": "Follow browser language",
+  "language_zh_cn": "简体中文",
+  "language_zh_hk": "繁體中文",
+  "language_en_us": "English",
+  "theme_to_dark": "Switch to dark theme",
+  "theme_to_light": "Switch to light theme",
+  "notifications_unconfigured": "Notifications are not configured",
+  "notifications": "Notifications",
+  "user_unconfigured": "User actions are not configured",
+  "user_actions": "User actions",
+  "app_switch": "Switch application",
+  "app_switch_empty": "No applications available",
+  "app_switch_error": "Failed to load applications"
+}
