@@ -1,4 +1,4 @@
-import { getDySecTheme } from '@lrd/dy-sec-bizcom-theme';
+import { getDySecTheme } from '@dayu-sec/bizcom-theme';
 import { theme } from 'antd';
 import { type CSSProperties, useMemo } from 'react';
 

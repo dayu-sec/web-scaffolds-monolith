@@ -1,4 +1,4 @@
-import { getDySecTheme } from '@lrd/dy-sec-bizcom-theme';
+import { getDySecTheme } from '@dayu-sec/bizcom-theme';
 import { type ReactNode, useCallback, useMemo, useState } from 'react';
 
 import { appConfig } from '@/config/app';

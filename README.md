@@ -6,7 +6,7 @@
 
 _只需要执行一次，认证信息会记录在 `~/.npmrc` 中。_
 
-在终端中完成 CNB NPM 源认证。
+当有安装 `@lrd` 业务域私有依赖，请在终端中完成 CNB NPM 源认证。
 
 - `Username` 就是 `cnb`，不是其它字符！
 - `Password` 需要在 CNB [创建 Token](https://cnb.cool/profile/token/create) (建议保存在 Bitwarden)，必须选 **Artifact Registry**

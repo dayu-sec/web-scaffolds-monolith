@@ -1,4 +1,4 @@
-import { createDySecTheme, useDySecCssVariableScope } from '@lrd/dy-sec-bizcom-theme';
+import { createDySecTheme, useDySecCssVariableScope } from '@dayu-sec/bizcom-theme';
 import logger from '@seed-fe/logger';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { App as AntdApp, ConfigProvider } from 'antd';

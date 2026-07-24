@@ -1,4 +1,4 @@
-import { getDySecAntdMenuTheme } from '@lrd/dy-sec-bizcom-theme';
+import { getDySecAntdMenuTheme } from '@dayu-sec/bizcom-theme';
 import { ConfigProvider, Menu, type MenuProps } from 'antd';
 import { MoreHorizontal } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';

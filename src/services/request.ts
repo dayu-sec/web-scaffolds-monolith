@@ -1,4 +1,4 @@
-import { getRequestInstance, type HttpRequest, initializeRequest } from '@lrd/dy-sec-bizlib-request';
+import { getRequestInstance, type HttpRequest, initializeRequest } from '@dayu-sec/bizlib-request';
 import { QueryClient } from '@tanstack/react-query';
 
 import {

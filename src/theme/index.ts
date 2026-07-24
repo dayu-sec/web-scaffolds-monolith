@@ -1,4 +1,4 @@
-import { createDySecTheme, getDySecAntdTheme, getDySecTheme } from '@lrd/dy-sec-bizcom-theme';
+import { createDySecTheme, getDySecAntdTheme, getDySecTheme } from '@dayu-sec/bizcom-theme';
 import { theme, type ThemeConfig } from 'antd';
 
 import type { LayoutSettings } from '@/contexts/LayoutContext';

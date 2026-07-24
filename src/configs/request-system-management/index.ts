@@ -1,4 +1,4 @@
-import { normalizeError } from '@lrd/dy-sec-bizlib-request';
+import { normalizeError } from '@dayu-sec/bizlib-request';
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 import { handleAuthOrPermissionError } from '@/auth/handle-auth-error';
