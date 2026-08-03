@@ -43,6 +43,12 @@
 
   "prettier.enable": true,
 
+  // https://mise.jdx.dev/ide-integration.html#vscode
+  "terminal.integrated.automationProfile.osx": {
+    "path": "/usr/bin/zsh",
+    "args": ["--login"]
+  },
+
   // Using the workspace version of TypeScript
   // https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript
   "js/ts.tsdk.path": "node_modules/typescript/lib",
