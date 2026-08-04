@@ -1,11 +1,3 @@
 {
-  "security-overview": "安全总览",
-  "security-operations": "检测与响应",
-  "security-incidents": "安全事件",
-  "asset-risk": "资产与风险",
-  "security-assets": "资产安全",
-  "security-exposure": "暴露面与整改",
-  "managed-services": "托管安全服务",
-  "service-cases": "服务工单",
-  "security-reports": "安全报告"
+  "home": "首页"
 }

@@ -32,7 +32,7 @@ export const i18nInitOptions: InitOptions = {
   fallbackLng: 'zh-CN',
   interpolation: { escapeValue: false },
   lng: resolveLanguagePreference(getLanguagePreference()),
-  ns: ['common', 'home', 'project-menu'],
+  ns: ['common', 'project-menu'],
   supportedLngs: LANGUAGE_CODES,
   missingKeyHandler: (_languages, _namespace, translationKey) => {
     if (import.meta.env.DEV && translationKey !== '404') {

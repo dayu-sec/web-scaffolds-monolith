@@ -20,7 +20,7 @@ class I18nManager {
 
 const globalI18nManager = new I18nManager();
 
-/** 暴露与源主应用一致的极简全局语言 API。 */
+/** 暴露供应用外部集成使用的极简全局语言 API。 */
 export function initGlobalI18nAPI(): I18nAPI {
   return {
     getCurrentLocale: () => globalI18nManager.getCurrentLocale(),

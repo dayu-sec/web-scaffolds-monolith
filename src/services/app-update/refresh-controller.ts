@@ -1,6 +1,6 @@
 import logger from '@seed-fe/logger';
 
-const STORAGE_KEY = 'cssp-shell-resource-refresh';
+const STORAGE_KEY = 'web-project-resource-refresh';
 const REFRESH_GUARD_MS = 5 * 60 * 1000;
 const REFRESH_DELAY_MS = 150;
 

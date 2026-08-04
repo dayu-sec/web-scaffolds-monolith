@@ -15,7 +15,7 @@ import { configureRequest } from './services/request';
 import { open } from './utils/route';
 import ShellFallback from './views/layout/components/shell/fallback/ShellFallback';
 
-/** 按源主应用顺序初始化全局服务，再挂载唯一 React 根节点。 */
+/** 按应用启动顺序初始化全局服务，再挂载唯一 React 根节点。 */
 async function initializeApp(): Promise<void> {
   global.set('dy', 'eventChannel', createEventChannel());
   if (import.meta.env.DEV) logger.setLevel('TRACE', true);
@@ -27,10 +27,10 @@ async function initializeApp(): Promise<void> {
   global.set('dy', 'shared', { open });
   global.set('dy', 'i18n', initGlobalI18nAPI());
 
-  const rootElement = document.getElementById('cssp-root');
+  const rootElement = document.getElementById('app-root');
   if (!rootElement) {
-    logger.error('未找到 id 为 cssp-root 的 DOM 元素，无法挂载应用。');
-    throw new Error('CSSP root element not found');
+    logger.error('未找到 id 为 app-root 的 DOM 元素，无法挂载应用。');
+    throw new Error('App root element not found');
   }
 
   createRoot(rootElement).render(
@@ -42,7 +42,7 @@ async function initializeApp(): Promise<void> {
 
 void initializeApp().catch((error: unknown) => {
   logger.error('[app] initialization failed:', error);
-  const rootElement = document.getElementById('cssp-root');
+  const rootElement = document.getElementById('app-root');
   if (!rootElement) return;
   createRoot(rootElement).render(
     <StrictMode>

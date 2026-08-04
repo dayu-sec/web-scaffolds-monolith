@@ -25,7 +25,7 @@ export function createAntdTheme(mode: ThemeMode, primaryColor?: string): ThemeCo
       },
       Popover: { colorBgElevated: dySecTheme.colors.background.elevated },
     },
-    cssVar: { key: 'cssp' },
+    cssVar: { key: 'web-project' },
     token: {
       ...baseTheme.token,
       colorPrimary: dySecTheme.colors.primary.main,

@@ -1,5 +1,7 @@
 import type { ProxyOptions } from 'vite';
 
+import { API_BASE_PATH } from './src/constants/api';
+
 /**
  * 创建团队内部 API 的本地开发代理。
  * 仅在显式配置目标时启用，目标和鉴权值只由 Vite 进程读取，不会进入客户端环境变量。
@@ -23,6 +25,6 @@ export function getProxyConfig(env: Partial<Record<string, string>>): Record<str
   }
 
   return {
-    '/api/': proxy,
+    [`${API_BASE_PATH}/`]: proxy,
   };
 }

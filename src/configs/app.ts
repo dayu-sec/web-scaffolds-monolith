@@ -18,5 +18,5 @@ export const appConfig: AppConfig = {
   centerTopMenu: false,
   defaultLayout: 'side',
   logo,
-  name: 'MSS 客户安全门户',
+  name: 'Web Project',
 };

@@ -21,7 +21,7 @@ export const SUPPORTED_LANGUAGES = LANGUAGE_OPTIONS;
 export const LANGUAGE_CODES: AppLanguage[] = ['zh-CN', 'zh-HK', 'en-US'];
 export type LanguageType = LanguagePreference;
 
-const LANGUAGE_PREFERENCE_KEY = 'cssp-language-preference';
+const LANGUAGE_PREFERENCE_KEY = 'web-project-language-preference';
 const appLanguageSet = new Set<AppLanguage>(['zh-CN', 'zh-HK', 'en-US']);
 
 export function isAppLanguage(value: string): value is AppLanguage {

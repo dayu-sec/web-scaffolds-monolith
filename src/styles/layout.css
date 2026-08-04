@@ -1,20 +1,20 @@
 html,
 body,
-#cssp-root {
+#app-root {
   min-height: 100%;
 }
 
 body,
-#cssp-root {
+#app-root {
   min-width: 320px;
 }
 
-#cssp-root {
+#app-root {
   height: 100dvh;
   overflow: hidden;
 }
 
-.cssp-ant-app {
+.app-ant-app {
   height: 100%;
   min-height: 0;
 }

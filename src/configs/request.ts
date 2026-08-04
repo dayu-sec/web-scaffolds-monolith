@@ -1,14 +1,19 @@
-import { normalizeError } from '@dayu-sec/bizlib-request';
+import { type CustomRequestConfig, normalizeError } from '@dayu-sec/bizlib-request';
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 import { handleAuthOrPermissionError } from '@/auth/handle-auth-error';
+import { API_BASE_PATH } from '@/constants/api';
 
-export const INSTANCE_NAME = 'container-shell';
+/** 当前应用共享的 API 请求实例名，避免基础设施与具体业务服务绑定。 */
+export const API_REQUEST_INSTANCE_NAME = `${__APP_NAME__}-api`;
 
-/** 主应用平台请求契约；业务响应结构由各业务模块按接口契约解析。 */
+/**
+ * 当前应用共享的 API 请求契约。
+ * 配置只负责统一基址、超时和错误管道，微服务名与端点路径由业务 Service 持有。
+ */
 export const requestConfig = {
-  instanceName: INSTANCE_NAME,
-  baseURL: `${import.meta.env.BASE_URL}api/v1`,
+  instanceName: API_REQUEST_INSTANCE_NAME,
+  baseURL: API_BASE_PATH,
   timeout: 10_000,
   errorConfig: {},
   interceptors: {
@@ -24,4 +29,4 @@ export const requestConfig = {
       },
     },
   },
-};
+} satisfies CustomRequestConfig;

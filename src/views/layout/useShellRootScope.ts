@@ -30,7 +30,7 @@ interface ShellRootScopeOptions {
   theme: LayoutSettings['theme'];
 }
 
-const SHELL_ROOT_ID = 'cssp-root';
+const SHELL_ROOT_ID = 'app-root';
 const SHELL_ROOT_WRAPPER_CLASS = 'dy-sec-shell-wrapper';
 const SHELL_ROOT_CONTAINER_THEME_SCOPE_CLASS = 'dy-sec-container-theme-scope';
 const SHELL_ROOT_SELECTOR = `#${SHELL_ROOT_ID}.${SHELL_ROOT_WRAPPER_CLASS}.${SHELL_ROOT_CONTAINER_THEME_SCOPE_CLASS}`;

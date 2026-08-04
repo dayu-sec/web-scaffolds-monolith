@@ -1,78 +1,10 @@
 [
   {
-    "key": "security-overview",
-    "title": "安全总览",
-    "icon": "LayoutDashboard",
+    "key": "home",
+    "title": "首页",
+    "icon": "House",
     "selectRule": {
       "path": "/",
-      "target": "_self"
-    }
-  },
-  {
-    "key": "security-operations",
-    "title": "检测与响应",
-    "icon": "Shield",
-    "children": [
-      {
-        "key": "security-incidents",
-        "title": "安全事件",
-        "icon": "CircleAlert",
-        "selectRule": {
-          "path": "/incidents",
-          "target": "_self"
-        }
-      }
-    ]
-  },
-  {
-    "key": "asset-risk",
-    "title": "资产与风险",
-    "icon": "Boxes",
-    "children": [
-      {
-        "key": "security-assets",
-        "title": "资产安全",
-        "icon": "Monitor",
-        "selectRule": {
-          "path": "/assets",
-          "target": "_self"
-        }
-      },
-      {
-        "key": "security-exposure",
-        "title": "暴露面与整改",
-        "icon": "Bug",
-        "selectRule": {
-          "path": "/exposure",
-          "target": "_self"
-        }
-      }
-    ]
-  },
-  {
-    "key": "managed-services",
-    "title": "托管安全服务",
-    "icon": "ShieldCheck",
-    "selectRule": {
-      "path": "/services",
-      "target": "_self"
-    }
-  },
-  {
-    "key": "service-cases",
-    "title": "服务工单",
-    "icon": "ClipboardList",
-    "selectRule": {
-      "path": "/cases",
-      "target": "_self"
-    }
-  },
-  {
-    "key": "security-reports",
-    "title": "安全报告",
-    "icon": "FileText",
-    "selectRule": {
-      "path": "/reports",
       "target": "_self"
     }
   }

@@ -1,11 +1,3 @@
 {
-  "security-overview": "Security overview",
-  "security-operations": "Detection & response",
-  "security-incidents": "Security incidents",
-  "asset-risk": "Assets & risk",
-  "security-assets": "Asset security",
-  "security-exposure": "Exposure remediation",
-  "managed-services": "Managed services",
-  "service-cases": "Service cases",
-  "security-reports": "Security reports"
+  "home": "Home"
 }

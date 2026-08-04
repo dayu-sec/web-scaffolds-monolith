@@ -1,7 +1,7 @@
 import { defineMock } from '#/defineMock';
 
 export default defineMock({
-  url: '/health',
+  url: '/system/health',
   method: 'GET',
   body: {
     status: 'ok',

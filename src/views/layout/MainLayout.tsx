@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router';
 
-import { appConfig } from '@/config/app';
+import { appConfig } from '@/configs/app';
 import { useLayoutSettings } from '@/hooks/useLayoutSettings';
 import { useMenu } from '@/hooks/useMenu';
 

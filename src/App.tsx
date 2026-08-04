@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouterProvider } from 'react-router';
 
-import { appConfig } from '@/config/app';
+import { appConfig } from '@/configs/app';
 import { LayoutProvider } from '@/contexts/LayoutProvider';
 import { MenuProvider } from '@/contexts/MenuProvider';
 import { useLayoutSettings } from '@/hooks/useLayoutSettings';
@@ -41,7 +41,7 @@ function ShellConfigProvider({ children }: { children: React.ReactNode }) {
     () => createDySecTheme({ mode: settings.theme, primaryColor: settings.primaryColor }),
     [settings.primaryColor, settings.theme]
   );
-  // CSSP 独占当前文档；变量作用于 body，确保所有挂载到 body 的 Ant Design Portal 继承同一主题。
+  // 单体应用独占当前文档；变量作用于 body，确保所有挂载到 body 的 Ant Design Portal 继承同一主题。
   useDySecCssVariableScope({ selector: 'body', theme: dySecTheme });
 
   return (
@@ -49,7 +49,7 @@ function ShellConfigProvider({ children }: { children: React.ReactNode }) {
       locale={getAntdLocale(getCurrentLanguage())}
       theme={createAntdTheme(settings.theme, settings.primaryColor)}
     >
-      <AntdApp className="cssp-ant-app">{children}</AntdApp>
+      <AntdApp className="app-ant-app">{children}</AntdApp>
     </ConfigProvider>
   );
 }
@@ -65,7 +65,7 @@ function RuntimeApp() {
     loading: true,
     originalMenuConfig: null,
   });
-  const { t } = useTranslation(['common', 'home', 'project-menu']);
+  const { t } = useTranslation(['common', 'project-menu']);
   const translatedMenuConfig = useMemo(
     () => (runtime.originalMenuConfig ? translateMenuConfig(runtime.originalMenuConfig, t) : null),
     [runtime.originalMenuConfig, t]

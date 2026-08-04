@@ -1,7 +1,6 @@
 import { Flex } from 'antd';
 import type { ReactNode } from 'react';
 
-import ShellAppSwitch from './ShellAppSwitch';
 import ShellLogo from './ShellLogo';
 import ShellTitle from './ShellTitle';
 
@@ -41,7 +40,7 @@ export default function ShellBrand({ appSwitch, collapsed, placement = 'aside', 
       justify={collapsed ? 'center' : 'flex-start'}
       gap="small"
     >
-      {!collapsed && <ShellAppSwitch content={appSwitch} />}
+      {!collapsed && appSwitch && <Flex className="dy-sec-shell-brand__app-switch">{appSwitch}</Flex>}
       <ShellLogo logo={logo} title={title} />
       {!collapsed && <ShellTitle title={title} />}
     </Flex>

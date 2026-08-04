@@ -1,7 +1,7 @@
 import { getDySecTheme } from '@dayu-sec/bizcom-theme';
 import { type ReactNode, useCallback, useMemo, useState } from 'react';
 
-import { appConfig } from '@/config/app';
+import { appConfig } from '@/configs/app';
 
 import {
   LayoutContext,

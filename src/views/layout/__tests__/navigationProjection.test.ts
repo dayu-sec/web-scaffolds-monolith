@@ -8,31 +8,31 @@ import { isShellLayoutMode } from '../types.js';
 
 const navigationItems: NavigationItem[] = [
   {
-    key: 'logs',
-    label: '日志',
-    path: '/log-query',
+    key: 'examples',
+    label: '示例',
+    path: '/examples',
     children: [
       {
-        key: 'logs/search',
-        label: '日志检索',
-        path: '/log-query/search',
+        key: 'examples/overview',
+        label: '示例概览',
+        path: '/examples/overview',
       },
       {
-        key: 'logs/analytics',
-        label: '日志分析',
-        path: '/log-query/analytics',
+        key: 'examples/detail',
+        label: '示例详情',
+        path: '/examples/detail',
       },
     ],
   },
   {
-    key: 'assets',
-    label: '资产',
-    path: '/assets',
+    key: 'settings',
+    label: '设置',
+    path: '/settings',
     children: [
       {
-        key: 'assets/list',
-        label: '资产列表',
-        path: '/assets/list',
+        key: 'settings/profile',
+        label: '个人设置',
+        path: '/settings/profile',
       },
     ],
   },
@@ -44,23 +44,23 @@ const navigationItems: NavigationItem[] = [
   },
 ];
 
-const logSearchMatch: NavigationMatch = {
-  selectedKeys: ['logs/search'],
-  openKeys: ['logs'],
+const exampleOverviewMatch: NavigationMatch = {
+  selectedKeys: ['examples/overview'],
+  openKeys: ['examples'],
   activeItem: navigationItems[0].children?.[0] ?? null,
   breadcrumb: {
-    activePath: '/log-query/search',
+    activePath: '/examples/overview',
     source: 'menu',
     items: [
       {
-        key: 'logs',
-        label: '日志',
-        path: '/log-query',
+        key: 'examples',
+        label: '示例',
+        path: '/examples',
       },
       {
-        key: 'logs/search',
-        label: '日志检索',
-        path: '/log-query/search',
+        key: 'examples/overview',
+        label: '示例概览',
+        path: '/examples/overview',
       },
     ],
   },
@@ -68,20 +68,20 @@ const logSearchMatch: NavigationMatch = {
 
 void describe('navigationProjection', () => {
   void it('在 mix 模式下将一级菜单投影到顶部，并将当前一级菜单的子菜单投影到侧边栏', () => {
-    const projection = createShellNavigationProjection('mix', navigationItems, logSearchMatch, 'success');
+    const projection = createShellNavigationProjection('mix', navigationItems, exampleOverviewMatch, 'success');
 
     assert.equal(projection.hasAside, true);
     assert.deepEqual(
       projection.topItems.map((item) => item.key),
-      ['logs', 'assets', 'external-docs']
+      ['examples', 'settings', 'external-docs']
     );
     assert.equal(projection.topItems[0].children, undefined);
-    assert.deepEqual(projection.topMatch.selectedKeys, ['logs']);
+    assert.deepEqual(projection.topMatch.selectedKeys, ['examples']);
     assert.deepEqual(
       projection.asideItems.map((item) => item.key),
-      ['logs/search', 'logs/analytics']
+      ['examples/overview', 'examples/detail']
     );
-    assert.deepEqual(projection.asideMatch.selectedKeys, ['logs/search']);
+    assert.deepEqual(projection.asideMatch.selectedKeys, ['examples/overview']);
     assert.deepEqual(projection.asideMatch.openKeys, []);
   });
 
@@ -89,8 +89,8 @@ void describe('navigationProjection', () => {
     const intent = resolveNavigationIntent(navigationItems[0]);
 
     if (!intent) assert.fail('expected navigation intent');
-    assert.equal(intent.key, 'logs/search');
-    assert.equal(intent.path, '/log-query/search');
+    assert.equal(intent.key, 'examples/overview');
+    assert.equal(intent.path, '/examples/overview');
   });
 
   void it('点击外链一级菜单时保持外链自身作为跳转目标', () => {

@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-
 export type ShellFallbackKind =
   'loading' | 'missing-menu' | 'not-found' | 'route-error' | 'auth-expired' | 'permission-denied' | 'resource-recovery';
 
@@ -31,12 +29,3 @@ export interface ShellAuthErrorDetail {
 }
 
 export const SHELL_AUTH_ERROR_EVENT = 'shell:auth-error';
-
-export interface ShellSiblingAppPortal {
-  key: string;
-  title: string;
-  description?: string;
-  url: string;
-  target?: boolean;
-  icon?: ReactNode;
-}
