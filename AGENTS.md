@@ -29,6 +29,14 @@ src/
 - `src/views/pages/` 只承载文件式路由入口、参数适配、路由级 guard、layout 和 error boundary；请求、表单、业务状态、图表配置、样式和复杂交互放在 `src/views/components/` 的明确领域或功能目录中。
 - 不在 `types`、`constants`、`configs`、`services`、`utils` 等职责目录中新增无边界的 `index.ts` 聚合或转发文件；文件名应直接表达领域、子领域或职责。文件式路由需要的 `pages/**/index.tsx` 不受此限制。
 
+### 源码路径命名
+
+- 本规则仅约束新建或在独立重构中主动重命名的路径；不因统一命名迁移已有文件、目录或导入。
+- React 组件领域目录和以组件为主体的 `.tsx` 文件使用 PascalCase；其同名样式、测试等就近附属文件沿用组件主名，例如 `<ComponentName>.module.css`。
+- 自定义 Hook 的导出函数和主文件使用 `useXxx` camelCase，例如 `hooks/useFeatureState.ts` 导出 `useFeatureState`；Hook 分组目录使用 kebab-case。未调用 React Hook 的普通函数不得使用 `use` 前缀。
+- Service、契约、类型、常量、配置、工具及其他非组件、非 Hook 模块的目录和文件使用小写 kebab-case。
+- `index.*`、`[param].tsx`、声明文件及其他由框架、工具链或外部契约固定的名称属于例外；React 组件、Hook 的导出标识仍分别使用 PascalCase、`useXxx` camelCase。
+
 ## TypeScript 基线
 
 - 所有 TypeScript 配置必须启用严格模式；不降低严格度，也不通过批量禁用规则绕过问题。
@@ -53,6 +61,12 @@ src/views/layout/
 - `<layout-mode>/` 只编排不同布局模式，不复制 Header、Aside、Content 等区域组件；`components/shell/` 按壳层区域保存平台级组件。
 - Shell 的类型、状态、Hook 和样式分别放在 `src/types/`、`src/contexts/`、`src/hooks/` 和 `src/styles/` 的明确职责文件中；布局计算和导航投影留在 `src/views/layout/` 的明确命名文件中。
 - Shell 层承载应用框架和页面出口，不承载具体业务页面、业务表单或业务服务；布局模式切换不应无故重建页面内容。
+
+## Agent 资料维护
+
+- 创建或更新项目 `AGENTS.md`、项目级 `SKILL.md`、`references/` 或 `agents/openai.yaml` 时，只记录稳定的工程约束、职责边界和完成协作所必需的源码入口。
+- 不把真实业务模块、页面、服务、路由、API 路径、数据字段、业务文案、Mock 数据、客户或人员信息、内部环境配置及短期实现状态写成通用规则或示例；需要说明形态时使用中性占位符。
+- 计划同步到用户级、共享仓库或其他脚手架模板的内容必须能够脱离当前项目独立成立；交付前检查 diff，并定向搜索项目标识、业务名和敏感配置。
 
 ## 工作方式
 
