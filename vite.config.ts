@@ -120,9 +120,12 @@ export default defineConfig(({ mode }) => {
      * https://cn.vite.dev/config/server-options
      */
     server: {
+      host: '0.0.0.0',
       cors: true,
       port,
       proxy: getProxyConfig(env),
+      // 支持在远程开发环境中运行
+      allowedHosts: ['.github.dev', '.cnb.run'],
     },
   };
 });
