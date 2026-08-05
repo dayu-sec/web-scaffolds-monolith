@@ -1,4 +1,4 @@
-import { Button, Result, Spin } from 'antd';
+import { Button, Spin } from 'antd';
 
 import type { ShellFallbackKind, ShellFallbackState } from '@/types/shell';
 
@@ -54,35 +54,37 @@ const fallbackCopy: Record<
 };
 
 /**
- * 根据主应用降级状态渲染加载、错误、权限和恢复提示。
+ * 根据主应用降级状态渲染加载、错误、权限和恢复提示（简易文字类型）。
  */
 export default function ShellFallback({ state, onRetry }: ShellFallbackProps) {
   const copy = fallbackCopy[state.kind];
+  const title = state.title ?? copy.title;
+  const message = state.message ?? copy.message;
+  const actionLabel = state.actionLabel ?? '重试';
 
   if (state.kind === 'loading') {
     return (
       <div className="dy-sec-shell-fallback dy-sec-shell-fallback--loading">
         <Spin size="large" />
-        <div className="dy-sec-shell-fallback__title">{state.title ?? copy.title}</div>
-        <div className="dy-sec-shell-fallback__message">{state.message ?? copy.message}</div>
+        <div className="dy-sec-shell-fallback__title">{title}</div>
+        <div className="dy-sec-shell-fallback__message">{message}</div>
       </div>
     );
   }
 
   return (
     <div className="dy-sec-shell-fallback">
-      <Result
-        status={copy.status}
-        title={state.title ?? copy.title}
-        subTitle={state.message ?? copy.message}
-        extra={
-          onRetry ? (
+      <div className="dy-sec-shell-fallback__content">
+        <div className="dy-sec-shell-fallback__title">{title}</div>
+        <div className="dy-sec-shell-fallback__message">{message}</div>
+        {onRetry && (
+          <div className="dy-sec-shell-fallback__action">
             <Button type="primary" onClick={onRetry}>
-              {state.actionLabel ?? '重试'}
+              {actionLabel}
             </Button>
-          ) : undefined
-        }
-      />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

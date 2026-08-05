@@ -1,82 +1,55 @@
 # AGENTS.md
 
-本文件记录单体应用内可长期复用的协作规则，不记录具体项目、业务、环境或人员信息。
+本文件记录当前单体 Web 脚手架的项目事实、核心工程约束、真实入口和协作边界。无论是否安装外部 Skill，当前项目都以本文件、配置和源码为准。
 
-## 职责边界
+## Agent Skills
 
-- 单体应用在同一应用内承载用户体验、页面路由、业务功能、数据访问和局部状态。
-- 常规任务应收敛在当前应用内；需要引入外部系统、跨应用协作或部署变更时，先确认需求和责任边界。
-- 修改配置、路由、数据契约、构建或运行时行为前，先识别其影响范围和现有约定。
+- 本项目不要求安装外部 Skill 才能开发或验证。
+- 安装 DayuSec Web Skills 可补充 Web 项目发现、单体架构和工作流；若 Skill 指引与本项目事实不一致，始终以本文件及源码为准。
 
-## Web 源码基础结构
+## 技术与命令
 
-```text
-src/
-├── types/
-├── constants/
-├── configs/
-├── services/
-├── utils/
-└── views/
-    ├── pages/
-    └── components/
-```
+- Node.js `>=22.12.0`，包管理器 `pnpm@11.13.0`。
+- 构建使用 Vite 8.1、React 19.2、TypeScript 6 严格模式；UI 使用 Ant Design 6.5。
+- `pnpm dev` 启动开发服务；`pnpm preview` 预览生产制品。
+- `pnpm check` 运行 TypeScript 检查；`pnpm lint`、`pnpm format-check`、`pnpm test` 运行代码规范、格式和测试。
+- `pnpm build` 执行 `tsc -b && vite build`。
+- 路径别名：`@/* -> src/*`、`#/* -> mock/*`。
 
-- 源码先按 `types`、`constants`、`configs`、`services`、`utils`、`views` 等技术职责分类，再在职责目录下按领域、子领域或功能细分。
-- `src/types/` 保存领域模型和跨模块类型契约，不混入运行时代码；`src/constants/` 保存稳定常量、字面量集合和 `as const` 对象；`src/configs/` 保存需要组装或影响运行行为的配置。
-- 有 OpenAPI TypeScript SDK 时，直接消费 SDK NPM 包提供的类型和服务函数，不重复声明接口、复制生成代码或机械包装本地 Service。没有 SDK，或确有跨页面复用的服务能力时，在 `src/services/` 下按明确领域或子领域创建服务文件。
-- `src/utils/` 只保存不依赖页面状态、尽量纯粹且可复用的工具函数；接口调用、业务流程和外部状态不放入工具目录。
-- `src/views/pages/` 只承载文件式路由入口、参数适配、路由级 guard、layout 和 error boundary；请求、表单、业务状态、图表配置、样式和复杂交互放在 `src/views/components/` 的明确领域或功能目录中。
-- 不在 `types`、`constants`、`configs`、`services`、`utils` 等职责目录中新增无边界的 `index.ts` 聚合或转发文件；文件名应直接表达领域、子领域或职责。文件式路由需要的 `pages/**/index.tsx` 不受此限制。
+## 真实入口与所有权
 
-### 源码路径命名
+- `src/main.tsx` 创建应用根并装配全局 Provider；`src/App.tsx` 组合应用级主题与路由上下文。
+- `src/routes/index.tsx` 创建 Browser Router，`src/routes/fileRoutes.ts` 接入 `vite-plugin-pages` 生成的页面入口。
+- `src/views/layout/MainLayout.tsx` 连接 Router 与 Shell；`src/views/layout/ShellLayoutRoot.tsx` 保持 Shell 组件树稳定。
+- `src/views/pages/` 为文件路由入口；`src/views/fallback/` 保存显式降级页面。
+- `src/services/request.ts` 拥有默认请求实例，`src/configs/request.ts` 保存运行配置；`src/theme/index.ts` 为主题入口。
+- Shell 与布局不承载具体业务页面、业务表单或业务 Service。
 
-- 本规则仅约束新建或在独立重构中主动重命名的路径；不因统一命名迁移已有文件、目录或导入。
-- React 组件领域目录和以组件为主体的 `.tsx` 文件使用 PascalCase；其同名样式、测试等就近附属文件沿用组件主名，例如 `<ComponentName>.module.css`。
-- 自定义 Hook 的导出函数和主文件使用 `useXxx` camelCase，例如 `hooks/useFeatureState.ts` 导出 `useFeatureState`；Hook 分组目录使用 kebab-case。未调用 React Hook 的普通函数不得使用 `use` 前缀。
-- Service、契约、类型、常量、配置、工具及其他非组件、非 Hook 模块的目录和文件使用小写 kebab-case。
-- `index.*`、`[param].tsx`、声明文件及其他由框架、工具链或外部契约固定的名称属于例外；React 组件、Hook 的导出标识仍分别使用 PascalCase、`useXxx` camelCase。
+## 核心源码与命名约定
 
-## TypeScript 基线
+- `types`、`constants`、`configs`、`services` 和 `utils` 分别承载领域类型与契约、稳定字面量、运行配置组装、业务服务或外部数据边界、通用工具。
+- `src/views/pages/` 只承载 URL 结构、参数适配、redirect、guard、loader、layout 和导航契约；请求、表单、状态、组件及样式等业务实现存放在 `src/views/components/` 等视图层。
+- **命名规范**：
+  - React 组件目录、主文件 `.tsx` 及同名附属文件使用 PascalCase（例如 `<ComponentName>.tsx`、`<ComponentName>.module.css`）。
+  - Hook 文件与导出统一使用 `useXxx`（例如 `useFeatureState.ts`）；非 Hook 模块不得使用 `use` 前缀。
+  - Service、契约、类型、常量、配置、工具及一般模块使用小写 kebab-case。
+  - 仅约束新建路径或明确重构，不批量重命名已有存量文件。
+- 常规任务收敛在当前单体应用内，不预留微前端兼容分支。
 
-- 所有 TypeScript 配置必须启用严格模式；不降低严格度，也不通过批量禁用规则绕过问题。
-- 不使用 `any`。外部输入和未知错误从 `unknown` 开始，经 Schema、类型守卫或明确判断收窄后再使用。
-- 不使用双重断言、非空断言、宽泛环境声明或 `@ts-ignore` 伪造类型安全。
+## TypeScript 与实现基线
+
+- 保持 TypeScript 严格模式，不降低严格度或批量禁用规则。
+- 禁用 `any`；外部输入与未知错误由 `unknown` 起步，类型收窄后使用。
 - 不新增 `enum` 或 `const enum`；仅需要类型集合时使用字面量联合，同时需要运行时值时使用 `as const` 对象并从值推导类型。
-- 互斥状态使用判别联合并通过 `never` 做穷尽检查；明确区分 `null`、`undefined`、属性缺失和空集合。
-- Promise 必须被等待、返回、处理或明确忽略；`catch` 中的错误按 `unknown` 收窄。
-- 类型先于实现定义，并在服务、组件和页面间复用；不要在多个实现文件中复制近似类型。
+- 禁用双重断言、非空断言及 `@ts-ignore`；Promise 必须被等待、返回或明确处理。
+- 复用已定义的类型契约与 SDK 类型，不在多处复制近似类型。
 
-## Shell 层结构
+## 协作与安全
 
-```text
-src/views/layout/
-├── MainLayout.tsx
-├── ShellLayoutRoot.tsx
-├── <layout-mode>/
-└── components/shell/<region>/
-```
+- 保留工作树中无关修改；不提交真实域名、私有地址、Token、密钥或个人敏感信息。
+- 未经明确许可，不执行 Git commit/push、发布、部署或版本递增。
 
-- `MainLayout.tsx` 连接文件路由与 Shell，将稳定的页面出口接入内容区；`ShellLayoutRoot.tsx` 保持 Shell 组件树稳定并负责区域组合与布局模式选择。
-- `<layout-mode>/` 只编排不同布局模式，不复制 Header、Aside、Content 等区域组件；`components/shell/` 按壳层区域保存平台级组件。
-- Shell 的类型、状态、Hook 和样式分别放在 `src/types/`、`src/contexts/`、`src/hooks/` 和 `src/styles/` 的明确职责文件中；布局计算和导航投影留在 `src/views/layout/` 的明确命名文件中。
-- Shell 层承载应用框架和页面出口，不承载具体业务页面、业务表单或业务服务；布局模式切换不应无故重建页面内容。
+## 验证
 
-## Agent 资料维护
-
-- 创建或更新项目 `AGENTS.md`、项目级 `SKILL.md`、`references/` 或 `agents/openai.yaml` 时，只记录稳定的工程约束、职责边界和完成协作所必需的源码入口。
-- 不把真实业务模块、页面、服务、路由、API 路径、数据字段、业务文案、Mock 数据、客户或人员信息、内部环境配置及短期实现状态写成通用规则或示例；需要说明形态时使用中性占位符。
-- 计划同步到用户级、共享仓库或其他脚手架模板的内容必须能够脱离当前项目独立成立；交付前检查 diff，并定向搜索项目标识、业务名和敏感配置。
-
-## 工作方式
-
-- 先阅读当前仓库的清单、配置、脚本、源码和测试，再选择实现方式与验证命令。
-- 尊重现有工作树中的他人改动；不回滚、覆盖或顺带整理与任务无关的内容。
-- 不提交账号、令牌、私有地址、证书、真实业务数据或其他敏感信息。
-- 未经用户明确要求，不执行提交、发布、部署、版本递增或其他外部状态变更。
-
-## 质量与验证
-
-- 按变更性质运行当前仓库已有的针对性检查；不要凭空添加质量门禁或替换既有工具链。
-- 涉及可见交互、路由、样式或运行时行为时，使用与影响范围相符的真实运行验证。
-- 交付时说明实际改动、已执行验证及任何未验证边界。
+- 源码与配置变更运行针对性检查命令（如 `pnpm check`）。
+- 路由、Shell、全局 Provider、构建配置变更须运行 `pnpm build` 并验证 URL 直达、刷新与历史导航。

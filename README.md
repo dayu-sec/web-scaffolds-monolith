@@ -42,3 +42,13 @@ pnpm install
 # 启动本地开发服务
 pnpm run dev
 ```
+
+## AI Agent Skills
+
+使用支持 Agent Skills 的 AI 编程工具时，安装 [DayuSec Web Skills](https://github.com/dayu-sec/web-skills)，补充 Web 项目发现、架构边界、源码结构和专用任务工作流。
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/dayu-sec/web-scaffolds-bootstrap/main/setup-web-skills.sh" | bash -s -- -f
+```
+
+安装完成后重新启动 Agent 会话。适用于当前单体 Web 架构的 Skill 组合见 [AGENTS.md](./AGENTS.md)。
