@@ -127,6 +127,9 @@ export default defineConfig(({ mode }) => {
       proxy: getProxyConfig(env),
       // 支持在远程开发环境中运行
       allowedHosts: ['.github.dev', '.cnb.run'],
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
     },
   };
 });
