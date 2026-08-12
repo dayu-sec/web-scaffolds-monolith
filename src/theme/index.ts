@@ -1,7 +1,7 @@
 import { createDySecTheme, getDySecAntdTheme, getDySecTheme } from '@dayu-sec/bizcom-theme';
 import { theme, type ThemeConfig } from 'antd';
 
-import type { LayoutSettings } from '@/contexts/LayoutContext';
+import type { LayoutSettings } from '@/views/layout';
 
 type ThemeMode = LayoutSettings['theme'];
 

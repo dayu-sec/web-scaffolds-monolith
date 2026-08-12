@@ -7,9 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { RouterProvider } from 'react-router';
 
 import { appConfig } from '@/configs/app';
-import { LayoutProvider } from '@/contexts/LayoutProvider';
 import { MenuProvider } from '@/contexts/MenuProvider';
-import { useLayoutSettings } from '@/hooks/useLayoutSettings';
 import { getAntdLocale, getCurrentLanguage } from '@/locales';
 import { appRouter, fileRoutes } from '@/routes';
 import { fetchMenuConfig } from '@/services/menu/fetch';
@@ -19,8 +17,7 @@ import { queryClient } from '@/services/request';
 import { createAntdTheme } from '@/theme';
 import { SHELL_AUTH_ERROR_EVENT, type ShellAuthErrorDetail, type ShellFallbackState } from '@/types/shell';
 import { translateMenuConfig } from '@/utils/menuTranslator';
-// import LayoutSettingsDrawer from '@/views/layout/components/dev/LayoutSettingsDrawer';
-import ShellFallback from '@/views/layout/components/shell/fallback/ShellFallback';
+import { LayoutProvider, ShellFallback, useLayoutSettings } from '@/views/layout';
 
 function isShellAuthErrorEvent(event: Event): event is CustomEvent<ShellAuthErrorDetail> {
   return 'detail' in event;
@@ -146,7 +143,6 @@ function RuntimeApp() {
           <RouterProvider router={appRouter} />
         </MenuProvider>
       ) : null}
-      {/* <LayoutSettingsDrawer /> */}
     </ShellConfigProvider>
   );
 }

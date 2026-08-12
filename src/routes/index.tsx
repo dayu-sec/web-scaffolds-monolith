@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 
 import NotFoundPage from '@/views/fallback/NotFoundPage';
-import MainLayout from '@/views/layout/MainLayout';
+import { MainLayout } from '@/views/layout';
 
 import { fileRoutes } from './fileRoutes';
 import PageErrorBoundary from './PageErrorBoundary';
