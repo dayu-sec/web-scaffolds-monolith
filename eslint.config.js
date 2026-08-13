@@ -27,7 +27,7 @@ export default defineConfig([
         ...globals.node,
       },
       parserOptions: {
-        project: ['./tsconfig.app.json', './tsconfig.node.json'],
+        project: ['./apps/web/tsconfig.app.json', './apps/web/tsconfig.node.json', './packages/ui/tsconfig.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -35,6 +35,24 @@ export default defineConfig([
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
+    },
+  },
+  {
+    files: ['packages/ui/src/components/**/*.tsx', 'packages/ui/src/hooks/**/*.ts'],
+    rules: {
+      '@typescript-eslint/array-type': 'off',
+      '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
+      '@typescript-eslint/no-unnecessary-condition': 'off',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/prefer-nullish-coalescing': 'off',
+      '@typescript-eslint/restrict-template-expressions': 'off',
+      'react-refresh/only-export-components': 'off',
+      'react-hooks/set-state-in-effect': 'off',
     },
   },
 ]);

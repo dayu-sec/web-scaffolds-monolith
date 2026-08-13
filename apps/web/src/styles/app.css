@@ -1,0 +1,28 @@
+@import url('./iconpark.css');
+
+:root {
+  --shell-header: rgb(255 255 255 / 88%);
+  --shell-shadow-soft: 0 4px 12px rgb(30 41 59 / 4%);
+}
+
+.dark {
+  --shell-header: rgb(23 32 51 / 90%);
+  --shell-shadow-soft: 0 6px 20px rgb(0 0 0 / 24%);
+}
+
+html,
+body,
+#app-root {
+  min-height: 100%;
+}
+
+body,
+#app-root {
+  min-width: 320px;
+}
+
+#app-root {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}

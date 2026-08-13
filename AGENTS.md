@@ -1,11 +1,11 @@
 # AGENTS.md
 
-本文件记录当前单体 Web 脚手架的项目事实、核心工程约束、真实入口和协作边界。无论是否安装外部 Skill，当前项目都以本文件、配置和源码为准。
+本文件记录当前 pnpm Monorepo 单体 Web 脚手架的项目事实、核心工程约束、真实入口和协作边界。无论是否安装外部 Skill，当前项目都以本文件、配置和源码为准。
 
 ## Agent Skills
 
 - 本项目不要求安装外部 Skill 才能开发或验证。
-- 安装 DayuSec Web Skills 可补充 Web 项目发现、单体架构和工作流；若 Skill 指引与本项目事实不一致，始终以本文件及源码为准。
+- 安装 DayuSec Web Skills 可补充 Web 项目发现、单体架构和工作流；shadcn/ui、Tailwind CSS、基础组件或表单 UI 任务使用 `$dayu-sec-shadcn-ui`。若 Skill 指引与本项目事实不一致，始终以本文件及源码为准。
 
 ## 技术与命令
 
@@ -14,36 +14,42 @@
 - 表单默认使用 React Hook Form、Zod 与 `@hookform/resolvers`；shadcn `Field` 负责字段结构、错误状态和可访问性。
 - `pnpm dev` 启动开发服务；`pnpm preview` 预览生产制品。
 - `pnpm check` 运行 TypeScript 检查；`pnpm lint`、`pnpm format-check`、`pnpm test` 运行代码规范、格式和测试。
-- `pnpm build` 执行 `tsc -b && vite build`。
-- 路径别名：`@/* -> src/*`、`#/* -> mock/*`。
+- `pnpm build` 从根目录构建唯一应用并输出到根 `dist/`。
+- 应用路径别名：`@/* -> apps/web/src/*`、`#/* -> apps/web/mock/*`；UI 公共入口为 `@workspace/ui/*`。
 
 ## 真实入口与所有权
 
-- `src/main.tsx` 创建应用根并装配全局 Provider；`src/App.tsx` 组合应用级主题与路由上下文。
-- `src/routes/index.tsx` 创建 Browser Router，`src/routes/fileRoutes.ts` 接入 `vite-plugin-pages` 生成的页面入口。
-- `src/views/layout/index.ts` 是布局子系统的唯一外部入口；`components/MainLayout.tsx` 连接 Router 与 Shell，`components/ShellLayoutRoot.tsx` 保持 Shell 组件树稳定。
-- `src/views/pages/` 为文件路由入口；`src/views/fallback/` 保存显式降级页面。
-- `src/services/request.ts` 拥有默认请求实例，`src/configs/request.ts` 保存运行配置；`src/theme/index.ts` 为主题入口。
-- `components.json` 是 shadcn CLI 契约；`src/components/ui/` 保存由当前项目拥有并可本地修改的基础组件源码，`src/lib/utils.ts` 提供统一 `cn()`。
+- `apps/web` 是唯一部署和运行单元；`packages/ui` 是随项目维护的私有源码 workspace，不发布为共享 npm 组件库。
+- `apps/web/src/main.tsx` 创建应用根并装配全局 Provider；`apps/web/src/App.tsx` 组合应用级主题与路由上下文。
+- `apps/web/src/routes/index.tsx` 创建 Browser Router，`fileRoutes.ts` 接入 `vite-plugin-pages` 生成的页面入口。
+- `apps/web/src/views/layout/index.ts` 是布局子系统的唯一外部入口；`components/MainLayout.tsx` 连接 Router 与 Shell，`components/ShellLayoutRoot.tsx` 保持 Shell 组件树稳定。
+- `apps/web/src/views/pages/` 为文件路由入口；`apps/web/src/views/fallback/` 保存显式降级页面。
+- `apps/web/src/services/request.ts` 拥有默认请求实例，`configs/request.ts` 保存运行配置；`theme/index.ts` 为主题入口。
+- `apps/web/components.json` 与 `packages/ui/components.json` 共同定义 shadcn CLI 契约；`packages/ui/src/components/` 保存项目自有组件源码，`packages/ui/src/lib/utils.ts` 提供唯一 `cn()`。
 - Shell 与布局不承载具体业务页面、业务表单或业务 Service；业务内容只通过稳定的路由出口进入内容区。
 
 ## 核心源码与命名约定
 
 - `types`、`constants`、`configs`、`services` 和 `utils` 分别承载领域类型与契约、稳定字面量、运行配置组装、业务服务或外部数据边界、通用工具。
-- `src/views/pages/` 只承载 URL 结构、参数适配、redirect、guard、loader、layout 和导航契约；请求、表单、状态、组件及样式等业务实现存放在 `src/views/components/` 等视图层。
-- `src/views/layout/` 自治拥有 Shell 组件、布局 Context/Provider、Hooks、常量、运行时 Schema、类型、纯函数、样式和测试，并按对应源码职责分目录。
+- `apps/web/src/views/pages/` 只承载 URL 结构、参数适配、redirect、guard、loader、layout 和导航契约；请求、表单、状态、组件及样式等业务实现存放在 `apps/web/src/views/components/` 等视图层。
+- `apps/web/src/views/layout/` 自治拥有 Shell 组件、布局 Context/Provider、Hooks、常量、运行时 Schema、类型、纯函数、样式和测试，并按对应源码职责分目录。
 - 布局外部源码只从 `@/views/layout` 导入公开组件、Hook 和类型；内部路径不是公共契约，布局内部使用相对路径访问自身模块。
 - 公共和跨文件布局类型集中在 `views/layout/types/`，组件私有 Props 与局部状态类型就近声明；`types/` 不包含运行时代码。
 - 菜单配置读取、导航标准化与匹配服务、通用导航类型及 Shell 鉴权/恢复事件继续由现有公共层拥有，布局只消费这些契约。
 - 基础组件优先消费 `background`、`foreground`、`primary`、`muted`、`border`、`ring`、`sidebar-*` 等语义 Token；业务代码不维护平行色板。
-- 新增或更新 shadcn 组件前先检查 `components.json` 和已有源码；更新已修改组件时先运行 CLI dry-run/diff，不直接覆盖本地实现。
+- 基础组件按“确认交互语义 → 搜索 `@workspace/ui` 现有源码 → 使用组件与内置变体 → 组合现有组件 → 最后才新增项目组件”的顺序选择。
+- 业务源码只从 `@workspace/ui/components/<component>`、`@workspace/ui/hooks/<hook>` 和 `@workspace/ui/lib/utils` 导入；不得直接导入 `@base-ui/react`，不得建立聚合 barrel 或重新包装整套组件。
+- Alert、Empty、Badge、Separator、Skeleton、Spinner 等已有语义组件不得用带样式的普通元素重复实现。
+- 当前使用经过评审的精选基础组件快照，不预装 Chart、Questionnaire 及 Message、MessageScroller、Bubble、Marker 会话组件组；应用图表沿用现有 ECharts，场景化组件只有真实需求成立且依赖边界经过评审后才按需添加。
+- Attachment 作为通用附件展示组件保留，可表达文件、图片、状态和操作；文件选择、上传、进度、重试、持久化与权限仍由应用业务层和 Service 负责。
+- 从根目录运行 `pnpm exec shadcn info --json -c apps/web` 获取项目上下文；新增或更新单个组件先运行带 `-c apps/web` 的 `--dry-run` 和 `--diff`，未经明确许可不使用 `--overwrite`。`add --all` 只用于观察 registry 全量变化，不是完整性验收，也不得用于恢复已排除组件。
 - 表单 Schema 是运行时校验与值类型的单一来源；使用 `z.infer` 推导类型，并同时设置字段的 `data-invalid` 与控件的 `aria-invalid`。
 - **命名规范**：
   - React 组件目录、主文件 `.tsx` 及同名附属文件使用 PascalCase（例如 `<ComponentName>.tsx`、`<ComponentName>.module.css`）。
   - Hook 文件与导出统一使用 `useXxx`（例如 `useFeatureState.ts`）；非 Hook 模块不得使用 `use` 前缀。
   - Service、契约、类型、常量、配置、工具及一般模块使用小写 kebab-case。
   - 仅约束新建路径或明确重构，不批量重命名已有存量文件。
-- 常规任务收敛在当前单体应用内，不预留微前端兼容分支。
+- 常规任务收敛在 `apps/web` 单体应用内，不因仓库采用 Monorepo 就预留微前端兼容分支。
 
 ## TypeScript 与实现基线
 
@@ -61,4 +67,5 @@
 ## 验证
 
 - 源码与配置变更运行针对性检查命令（如 `pnpm check`）。
-- 路由、Shell、全局 Provider、构建配置变更须运行 `pnpm build` 并验证 URL 直达、刷新与历史导航。
+- 路由、Shell、全局 Provider、workspace 或构建配置变更须运行 `pnpm build`，确认根 `dist/` 生成，并验证 URL 直达、刷新与历史导航。
+- UI 变更同时检查键盘、焦点、主题、窄屏、浮层和滚动归属；精选快照只定义可复用基础能力，不代表其中每个组件都应进入业务或生产 chunk。

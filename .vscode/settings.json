@@ -53,7 +53,7 @@
   // https://code.visualstudio.com/docs/typescript/typescript-compiling#_using-the-workspace-version-of-typescript
   "js/ts.tsdk.path": "node_modules/typescript/lib",
 
-  "i18n-ally.localesPaths": "public/locales",
+  "i18n-ally.localesPaths": "apps/web/public/locales",
   "i18n-ally.namespace": true,
   "i18n-ally.pathMatcher": "{locale}/{namespaces}.json",
   "i18n-ally.sourceLanguage": "zh-CN",

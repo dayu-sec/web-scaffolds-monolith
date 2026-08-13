@@ -439,6 +439,10 @@ PublishScripts/
 *.snupkg
 # The packages folder can be ignored because of Package Restore
 **/[Pp]ackages/*
+# 当前仓库使用根 packages/ 保存 pnpm workspace 源码，不套用 NuGet 忽略规则。
+!/packages/
+!/packages/**
+/packages/*/node_modules/
 # except build/, which is used as an MSBuild target.
 !**/[Pp]ackages/build/
 # Uncomment if necessary however generally it will be regenerated when needed
