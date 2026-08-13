@@ -1,7 +1,14 @@
-import { Button, Dropdown, type MenuProps } from 'antd';
-import { Languages } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { Check, Languages } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
   changeLanguagePreference,
   getLanguagePreference,
@@ -15,9 +22,6 @@ export default function ShellHeaderLanguageAction() {
   const [currentLang, setCurrentLang] = useState<LanguagePreference>(getLanguagePreference());
 
   useEffect(() => {
-    /**
-     * 同步 i18next 当前语言到按钮选中态。
-     */
     function handleChange() {
       setCurrentLang(getLanguagePreference());
     }
@@ -28,20 +32,8 @@ export default function ShellHeaderLanguageAction() {
     };
   }, []);
 
-  const items: MenuProps['items'] = useMemo(() => {
-    return SUPPORTED_LANGUAGES.map((lang) => ({
-      key: lang.code,
-      label: lang.label,
-    }));
-  }, []);
-
-  /**
-   * 处理用户选择语言后的主应用语言切换和跨应用事件发布。
-   */
-  const onClick: MenuProps['onClick'] = (info) => {
-    if (!info.key || info.key === currentLang) return;
-
-    const nextPreference = info.key as LanguagePreference;
+  const handleLanguageChange = (nextPreference: LanguagePreference) => {
+    if (nextPreference === currentLang) return;
     const previousLanguage = i18n.resolvedLanguage;
     void changeLanguagePreference(nextPreference).then((resolvedLanguage) => {
       setCurrentLang(nextPreference);
@@ -54,15 +46,28 @@ export default function ShellHeaderLanguageAction() {
   };
 
   return (
-    <Dropdown trigger={['click']} placement="bottomRight" menu={{ items, onClick, selectedKeys: [currentLang] }}>
-      <Button
-        aria-label="language switcher"
-        className="dy-sec-shell-action-button"
-        role="button"
-        icon={<Languages className="dy-sec-shell-action-icon" size="1em" />}
-        type="text"
-        size="small"
-      />
-    </Dropdown>
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        aria-label="切换语言"
+        render={<Button className="dy-sec-shell-action-button" size="icon" variant="ghost" />}
+      >
+        <Languages data-icon="inline-start" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" sideOffset={8}>
+        <DropdownMenuGroup>
+          {SUPPORTED_LANGUAGES.map((language) => (
+            <DropdownMenuItem
+              key={language.code}
+              onClick={() => {
+                handleLanguageChange(language.code);
+              }}
+            >
+              <span className="flex-1">{language.label}</span>
+              {language.code === currentLang ? <Check aria-hidden="true" /> : null}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

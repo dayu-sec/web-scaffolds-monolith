@@ -1,5 +1,6 @@
-import { getDySecTheme } from '@dayu-sec/bizcom-theme';
 import { type ReactNode, useCallback, useMemo, useState } from 'react';
+
+import { DEFAULT_PRIMARY_COLOR } from '@/theme';
 
 import { layoutSettingsSchema } from '../schemas/layout-settings';
 import type { LayoutSettings, ShellLayoutMode } from '../types/layout';
@@ -29,7 +30,7 @@ function createDefaultSettings(defaultLayout: ShellLayoutMode, defaultCenterTopM
     fixedHeader: false,
     fixedSidebar: true,
     layout: defaultLayout,
-    primaryColor: getDySecTheme('light').colors.primary.main,
+    primaryColor: DEFAULT_PRIMARY_COLOR,
     splitMenus: false,
     theme: 'light',
   };

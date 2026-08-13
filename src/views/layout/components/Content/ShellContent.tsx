@@ -1,4 +1,3 @@
-import { Layout } from 'antd';
 import type { ReactNode } from 'react';
 
 interface ShellContentProps {
@@ -11,8 +10,8 @@ interface ShellContentProps {
 /** 渲染业务内容承载区。 */
 export default function ShellContent({ children }: ShellContentProps) {
   return (
-    <Layout.Content className="dy-sec-shell-content">
+    <section className="dy-sec-shell-content">
       <div className="dy-sec-shell-content__inner">{children}</div>
-    </Layout.Content>
+    </section>
   );
 }

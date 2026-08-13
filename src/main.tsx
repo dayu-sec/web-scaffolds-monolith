@@ -3,7 +3,6 @@ import './styles/index.css';
 import { createEventChannel } from '@seed-fe/event-channel';
 import global from '@seed-fe/global';
 import logger from '@seed-fe/logger';
-import { ConfigProvider } from 'antd';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
@@ -47,9 +46,7 @@ void initializeApp().catch((error: unknown) => {
   if (!rootElement) return;
   createRoot(rootElement).render(
     <StrictMode>
-      <ConfigProvider>
-        <ShellFallback state={{ cause: error, kind: 'route-error', message: '应用基础服务初始化失败。' }} />
-      </ConfigProvider>
+      <ShellFallback state={{ cause: error, kind: 'route-error', message: '应用基础服务初始化失败。' }} />
     </StrictMode>
   );
 });

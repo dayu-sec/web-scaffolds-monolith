@@ -1,15 +1,17 @@
-import { Breadcrumb, Skeleton, Typography } from 'antd';
+import { Fragment } from 'react';
 
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { Skeleton } from '@/components/ui/skeleton';
 import type { BreadcrumbTrail, NavigationSourceStatus } from '@/types/navigation';
 
 interface ShellBreadcrumbProps {
-  /**
-   * 当前导航来源状态。
-   */
   status: NavigationSourceStatus;
-  /**
-   * 当前路径对应的面包屑。
-   */
   trail: BreadcrumbTrail;
 }
 
@@ -18,26 +20,31 @@ export default function ShellBreadcrumb({ status, trail }: ShellBreadcrumbProps)
   if (status === 'loading') {
     return (
       <div className="dy-sec-shell-breadcrumb">
-        <Skeleton.Input active size="small" />
+        <Skeleton className="h-5 w-40" />
       </div>
     );
   }
 
   if (status === 'error') {
-    return (
-      <div className="dy-sec-shell-breadcrumb">
-        <Typography.Text type="secondary">导航信息暂不可用</Typography.Text>
-      </div>
-    );
+    return <div className="dy-sec-shell-breadcrumb text-muted-foreground">导航信息暂不可用</div>;
   }
 
-  if (trail.items.length === 0) {
-    return null;
-  }
+  if (trail.items.length === 0) return null;
 
   return (
     <div className="dy-sec-shell-breadcrumb">
-      <Breadcrumb items={trail.items.map((item) => ({ key: item.key, title: item.label }))} />
+      <Breadcrumb>
+        <BreadcrumbList>
+          {trail.items.map((item, index) => (
+            <Fragment key={item.key}>
+              <BreadcrumbItem>
+                <BreadcrumbPage>{item.label}</BreadcrumbPage>
+              </BreadcrumbItem>
+              {index < trail.items.length - 1 ? <BreadcrumbSeparator /> : null}
+            </Fragment>
+          ))}
+        </BreadcrumbList>
+      </Breadcrumb>
     </div>
   );
 }

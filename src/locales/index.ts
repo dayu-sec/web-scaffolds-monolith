@@ -5,7 +5,6 @@ import Backend from 'i18next-http-backend';
 
 import type { LocaleChangeEventData } from '@/types/events';
 
-import { setupDayjsLocale } from './dayjs';
 import { initGlobalLocale } from './globalI18n';
 import { i18n } from './i18n-instance';
 import {
@@ -18,7 +17,6 @@ import {
   setLanguagePreference,
 } from './languages';
 
-export * from './antd';
 export * from './globalI18n';
 export { i18n } from './i18n-instance';
 export * from './languages';
@@ -41,18 +39,16 @@ export const i18nInitOptions: InitOptions = {
   },
 };
 
-/** 初始化主应用语言、Day.js 和全局语言事件同步。 */
+/** 初始化主应用语言和全局语言事件同步。 */
 export async function setupI18n(): Promise<void> {
   await i18n.use(Backend).use(LanguageDetector).init(i18nInitOptions);
   const language = getCurrentLanguage();
   document.documentElement.lang = language;
-  setupDayjsLocale(language);
   initGlobalLocale(getLanguagePreference());
 
   i18n.on('languageChanged', (nextLanguage) => {
     if (!isAppLanguage(nextLanguage)) return;
     document.documentElement.lang = nextLanguage;
-    setupDayjsLocale(nextLanguage);
   });
 
   if (!globalLocaleListenerInstalled && window.dy?.eventChannel) {

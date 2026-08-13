@@ -1,4 +1,3 @@
-import { Flex } from 'antd';
 import type { ReactNode } from 'react';
 
 import ShellLogo from './ShellLogo';
@@ -32,15 +31,10 @@ interface ShellBrandProps {
 /** 组合 Shell 品牌区，可用于侧边栏或顶部栏。 */
 export default function ShellBrand({ appSwitch, collapsed, placement = 'aside', logo, title }: ShellBrandProps) {
   return (
-    <Flex
-      className={`dy-sec-shell-brand dy-sec-shell-brand--${placement}`}
-      align="center"
-      justify={collapsed ? 'center' : 'flex-start'}
-      gap="small"
-    >
-      {!collapsed && appSwitch && <Flex className="dy-sec-shell-brand__app-switch">{appSwitch}</Flex>}
+    <div className={`dy-sec-shell-brand dy-sec-shell-brand--${placement}`} data-collapsed={collapsed}>
+      {!collapsed && appSwitch && <div className="dy-sec-shell-brand__app-switch">{appSwitch}</div>}
       <ShellLogo logo={logo} title={title} />
       {!collapsed && <ShellTitle title={title} />}
-    </Flex>
+    </div>
   );
 }

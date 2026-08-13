@@ -1,34 +1,33 @@
-import { createDySecTheme, getDySecAntdTheme, getDySecTheme } from '@dayu-sec/bizcom-theme';
-import { theme, type ThemeConfig } from 'antd';
-
 import type { LayoutSettings } from '@/views/layout';
 
-type ThemeMode = LayoutSettings['theme'];
+export const DEFAULT_PRIMARY_COLOR = '#2563EB';
 
-/**
- * 将已发布的 DySec AntD 适配器接入主应用壳层。Layout 和 Popover 属于
- * 主应用自己的结构 token，因此只在这里补充，不复制主题包的基础 token。
- */
-export function createAntdTheme(mode: ThemeMode, primaryColor?: string): ThemeConfig {
-  const dySecTheme = primaryColor ? createDySecTheme({ mode, primaryColor }) : getDySecTheme(mode);
-  const baseTheme = getDySecAntdTheme(dySecTheme);
+const CUSTOM_PRIMARY_PROPERTIES = ['--primary', '--ring', '--sidebar-primary'] as const;
 
-  return {
-    algorithm: mode === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
-    components: {
-      ...baseTheme.components,
-      Layout: {
-        bodyBg: dySecTheme.colors.background.canvas,
-        footerBg: dySecTheme.colors.background.canvas,
-        headerBg: dySecTheme.colors.background.primary,
-        siderBg: dySecTheme.colors.background.primary,
-      },
-      Popover: { colorBgElevated: dySecTheme.colors.background.elevated },
-    },
-    cssVar: { key: 'web-project' },
-    token: {
-      ...baseTheme.token,
-      colorPrimary: dySecTheme.colors.primary.main,
-    },
+/** 把布局设置映射为文档级 shadcn 主题，确保挂载到 body 的浮层共享主题。 */
+export function applyDocumentTheme({
+  primaryColor,
+  theme,
+}: Pick<LayoutSettings, 'primaryColor' | 'theme'>): () => void {
+  const root = document.documentElement;
+  const usesDefaultPrimary = primaryColor.toUpperCase() === DEFAULT_PRIMARY_COLOR;
+
+  root.classList.toggle('dark', theme === 'dark');
+  root.dataset.theme = theme;
+
+  for (const property of CUSTOM_PRIMARY_PROPERTIES) {
+    if (usesDefaultPrimary) {
+      root.style.removeProperty(property);
+    } else {
+      root.style.setProperty(property, primaryColor);
+    }
+  }
+
+  return () => {
+    root.classList.remove('dark');
+    delete root.dataset.theme;
+    for (const property of CUSTOM_PRIMARY_PROPERTIES) {
+      root.style.removeProperty(property);
+    }
   };
 }

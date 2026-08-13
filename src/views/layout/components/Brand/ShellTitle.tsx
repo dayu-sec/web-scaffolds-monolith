@@ -1,5 +1,3 @@
-import { Typography } from 'antd';
-
 interface ShellTitleProps {
   /**
    * 品牌或当前项目标题。
@@ -13,9 +11,5 @@ export default function ShellTitle({ title }: ShellTitleProps) {
     return null;
   }
 
-  return (
-    <Typography.Text className="dy-sec-shell-brand__title" ellipsis>
-      {title}
-    </Typography.Text>
-  );
+  return <span className="dy-sec-shell-brand__title">{title}</span>;
 }

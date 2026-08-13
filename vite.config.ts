@@ -1,5 +1,6 @@
 import babel from '@rolldown/plugin-babel';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import path from 'node:path';
 import { defineConfig, loadEnv } from 'vite';
 import { mockDevServerPlugin } from 'vite-plugin-mock-dev-server';
@@ -41,6 +42,8 @@ export default defineConfig(({ mode }) => {
 
     // 插件列表
     plugins: [
+      tailwindcss(),
+
       /**
        * https://inspector.fe-dev.cn/guide/start.html
        * 必须位于 React 插件之前，才能在 JSX 转换前注入源码定位信息。
@@ -100,9 +103,9 @@ export default defineConfig(({ mode }) => {
                 test: /node_modules[\\/](?:react|react-dom|react-router|react-router-dom|scheduler)[\\/]/,
               },
               {
-                name: 'antd-vendor',
+                name: 'ui-vendor',
                 priority: 20,
-                test: /node_modules[\\/](?:antd|@ant-design|@rc-component|rc-[^\\/]+)[\\/]/,
+                test: /node_modules[\\/](?:@base-ui|react-hook-form|@hookform)[\\/]/,
               },
               {
                 name: 'vendor',

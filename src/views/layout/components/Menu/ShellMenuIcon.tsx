@@ -29,8 +29,8 @@ export default function ShellMenuIcon({ icon, iconName }: ShellMenuIconProps) {
   const Icon = menuIconMap[iconName];
 
   return (
-    <span className="ant-menu-item-icon dy-sec-shell-menu-icon">
-      <Icon size="1em" strokeWidth={1.8} />
+    <span className="dy-sec-shell-menu-icon" aria-hidden="true">
+      <Icon strokeWidth={1.8} />
     </span>
   );
 }

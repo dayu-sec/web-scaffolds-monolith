@@ -1,4 +1,3 @@
-import { Flex } from 'antd';
 import type { ReactNode } from 'react';
 
 import ShellAsideCollapseButton from '../Aside/ShellAsideCollapseButton';
@@ -85,7 +84,7 @@ export default function ShellHeader({
   onUserAction,
 }: ShellHeaderProps) {
   return (
-    <Flex className="dy-sec-shell-header" component="header" align="center" justify="space-between">
+    <header className="dy-sec-shell-header">
       <ShellHeaderStart
         collapsed={collapsed}
         onCollapse={onCollapse}
@@ -109,6 +108,6 @@ export default function ShellHeader({
         onUserAction={onUserAction}
         showAsideCollapseButton={showAsideCollapseButton}
       />
-    </Flex>
+    </header>
   );
 }

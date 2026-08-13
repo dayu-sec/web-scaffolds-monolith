@@ -1,4 +1,3 @@
-import { Space } from 'antd';
 import type { ReactNode } from 'react';
 
 import type { ShellSlotName } from '@/types/navigation';
@@ -21,8 +20,8 @@ interface ShellActionSlotProps {
 /** 渲染 Shell 中的稳定插槽锚点。 */
 export default function ShellActionSlot({ slotName, children, className }: ShellActionSlotProps) {
   return (
-    <Space id={`dy-sec-shell-slot-${slotName}`} className={className} align="center" size="middle">
+    <div id={`dy-sec-shell-slot-${slotName}`} className={className}>
       {children}
-    </Space>
+    </div>
   );
 }

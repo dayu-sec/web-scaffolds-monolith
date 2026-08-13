@@ -1,7 +1,6 @@
 import '../styles/shell-layout.css';
 
-import { Layout } from 'antd';
-import { type CSSProperties, useMemo, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useState } from 'react';
 
 import { useLayoutSettings } from '../hooks/useLayoutSettings';
 import useShellLayoutTokens from '../hooks/useShellLayoutTokens';
@@ -103,9 +102,21 @@ export default function ShellLayoutRoot({
   );
   useShellRootScope({ layoutMode, style: shellStyle, theme: settings.theme });
 
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 1023px)');
+    const synchronizeCollapse = () => {
+      if (media.matches) setCollapsed(true);
+    };
+    synchronizeCollapse();
+    media.addEventListener('change', synchronizeCollapse);
+    return () => {
+      media.removeEventListener('change', synchronizeCollapse);
+    };
+  }, []);
+
   // 切换 top 布局会增删 aside，稳定 key 可避免 Main 因兄弟节点位移被 React 重建。
   return (
-    <Layout className={shellClassName}>
+    <div className={shellClassName}>
       {hasAside && (
         <ShellAside
           key="aside"
@@ -146,13 +157,13 @@ export default function ShellLayoutRoot({
         startContent={headerStartContent}
         startExtra={topNavigationPlacement === 'start' ? topNavigation : null}
       />
-      <Layout key="main" className="dy-sec-shell-main">
+      <main key="main" className="dy-sec-shell-main">
         {breadcrumbPlacement === 'content' ? (
           <ShellBreadcrumb status={navigationStatus} trail={navigationMatch.breadcrumb} />
         ) : null}
         <ShellContent>{children}</ShellContent>
         <ShellFooter footerContent={footerContent} />
-      </Layout>
-    </Layout>
+      </main>
+    </div>
   );
 }

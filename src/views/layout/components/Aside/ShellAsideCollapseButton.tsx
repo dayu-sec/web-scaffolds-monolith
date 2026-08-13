@@ -1,5 +1,6 @@
-import { Button } from 'antd';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 
 interface ShellAsideCollapseButtonProps {
   /**
@@ -18,18 +19,13 @@ export default function ShellAsideCollapseButton({ collapsed, onCollapse }: Shel
     <Button
       aria-label={collapsed ? '展开菜单' : '折叠菜单'}
       className="dy-sec-shell-collapse-button"
-      type="text"
-      size="small"
-      icon={
-        collapsed ? (
-          <ChevronRight className="dy-sec-shell-action-icon" color="currentColor" size="1em" />
-        ) : (
-          <ChevronLeft className="dy-sec-shell-action-icon" color="currentColor" size="1em" />
-        )
-      }
+      size="icon"
+      variant="ghost"
       onClick={() => {
         onCollapse(!collapsed);
       }}
-    />
+    >
+      {collapsed ? <ChevronRight data-icon="inline-start" /> : <ChevronLeft data-icon="inline-start" />}
+    </Button>
   );
 }

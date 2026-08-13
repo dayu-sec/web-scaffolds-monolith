@@ -10,7 +10,8 @@
 ## 技术与命令
 
 - Node.js `>=22.12.0`，包管理器 `pnpm@11.13.0`。
-- 构建使用 Vite 8.1、React 19.2、TypeScript 6 严格模式；UI 使用 Ant Design 6.5。
+- 构建使用 Vite 8.1、React 19.2、TypeScript 6 严格模式；UI 基础层使用 Tailwind CSS 4、shadcn/ui `base-nova`、Base UI 与 Lucide。
+- 表单默认使用 React Hook Form、Zod 与 `@hookform/resolvers`；shadcn `Field` 负责字段结构、错误状态和可访问性。
 - `pnpm dev` 启动开发服务；`pnpm preview` 预览生产制品。
 - `pnpm check` 运行 TypeScript 检查；`pnpm lint`、`pnpm format-check`、`pnpm test` 运行代码规范、格式和测试。
 - `pnpm build` 执行 `tsc -b && vite build`。
@@ -23,6 +24,7 @@
 - `src/views/layout/index.ts` 是布局子系统的唯一外部入口；`components/MainLayout.tsx` 连接 Router 与 Shell，`components/ShellLayoutRoot.tsx` 保持 Shell 组件树稳定。
 - `src/views/pages/` 为文件路由入口；`src/views/fallback/` 保存显式降级页面。
 - `src/services/request.ts` 拥有默认请求实例，`src/configs/request.ts` 保存运行配置；`src/theme/index.ts` 为主题入口。
+- `components.json` 是 shadcn CLI 契约；`src/components/ui/` 保存由当前项目拥有并可本地修改的基础组件源码，`src/lib/utils.ts` 提供统一 `cn()`。
 - Shell 与布局不承载具体业务页面、业务表单或业务 Service；业务内容只通过稳定的路由出口进入内容区。
 
 ## 核心源码与命名约定
@@ -33,6 +35,9 @@
 - 布局外部源码只从 `@/views/layout` 导入公开组件、Hook 和类型；内部路径不是公共契约，布局内部使用相对路径访问自身模块。
 - 公共和跨文件布局类型集中在 `views/layout/types/`，组件私有 Props 与局部状态类型就近声明；`types/` 不包含运行时代码。
 - 菜单配置读取、导航标准化与匹配服务、通用导航类型及 Shell 鉴权/恢复事件继续由现有公共层拥有，布局只消费这些契约。
+- 基础组件优先消费 `background`、`foreground`、`primary`、`muted`、`border`、`ring`、`sidebar-*` 等语义 Token；业务代码不维护平行色板。
+- 新增或更新 shadcn 组件前先检查 `components.json` 和已有源码；更新已修改组件时先运行 CLI dry-run/diff，不直接覆盖本地实现。
+- 表单 Schema 是运行时校验与值类型的单一来源；使用 `z.infer` 推导类型，并同时设置字段的 `data-invalid` 与控件的 `aria-invalid`。
 - **命名规范**：
   - React 组件目录、主文件 `.tsx` 及同名附属文件使用 PascalCase（例如 `<ComponentName>.tsx`、`<ComponentName>.module.css`）。
   - Hook 文件与导出统一使用 `useXxx`（例如 `useFeatureState.ts`）；非 Hook 模块不得使用 `use` 前缀。

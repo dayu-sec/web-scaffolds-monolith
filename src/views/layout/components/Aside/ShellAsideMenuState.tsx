@@ -1,27 +1,47 @@
-import { Empty, Result, Skeleton } from 'antd';
+import { AlertTriangle, Compass } from 'lucide-react';
 
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty';
+import { Skeleton } from '@/components/ui/skeleton';
 import type { NavigationSourceStatus } from '@/types/navigation';
 
 interface ShellAsideMenuStateProps {
-  /**
-   * 导航加载状态。
-   */
   status: NavigationSourceStatus;
 }
 
 /** 渲染左侧导航菜单的非成功状态。 */
 export default function ShellAsideMenuState({ status }: ShellAsideMenuStateProps) {
   if (status === 'loading') {
-    return <Skeleton className="dy-sec-shell-aside__state" active paragraph={{ rows: 6 }} title={false} />;
+    return (
+      <div className="dy-sec-shell-aside__state flex flex-col gap-2" aria-label="导航加载中">
+        {Array.from({ length: 6 }, (_, index) => (
+          <Skeleton key={index} className="h-8 w-full" />
+        ))}
+      </div>
+    );
   }
 
   if (status === 'empty') {
-    return <Empty className="dy-sec-shell-aside__state" image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无导航" />;
+    return (
+      <Empty className="dy-sec-shell-aside__state border-0 p-3">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <Compass />
+          </EmptyMedia>
+          <EmptyTitle>暂无导航</EmptyTitle>
+          <EmptyDescription>当前项目没有可用菜单。</EmptyDescription>
+        </EmptyHeader>
+      </Empty>
+    );
   }
 
   if (status === 'error') {
     return (
-      <Result className="dy-sec-shell-aside__state" status="warning" title="导航加载失败" subTitle="请稍后刷新重试" />
+      <Alert className="dy-sec-shell-aside__state" variant="destructive">
+        <AlertTriangle />
+        <AlertTitle>导航加载失败</AlertTitle>
+        <AlertDescription>请稍后刷新重试。</AlertDescription>
+      </Alert>
     );
   }
 

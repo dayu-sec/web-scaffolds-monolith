@@ -1,26 +1,23 @@
-import { Button, Dropdown, type MenuProps } from 'antd';
-import { LogOut, UserCircle } from 'lucide-react';
+import { UserCircle } from 'lucide-react';
 
-const userMenuItems: MenuProps['items'] = [
-  {
-    key: 'logout',
-    icon: <LogOut size="1em" />,
-    label: '退出',
-  },
-];
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
-/** 渲染用户中心入口和下拉菜单；点击入口时保留 Shell 注入的用户操作回调。 */
+/** 渲染用户中心接入点；未提供真实回调时不展示虚假的退出操作。 */
 export default function ShellHeaderUserAction({ onClick }: { onClick?: () => void }) {
+  const label = onClick ? '用户中心' : '用户中心未配置';
+
   return (
-    <Dropdown trigger={['click']} placement="bottomRight" menu={{ items: userMenuItems }}>
-      <Button
-        aria-label="用户中心"
-        className="dy-sec-shell-action-button"
+    <Tooltip>
+      <TooltipTrigger
+        aria-label={label}
+        disabled={!onClick}
         onClick={onClick}
-        type="text"
-        size="small"
-        icon={<UserCircle className="dy-sec-shell-action-icon" size="1em" />}
-      />
-    </Dropdown>
+        render={<Button className="dy-sec-shell-action-button" size="icon" variant="ghost" />}
+      >
+        <UserCircle data-icon="inline-start" />
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
   );
 }

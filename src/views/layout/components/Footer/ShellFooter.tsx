@@ -1,4 +1,3 @@
-import { Layout } from 'antd';
 import type { ReactNode } from 'react';
 
 interface ShellFooterProps {
@@ -14,5 +13,5 @@ export default function ShellFooter({ footerContent }: ShellFooterProps) {
     return null;
   }
 
-  return <Layout.Footer className="dy-sec-shell-footer">{footerContent}</Layout.Footer>;
+  return <footer className="dy-sec-shell-footer">{footerContent}</footer>;
 }

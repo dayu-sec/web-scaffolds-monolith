@@ -1,20 +1,18 @@
-import { createDySecTheme, useDySecCssVariableScope } from '@dayu-sec/bizcom-theme';
 import logger from '@seed-fe/logger';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { App as AntdApp, ConfigProvider } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouterProvider } from 'react-router';
 
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { appConfig } from '@/configs/app';
 import { MenuProvider } from '@/contexts/MenuProvider';
-import { getAntdLocale, getCurrentLanguage } from '@/locales';
 import { appRouter, fileRoutes } from '@/routes';
 import { fetchMenuConfig } from '@/services/menu/fetch';
 import { validateMenuRouteCoverage } from '@/services/menu/routeCoverage';
 import type { MenuConfig } from '@/services/menu/schema';
 import { queryClient } from '@/services/request';
-import { createAntdTheme } from '@/theme';
+import { applyDocumentTheme } from '@/theme';
 import { SHELL_AUTH_ERROR_EVENT, type ShellAuthErrorDetail, type ShellFallbackState } from '@/types/shell';
 import { translateMenuConfig } from '@/utils/menuTranslator';
 import { LayoutProvider, ShellFallback, useLayoutSettings } from '@/views/layout';
@@ -29,26 +27,13 @@ interface RuntimeState {
   fallback: ShellFallbackState | null;
 }
 
-/** 主应用主题层单独消费布局 Context，保证所有 Shell 组件共享同一算法与主色。 */
-function ShellConfigProvider({ children }: { children: React.ReactNode }) {
+/** 将布局偏好映射到文档主题，并为所有 Base UI Tooltip 提供统一上下文。 */
+function ShellThemeProvider({ children }: { children: React.ReactNode }) {
   const { settings } = useLayoutSettings();
-  const { i18n } = useTranslation();
-  void i18n.resolvedLanguage;
-  const dySecTheme = useMemo(
-    () => createDySecTheme({ mode: settings.theme, primaryColor: settings.primaryColor }),
-    [settings.primaryColor, settings.theme]
-  );
-  // 单体应用独占当前文档；变量作用于 body，确保所有挂载到 body 的 Ant Design Portal 继承同一主题。
-  useDySecCssVariableScope({ selector: 'body', theme: dySecTheme });
 
-  return (
-    <ConfigProvider
-      locale={getAntdLocale(getCurrentLanguage())}
-      theme={createAntdTheme(settings.theme, settings.primaryColor)}
-    >
-      <AntdApp className="app-ant-app">{children}</AntdApp>
-    </ConfigProvider>
-  );
+  useEffect(() => applyDocumentTheme(settings), [settings]);
+
+  return <TooltipProvider delay={250}>{children}</TooltipProvider>;
 }
 
 /**
@@ -121,7 +106,7 @@ function RuntimeApp() {
   }, [runtime.originalMenuConfig, translatedMenuConfig]);
 
   return (
-    <ShellConfigProvider>
+    <ShellThemeProvider>
       {runtime.loading ? (
         <ShellFallback state={{ kind: 'loading', title: t('app_loading', '应用加载中') }} />
       ) : runtime.fallback ? (
@@ -143,7 +128,7 @@ function RuntimeApp() {
           <RouterProvider router={appRouter} />
         </MenuProvider>
       ) : null}
-    </ShellConfigProvider>
+    </ShellThemeProvider>
   );
 }
 
