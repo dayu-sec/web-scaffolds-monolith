@@ -2,10 +2,10 @@
 
 本文件记录当前 pnpm Monorepo 单体 Web 脚手架的项目事实、核心工程约束、真实入口和协作边界。无论是否安装外部 Skill，当前项目都以本文件、配置和源码为准。
 
-## Agent Skills
+## 可选 Agent Skills
 
 - 本项目不要求安装外部 Skill 才能开发或验证。
-- 安装 DayuSec Web Skills 可补充 Web 项目发现、单体架构和工作流；shadcn/ui、Tailwind CSS、基础组件或表单 UI 任务使用 `$dayu-sec-shadcn-ui`。若 Skill 指引与本项目事实不一致，始终以本文件及源码为准。
+- 安装外部 Skill 后，可按当前任务选择已安装且适用的能力补充项目发现、架构边界、源码结构或专用工作流；不因安装某个 Skill 改变本项目的技术栈、所有权或验证要求。若 Skill 指引与本项目事实不一致，始终以本文件、配置和源码为准。
 
 ## 技术与命令
 

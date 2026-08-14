@@ -62,4 +62,4 @@ pnpm build
 curl -fsSL "https://raw.githubusercontent.com/dayu-sec/web-scaffolds-bootstrap/main/setup-web-skills.sh" | bash -s -- -f
 ```
 
-安装完成后重新启动 Agent 会话。shadcn/ui、Tailwind CSS、基础组件和表单 UI 使用 `$dayu-sec-shadcn-ui`；实际项目契约见 [AGENTS.md](./AGENTS.md)。
+安装完成后重新启动 Agent 会话。根据当前任务选择已安装且适用的 Skill；实际项目契约始终以 [AGENTS.md](./AGENTS.md)、配置和源码为准。
