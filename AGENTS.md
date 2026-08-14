@@ -25,7 +25,7 @@
 - `apps/web/src/views/layout/index.ts` 是布局子系统的唯一外部入口；`components/MainLayout.tsx` 连接 Router 与 Shell，`components/ShellLayoutRoot.tsx` 保持 Shell 组件树稳定。
 - `apps/web/src/views/pages/` 为文件路由入口；`apps/web/src/views/fallback/` 保存显式降级页面。
 - `apps/web/src/services/request.ts` 拥有默认请求实例，`configs/request.ts` 保存运行配置；`theme/index.ts` 为主题入口。
-- `apps/web/components.json` 与 `packages/ui/components.json` 共同定义 shadcn CLI 契约；`packages/ui/src/components/` 保存项目自有组件源码，`packages/ui/src/lib/utils.ts` 提供唯一 `cn()`。
+- `apps/web/components.json` 与 `packages/ui/components.json` 共同定义 shadcn CLI 契约；`packages/ui/src/components/` 中引入的社区组件视为只读物料，不改源码、不补兼容 Props、不包装成另一套本地组件库，`packages/ui/src/lib/utils.ts` 提供唯一 `cn()`。
 - Shell 与布局不承载具体业务页面、业务表单或业务 Service；业务内容只通过稳定的路由出口进入内容区。
 
 ## 核心源码与命名约定
