@@ -28,22 +28,20 @@ function FallbackIcon({ kind }: { kind: ShellFallbackKind }) {
   return <AlertTriangle aria-hidden="true" />;
 }
 
-/** 根据主应用降级状态渲染加载、错误、权限和恢复提示。 */
+/** 根据主应用降级状态渲染无文案等待态，或错误、权限和恢复提示。 */
 export default function ShellFallback({ state, onRetry }: ShellFallbackProps) {
+  if (state.kind === 'loading') {
+    return (
+      <div aria-busy="true" className="dy-sec-shell-fallback dy-sec-shell-fallback--loading">
+        <Spinner aria-label="加载中" className="size-6" />
+      </div>
+    );
+  }
+
   const copy = fallbackCopy[state.kind];
   const title = state.title ?? copy.title;
   const message = state.message ?? copy.message;
   const actionLabel = state.actionLabel ?? '重试';
-
-  if (state.kind === 'loading') {
-    return (
-      <div className="dy-sec-shell-fallback dy-sec-shell-fallback--loading">
-        <Spinner className="size-6" />
-        <div className="dy-sec-shell-fallback__title">{title}</div>
-        <div className="dy-sec-shell-fallback__message">{message}</div>
-      </div>
-    );
-  }
 
   return (
     <div className="dy-sec-shell-fallback">

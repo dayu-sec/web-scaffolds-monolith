@@ -1,5 +1,4 @@
 import { type CustomRequestConfig, normalizeError } from '@dayu-sec/bizlib-request';
-import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 import { handleAuthOrPermissionError } from '@/auth/handle-auth-error';
 import { API_BASE_PATH } from '@/constants/api';
@@ -15,15 +14,16 @@ export const requestConfig = {
   instanceName: API_REQUEST_INSTANCE_NAME,
   baseURL: API_BASE_PATH,
   timeout: 10_000,
-  errorConfig: {},
   interceptors: {
+    // 对象形式拦截器要求显式 onConfig；当前不需要改写请求/响应，原样透传。
     request: {
-      onConfig: (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => config,
-      onError: (error: unknown): Promise<never> => normalizeError(error),
+      onConfig: (config) => config,
+      onError: normalizeError,
     },
     response: {
-      onConfig: (response: AxiosResponse): AxiosResponse => response,
-      onError: (error: unknown): Promise<never> => {
+      onConfig: (response) => response,
+      // 401/403 额外触发 Shell 访问恢复事件；错误本身仍然只交给 normalizeError 规范化。
+      onError: (error) => {
         handleAuthOrPermissionError(error);
         return normalizeError(error);
       },

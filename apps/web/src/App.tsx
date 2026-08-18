@@ -1,5 +1,6 @@
 import logger from '@seed-fe/logger';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from '@workspace/ui/components/toast';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -33,7 +34,13 @@ function ShellThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => applyDocumentTheme(settings), [settings]);
 
-  return <TooltipProvider delay={250}>{children}</TooltipProvider>;
+  return (
+    <TooltipProvider delay={250}>
+      {/* 全局异常的 Toast 反馈通道；默认关闭，`EXCEPTION_FEEDBACK_MODE` 切到 'toast' 时生效。 */}
+      <Toaster />
+      {children}
+    </TooltipProvider>
+  );
 }
 
 /**
@@ -56,15 +63,10 @@ function RuntimeApp() {
   useEffect(() => {
     const handleAuthError = (event: Event) => {
       if (!isShellAuthErrorEvent(event)) return;
-      setRuntime((current) => ({
-        ...current,
-        fallback: {
-          actionLabel: event.detail.kind === 'auth-expired' ? '恢复访问' : '返回入口',
-          kind: event.detail.kind,
-          message: event.detail.message,
-          path: event.detail.recoveryUrl,
-        },
-      }));
+      if (event.detail.kind === 'auth-expired' && event.detail.recoveryUrl) {
+        // 会话失效使用访问恢复入口；403 留给当前业务内容区，不替换 Shell。
+        window.location.replace(event.detail.recoveryUrl);
+      }
     };
     window.addEventListener(SHELL_AUTH_ERROR_EVENT, handleAuthError);
     return () => {
@@ -108,7 +110,7 @@ function RuntimeApp() {
   return (
     <ShellThemeProvider>
       {runtime.loading ? (
-        <ShellFallback state={{ kind: 'loading', title: t('app_loading', '应用加载中') }} />
+        <ShellFallback state={{ kind: 'loading' }} />
       ) : runtime.fallback ? (
         <ShellFallback
           state={runtime.fallback}

@@ -10,7 +10,7 @@ import { createRoot } from 'react-dom/client';
 import { ShellFallback } from '@/views/layout';
 
 import App from './App';
-import { setupUnhandledRejectionMonitor } from './configs/unhandledrejection';
+import { setupGlobalErrorMonitor } from './configs/global-error';
 import { initGlobalI18nAPI, setupI18n } from './locales';
 import { initAppUpdateService } from './services/app-update';
 import { configureRequest } from './services/request';
@@ -23,7 +23,7 @@ async function initializeApp(): Promise<void> {
 
   await setupI18n();
   configureRequest();
-  setupUnhandledRejectionMonitor();
+  setupGlobalErrorMonitor();
   initAppUpdateService();
   global.set('dy', 'shared', { open });
   global.set('dy', 'i18n', initGlobalI18nAPI());

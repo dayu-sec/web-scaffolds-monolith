@@ -28,6 +28,21 @@
 - `apps/web/components.json` 与 `packages/ui/components.json` 共同定义 shadcn CLI 契约；`packages/ui/src/components/` 中引入的社区组件视为只读物料，不改源码、不补兼容 Props、不包装成另一套本地组件库，`packages/ui/src/lib/utils.ts` 提供唯一 `cn()`。
 - Shell 与布局不承载具体业务页面、业务表单或业务 Service；业务内容只通过稳定的路由出口进入内容区。
 
+## API 请求迁移基线
+
+- 实现或评审业务 Service、请求配置、请求初始化、OpenAPI SDK 适配、Vite 开发代理、API 环境变量或本地 Mock 前，必须先阅读 [API 请求迁移基线](docs/api-request-baseline.md)。该文档定义当前项目的请求所有权、迁移历史和验证边界。
+- 请求实例、SDK/OpenAPI、错误与 Query 使用对应的前端请求与数据契约工作流；Mock 使用项目现有 Mock 工作流。不得只依据通用规则或遗留实现推断当前项目的 API 路径、代理、Mock 前缀或请求实例。
+- 浏览器 API 根由 `apps/web/src/constants/api.ts` 的 `API_BASE_PATH` 唯一拥有；业务 Service 只声明 API 根之后的相对路径。本地联调路由只在 `apps/web/proxy.local.jsonc` 中配置，不得为使旧实现或旧测试继续通过而保留独立浏览器基址、业务专属环境变量或第二请求实例。
+
+## 开发期网关与浏览器诊断
+
+- 当前脚手架的应用从 `apps/web` 运行。本地开发 1~N 个服务时，基于 `apps/web/proxy.local.jsonc.example` 创建 Git 忽略的 `apps/web/proxy.local.jsonc`，并按 `proxy.schema.json` 的 `"server.proxy.api"` 契约配置路径 key、target 和按需 rewrite；源码兼容读取低优先级的 `proxy.local.json`，但它不是开发者主配置入口。
+- `DEV_API_URL` 与可选的 `DEV_API_TOKEN` 是仅供 Vite 进程读取的内部网关配置，不进入浏览器 `import.meta.env`。不得把真实地址、Token 或证书写入源码、示例环境文件、项目文档或提交物。
+- 开发代理由 `apps/web/proxy.ts` 的 `getProxyConfig()` 统一管理：本地规则按路径 key 长度从长到短装配；没有本地 API 根规则时，才追加由 `${API_BASE_PATH}/` 派生的网关规则。大多数服务完整透传请求路径，只有目标服务不接收完整路径时才配置正则 rewrite。
+- 本地代理文件变化后 Vite 自动重启。启动日志按实际匹配顺序列出全部 API 代理的路径 key 与脱敏 target origin，不区分本地、线上或兜底用途；没有任何代理规则时提示未配置 API 网关。
+- 使用浏览器诊断时，若当前环境已登记独立 DevTools MCP，则以其自身配置决定可用浏览器、通道和连接方式。先确认目标页面，再检查 API 响应状态、内容类型、响应体及 `X-Dev-Proxy-Target`、`X-Dev-Proxy-Rule`；不得在交付内容、日志摘要或文档中泄露认证头、Token、Cookie 或其他会话数据。
+- 完成代理配置或诊断后，重载目标页并验证关键 API 响应和控制台初始化状态符合当前项目契约；同时报告浏览器实证与静态/测试证据的边界。
+
 ## 核心源码与命名约定
 
 - `types`、`constants`、`configs`、`services` 和 `utils` 分别承载领域类型与契约、稳定字面量、运行配置组装、业务服务或外部数据边界、通用工具。

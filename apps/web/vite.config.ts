@@ -4,20 +4,38 @@ import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { codeInspectorPlugin } from 'code-inspector-plugin';
-import { defineConfig, loadEnv } from 'vite';
+import pc from 'picocolors';
+import { createLogger, defineConfig, loadEnv } from 'vite';
 import { mockDevServerPlugin } from 'vite-plugin-mock-dev-server';
 import pages from 'vite-plugin-pages';
+import ViteRestart from 'vite-plugin-restart';
 
 import { name as appName, version as appVersion } from '../../package.json';
-import { getProxyConfig } from './proxy';
+import { getProxyConfig, LOCAL_PROXY_CONFIG_FILE_NAMES } from './proxy';
 import { API_BASE_PATH } from './src/constants/api';
+
+/**
+ * 给 proxy.ts 输出的纯文本代理摘要追加终端高亮；proxy.ts 本身及其测试断言的原始文本保持不变，
+ * 上色只发生在这一层展示代码里。
+ */
+function highlightProxySummary(message: string): string {
+  return message
+    .replace(/^\[Vite Proxy\]/mu, (tag) => pc.bold(pc.cyan(tag)))
+    .replace(
+      /^(\s+)(\S+)( -> )(\S+)$/gmu,
+      (_line, indent: string, ruleKey: string, arrow: string, target: string) =>
+        `${indent}${pc.green(ruleKey)}${pc.dim(arrow)}${pc.yellow(target)}`
+    );
+}
 
 // 配置 Vite
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const port = Number.parseInt(env.DEV_SERVER_PORT || '5173', 10);
   const base = env.VITE_APP_BASE || '/';
+  const logger = createLogger();
+  const isDevServer = command === 'serve';
 
   return {
     /**
@@ -33,6 +51,8 @@ export default defineConfig(({ mode }) => {
       __APP_VERSION__: JSON.stringify(appVersion),
       __APP_NAME__: JSON.stringify(appName),
     },
+
+    customLogger: logger,
 
     // 替换 `import` 或 `require` 语句中值的别名
     resolve: {
@@ -88,6 +108,11 @@ export default defineConfig(({ mode }) => {
       mockDevServerPlugin({
         prefix: API_BASE_PATH,
       }),
+
+      // 本地多微服务代理：修改 proxy.local.jsonc / proxy.local.json 后由 vite-plugin-restart 重启开发服务。
+      ViteRestart({
+        restart: [...LOCAL_PROXY_CONFIG_FILE_NAMES],
+      }),
     ],
 
     /**
@@ -131,7 +156,13 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       cors: true,
       port,
-      proxy: getProxyConfig(env),
+      proxy: isDevServer
+        ? getProxyConfig(env, {
+            logger: (message) => {
+              logger.info(highlightProxySummary(message));
+            },
+          })
+        : {},
       // 支持在远程开发环境中运行
       allowedHosts: ['.github.dev', '.cnb.run'],
       headers: {

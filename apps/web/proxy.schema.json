@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LocalProxyConfig",
+  "description": "Vite 8 多服务本地开发代理配置",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "当前配置使用的 JSON Schema 相对路径"
+    },
+    "server.proxy.api": {
+      "type": "object",
+      "description": "本地代理路由映射；Key 是浏览器请求的显式 URL 路径前缀",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target"],
+        "properties": {
+          "target": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^(?:https?|wss?)://",
+            "description": "本地 HTTP、HTTPS、WS 或 WSS 服务的绝对地址"
+          },
+          "changeOrigin": {
+            "type": "boolean",
+            "default": true,
+            "description": "是否把上游 Host 改为 target"
+          },
+          "secure": {
+            "type": "boolean",
+            "default": false,
+            "description": "是否校验 HTTPS/WSS 上游证书"
+          },
+          "ws": {
+            "type": "boolean",
+            "default": false,
+            "description": "是否启用 WebSocket 代理"
+          },
+          "rewrite": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["pattern", "replacement"],
+            "description": "将正则 source 编译后用于 requestPath.replace(pattern, replacement)",
+            "properties": {
+              "pattern": {
+                "type": "string",
+                "minLength": 1,
+                "description": "JavaScript RegExp source；不包含 /.../ 分隔符，v1 不支持 flags"
+              },
+              "replacement": {
+                "type": "string",
+                "description": "String.replace 的替换文本，允许空字符串"
+              }
+            }
+          },
+          "headers": {
+            "type": "object",
+            "description": "只发送给当前本地服务的自定义请求头",
+            "additionalProperties": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

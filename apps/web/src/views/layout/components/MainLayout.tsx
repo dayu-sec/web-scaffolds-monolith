@@ -5,6 +5,7 @@ import { useMenu } from '@/hooks/useMenu';
 
 import { useLayoutSettings } from '../hooks/useLayoutSettings';
 import { useShellNavigation } from '../hooks/useShellNavigation';
+import ExceptionAlert from './Content/ExceptionAlert';
 import ShellLayoutRoot from './ShellLayoutRoot';
 
 /** 组装单体 Shell；文件路由页面只通过稳定 Outlet 进入内容区。 */
@@ -24,7 +25,10 @@ export default function MainLayout() {
       title={appConfig.name}
       onNavigate={navigation.handleNavigate}
     >
-      <Outlet />
+      <>
+        <ExceptionAlert />
+        <Outlet />
+      </>
     </ShellLayoutRoot>
   );
 }

@@ -16,4 +16,8 @@ tabWidth: 2                         # 缩进使用 2 个空格
 trailingComma: "es5"                # 使用 ES5 兼容的尾随逗号 (对象、数组等)
 useTabs: false                      # 使用空格而不是制表符 (Tab) 进行缩进
 vueIndentScriptAndStyle: false      # 不缩进 Vue 文件中的 script 和 style 标签内容
+overrides:
+  - files: "apps/web/proxy.local.jsonc.example"
+    options:
+      parser: "json"
 # https://prettier.io/docs/options

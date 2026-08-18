@@ -1,0 +1,8 @@
+{
+  "$schema": "./proxy.schema.json",
+  "server.proxy.api": {
+    "/dysec/api/example-service": {
+      "target": "http://127.0.0.1:8080"
+    }
+  }
+}
