@@ -1,0 +1,4 @@
+# Aider 无 Agent Skills 体系，通过 read 常驻加载项目上下文。
+# 项目事实与技能位置以 AGENTS.md 为唯一来源，本文件不复制其内容。
+read:
+  - AGENTS.md

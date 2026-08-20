@@ -2,10 +2,12 @@
 
 本文件记录当前 pnpm Monorepo 单体 Web 脚手架的项目事实、核心工程约束、真实入口和协作边界。无论是否安装外部 Skill，当前项目都以本文件、配置和源码为准。
 
-## 可选 Agent Skills
+## Agent 上下文与 Skills
 
+- 本文件是本项目 AI 协作约束的唯一来源。根目录的 `CLAUDE.md`、`GEMINI.md` 等厂商入口文件，以及 `.github/`、`.clinerules/`、`.kiro/`、`.roo/` 等厂商目录下的入口文件，只负责把对应工具引导到本文件与 Skill 目录，不承载项目规则。修改协作约束只改本文件，不要复制或同步到那些入口文件；各文件对应哪个工具见 [AI 工具上下文入口](docs/ai-agent-entrypoints.md)。
 - 本项目不要求安装外部 Skill 才能开发或验证。
 - 安装外部 Skill 后，可按当前任务选择已安装且适用的能力补充项目发现、架构边界、源码结构或专用工作流；不因安装某个 Skill 改变本项目的技术栈、所有权或验证要求。若 Skill 指引与本项目事实不一致，始终以本文件、配置和源码为准。
+- 已安装的 Skill 位于 `.agents/skills/<name>/SKILL.md`；先按 frontmatter `description` 匹配当前任务，再读取正文与 `references/`，不要凭名称猜测适用范围。
 
 ## 技术与命令
 

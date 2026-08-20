@@ -7,6 +7,7 @@
 - `apps/web`：唯一可部署的 Vite 单体应用。
 - `packages/ui`：项目私有的 shadcn/ui 源码、主题和基础 Hook，不发布 npm。
 - `AGENTS.md`：项目入口、所有权、UI 使用和验证约束。
+- `docs/ai-agent-entrypoints.md`：各 AI 工具的上下文入口与维护约定。
 
 ## 登录 CNB NPM 源
 
@@ -54,12 +55,21 @@ pnpm test
 pnpm build
 ```
 
-## AI Agent Skills
+## AI 工具支持
 
-使用支持 Agent Skills 的 AI 编程工具时，安装 [DayuSec Web Skills](https://github.com/dayu-sec/web-skills)，补充 Web 项目发现、架构边界、源码结构和专用任务工作流。
+本项目的 AI 协作上下文只有两个来源：
+
+- [AGENTS.md](./AGENTS.md)：项目事实、架构、命令、所有权与验证约束。
+- `.agents/skills/<name>/SKILL.md`：按需加载的任务工作流与领域规范，由下方安装命令写入。
+
+Claude Code、Codex、Gemini CLI、Cursor、Copilot、Kiro、Cline、Qwen Code、TRAE、CodeBuddy、iFlow 等工具均已接入：原生读取 `AGENTS.md` 的工具直接生效，其余工具在各自支持的位置放了一个薄指针。完整对照表与维护约定见 [docs/ai-agent-entrypoints.md](./docs/ai-agent-entrypoints.md)。
+
+修改协作约束时只改 `AGENTS.md`，不需要同步任何厂商文件。
+
+### 安装 Skill
 
 ```bash
 curl -fsSL "https://raw.githubusercontent.com/dayu-sec/web-scaffolds-bootstrap/main/setup-web-skills.sh" | bash -s -- -f
 ```
 
-安装完成后重新启动 Agent 会话。根据当前任务选择已安装且适用的 Skill；实际项目契约始终以 [AGENTS.md](./AGENTS.md)、配置和源码为准。
+安装完成后重新启动 Agent 会话。Windows 用户需启用 `git config --global core.symlinks true`，否则 Claude Code 使用的 `.claude/skills` 符号链接不会生效。
