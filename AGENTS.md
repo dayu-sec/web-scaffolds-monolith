@@ -4,10 +4,12 @@
 
 本脚手架面向**外部客户与终端用户**的客户端产品，不面向内部运营后台或高密度管理控制台。设计、实现或评审任何界面前，必须先阅读 [客户端产品 UI 基线](docs/client-facing-ui-baseline.md)。
 
-## 可选 Agent Skills
+## Agent 上下文与 Skills
 
+- 本文件是本项目 AI 协作约束的唯一来源。根目录的 `CLAUDE.md`、`GEMINI.md` 等厂商入口文件，以及 `.github/`、`.clinerules/`、`.kiro/`、`.roo/` 等厂商目录下的入口文件，只负责把对应工具引导到本文件与 Skill 目录，不承载项目规则。修改协作约束只改本文件，不要复制或同步到那些入口文件；各文件对应哪个工具见 [AI 工具上下文入口](docs/ai-agent-entrypoints.md)。
 - 本项目不要求安装外部 Skill 才能开发或验证。
 - 安装外部 Skill 后，可按当前任务选择已安装且适用的能力补充项目发现、架构边界、源码结构或专用工作流；不因安装某个 Skill 改变本项目的技术栈、所有权或验证要求。若 Skill 指引与本项目事实不一致，始终以本文件、配置和源码为准。
+- 已安装的 Skill 位于 `.agents/skills/<name>/SKILL.md`；先按 frontmatter `description` 匹配当前任务，再读取正文与 `references/`，不要凭名称猜测适用范围。
 
 ## 技术与命令
 
@@ -54,7 +56,7 @@
 - 公共和跨文件布局类型集中在 `views/layout/types/`，组件私有 Props 与局部状态类型就近声明；`types/` 不包含运行时代码。
 - 菜单配置读取、导航标准化与匹配服务、通用导航类型及 Shell 鉴权/恢复事件继续由现有公共层拥有，布局只消费这些契约。
 - 基础组件优先消费 `background`、`foreground`、`primary`、`muted`、`border`、`ring`、`sidebar-*` 等语义 Token；业务代码不维护平行色板。
-- 颜色、圆角、阴影与模糊令牌由 `packages/ui/src/styles/globals.css` 拥有；Shell 几何（顶栏高度、图标按钮点击框、菜单项高度、内容留白与内容最大宽度）由 `apps/web/src/views/layout/hooks/useShellLayoutTokens.ts` 拥有。页面不各自维护容器宽度、页面级留白或平行色板，具体取值与可访问性门槛见 [客户端产品 UI 基线](docs/client-facing-ui-baseline.md)。
+- 颜色、圆角、阴影与模糊令牌由 `packages/ui/src/styles/globals.css` 拥有；Shell 几何（顶栏高度、侧栏宽度、图标按钮点击框、菜单项高度与内容留白）由 `apps/web/src/views/layout/hooks/useShellLayoutTokens.ts` 拥有。内容工作区占据 Shell 剩余空间，不设内容最大宽度；页面不各自维护外层留白或平行色板，可在自身容器内限制长文本阅读宽度，但不得给整个工作区加最大宽度。具体取值与可访问性门槛见 [客户端产品 UI 基线](docs/client-facing-ui-baseline.md)。
 - 基础组件按“确认交互语义 → 搜索 `@workspace/ui` 现有源码 → 使用组件与内置变体 → 组合现有组件 → 最后才新增项目组件”的顺序选择。
 - 业务源码只从 `@workspace/ui/components/<component>`、`@workspace/ui/hooks/<hook>` 和 `@workspace/ui/lib/utils` 导入；不得直接导入 `@base-ui/react`，不得建立聚合 barrel 或重新包装整套组件。
 - Alert、Empty、Badge、Separator、Skeleton、Spinner 等已有语义组件不得用带样式的普通元素重复实现。

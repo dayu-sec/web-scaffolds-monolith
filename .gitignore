@@ -667,7 +667,8 @@ yalc.lock
 TODOs.md
 
 # AI Assistant
-.trae/
+.trae/*
+!.trae/rules/
 .windsurf/
 
 # Custom
