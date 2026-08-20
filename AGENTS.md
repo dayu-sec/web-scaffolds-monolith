@@ -2,6 +2,8 @@
 
 本文件记录当前 pnpm Monorepo 单体 Web 脚手架的项目事实、核心工程约束、真实入口和协作边界。无论是否安装外部 Skill，当前项目都以本文件、配置和源码为准。
 
+本脚手架面向**外部客户与终端用户**的客户端产品，不面向内部运营后台或高密度管理控制台。设计、实现或评审任何界面前，必须先阅读 [客户端产品 UI 基线](docs/client-facing-ui-baseline.md)。
+
 ## 可选 Agent Skills
 
 - 本项目不要求安装外部 Skill 才能开发或验证。
@@ -52,6 +54,7 @@
 - 公共和跨文件布局类型集中在 `views/layout/types/`，组件私有 Props 与局部状态类型就近声明；`types/` 不包含运行时代码。
 - 菜单配置读取、导航标准化与匹配服务、通用导航类型及 Shell 鉴权/恢复事件继续由现有公共层拥有，布局只消费这些契约。
 - 基础组件优先消费 `background`、`foreground`、`primary`、`muted`、`border`、`ring`、`sidebar-*` 等语义 Token；业务代码不维护平行色板。
+- 颜色、圆角、阴影与模糊令牌由 `packages/ui/src/styles/globals.css` 拥有；Shell 几何（顶栏高度、图标按钮点击框、菜单项高度、内容留白与内容最大宽度）由 `apps/web/src/views/layout/hooks/useShellLayoutTokens.ts` 拥有。页面不各自维护容器宽度、页面级留白或平行色板，具体取值与可访问性门槛见 [客户端产品 UI 基线](docs/client-facing-ui-baseline.md)。
 - 基础组件按“确认交互语义 → 搜索 `@workspace/ui` 现有源码 → 使用组件与内置变体 → 组合现有组件 → 最后才新增项目组件”的顺序选择。
 - 业务源码只从 `@workspace/ui/components/<component>`、`@workspace/ui/hooks/<hook>` 和 `@workspace/ui/lib/utils` 导入；不得直接导入 `@base-ui/react`，不得建立聚合 barrel 或重新包装整套组件。
 - Alert、Empty、Badge、Separator、Skeleton、Spinner 等已有语义组件不得用带样式的普通元素重复实现。
@@ -84,3 +87,4 @@
 - 源码与配置变更运行针对性检查命令（如 `pnpm check`）。
 - 路由、Shell、全局 Provider、workspace 或构建配置变更须运行 `pnpm build`，确认根 `dist/` 生成，并验证 URL 直达、刷新与历史导航。
 - UI 变更同时检查键盘、焦点、主题、窄屏、浮层和滚动归属；精选快照只定义可复用基础能力，不代表其中每个组件都应进入业务或生产 chunk。
+- UI 变更还需在真实浏览器中实测对比度、点击框尺寸和焦点可见性，并覆盖浅色与深色、缩放、移动端视口与长内容；判定门槛见 [客户端产品 UI 基线](docs/client-facing-ui-baseline.md)。无法使用真实浏览器时只能报告静态与构建证据。

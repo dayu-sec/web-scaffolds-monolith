@@ -14,6 +14,7 @@ export interface AppConfig {
   centerTopMenu: boolean;
 }
 
+// 默认使用顶栏 + 左侧菜单 + 右侧内容工作区；工作区占据剩余空间，不设内容最大宽度。
 export const appConfig: AppConfig = {
   centerTopMenu: false,
   defaultLayout: 'side',

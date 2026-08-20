@@ -55,41 +55,60 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --shadow-soft: var(--surface-shadow-soft);
+  --shadow-active: var(--surface-shadow-active);
+  --shadow-overlay: var(--surface-shadow-overlay);
+  --blur-overlay: var(--surface-blur-overlay);
 }
 
+/*
+ * 客户端产品基线：冷中性画布 + 克制科技蓝 + 低饱和状态色。
+ * 强调色按 60-30-10 控制面积，蓝色只承担主操作、当前项与焦点，不铺满底色。
+ * 状态色与品牌蓝在色相上明确区分，且不得作为唯一的状态识别方式。
+ */
 :root {
   color-scheme: light;
   --background: #f4f7fc;
-  --foreground: #0f172a;
+  --foreground: #1e293b;
   --card: #ffffff;
-  --card-foreground: #0f172a;
+  --card-foreground: #1e293b;
   --popover: #ffffff;
-  --popover-foreground: #0f172a;
+  --popover-foreground: #1e293b;
   --primary: #2563eb;
   --primary-foreground: #ffffff;
   --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
+  --secondary-foreground: #1e293b;
   --muted: #eef2f7;
-  --muted-foreground: #475569;
+  --muted-foreground: #5d6b7f;
   --accent: rgb(37 99 235 / 12%);
   --accent-foreground: #1d4ed8;
-  --destructive: #ef4444;
+  /*
+   * 状态色为实心填充变体：色相沿用低饱和珊瑚红 / 琥珀黄 / 鼠尾草绿，
+   * 明度按 WCAG 2.2 AA 正文 4.5:1 校准（实测 4.83 / 6.92 / 4.58）。
+   * 需要指示条、图标或 12% 弱底时使用 chart-* 中保留的原始低饱和色相。
+   */
+  --destructive: #cc3f3f;
   --destructive-foreground: #ffffff;
-  --success: #059669;
+  --success: #4d8064;
   --success-foreground: #ffffff;
-  --warning: #d97706;
-  --warning-foreground: #ffffff;
-  --info: #06b6d4;
-  --info-foreground: #082f49;
-  --border: rgb(203 213 225 / 70%);
+  --warning: #d69e2e;
+  --warning-foreground: #2b1c02;
+  --info: #2563eb;
+  --info-foreground: #ffffff;
+  --border: rgb(203 213 225 / 65%);
   --input: #dbe3ed;
   --ring: #2563eb;
   --chart-1: #2563eb;
-  --chart-2: #06b6d4;
-  --chart-3: #059669;
-  --chart-4: #d97706;
-  --chart-5: #6366f1;
-  --radius: 0.625rem;
+  --chart-2: #558b6e;
+  --chart-3: #6366f1;
+  --chart-4: #d69e2e;
+  --chart-5: #e05252;
+  /* 14px 基准派生：sm 8px（输入/标签）、md 11px（按钮/输入）、lg 14px、xl 20px（卡片/浮层）。 */
+  --radius: 0.875rem;
+  --surface-shadow-soft: 0 16px 40px rgb(30 41 59 / 6%), 0 2px 8px rgb(15 23 42 / 2%);
+  --surface-shadow-active: 0 4px 16px rgb(37 99 235 / 12%);
+  --surface-shadow-overlay: 0 24px 64px rgb(15 23 42 / 12%);
+  --surface-blur-overlay: blur(20px);
   --sidebar: #eaeef5;
   --sidebar-foreground: #0f172a;
   --sidebar-primary: #2563eb;
@@ -116,22 +135,25 @@
   --muted-foreground: #94a3b8;
   --accent: rgb(96 165 250 / 18%);
   --accent-foreground: #bfdbfe;
-  --destructive: #f87171;
-  --destructive-foreground: #450a0a;
-  --success: #34d399;
-  --success-foreground: #022c22;
-  --warning: #fbbf24;
-  --warning-foreground: #451a03;
-  --info: #22d3ee;
-  --info-foreground: #083344;
+  --destructive: #f08a8a;
+  --destructive-foreground: #2a0f0f;
+  --success: #7fb79a;
+  --success-foreground: #06241a;
+  --warning: #e3bd6a;
+  --warning-foreground: #2b1c02;
+  --info: #60a5fa;
+  --info-foreground: #0f172a;
   --border: rgb(148 163 184 / 18%);
   --input: rgb(148 163 184 / 24%);
   --ring: #60a5fa;
   --chart-1: #60a5fa;
-  --chart-2: #22d3ee;
-  --chart-3: #34d399;
-  --chart-4: #fbbf24;
-  --chart-5: #818cf8;
+  --chart-2: #7fb79a;
+  --chart-3: #818cf8;
+  --chart-4: #e3bd6a;
+  --chart-5: #f08a8a;
+  --surface-shadow-soft: 0 16px 40px rgb(0 0 0 / 28%), 0 2px 8px rgb(0 0 0 / 16%);
+  --surface-shadow-active: 0 4px 16px rgb(96 165 250 / 20%);
+  --surface-shadow-overlay: 0 24px 64px rgb(0 0 0 / 44%);
   --sidebar: #111827;
   --sidebar-foreground: #e2e8f0;
   --sidebar-primary: #60a5fa;
@@ -153,6 +175,8 @@
 
   body {
     @apply m-0 bg-background text-foreground antialiased;
-    font-size: 13px;
+    /* 正文基线 14px：工作区承载中等信息密度，高于紧凑后台的 13px，但不取 16px 阅读档。 */
+    font-size: 14px;
+    line-height: 1.5715;
   }
 }

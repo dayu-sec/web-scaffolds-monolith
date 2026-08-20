@@ -1,13 +1,18 @@
 @import url('./iconpark.css');
 
+/*
+ * Shell 顶栏是客户端产品中唯一默认使用玻璃拟态的区域：
+ * 半透明填充 + 背景模糊 + 极细微光边框。内容区与表单保持高不透明度，
+ * 半透明层不得嵌套，避免噪点累积与对比度衰减。
+ */
 :root {
-  --shell-header: rgb(255 255 255 / 88%);
-  --shell-shadow-soft: 0 4px 12px rgb(30 41 59 / 4%);
+  --shell-header: rgb(244 247 252 / 85%);
+  --shell-shadow-soft: var(--surface-shadow-soft);
 }
 
 .dark {
-  --shell-header: rgb(23 32 51 / 90%);
-  --shell-shadow-soft: 0 6px 20px rgb(0 0 0 / 24%);
+  --shell-header: rgb(15 23 42 / 85%);
+  --shell-shadow-soft: var(--surface-shadow-soft);
 }
 
 html,

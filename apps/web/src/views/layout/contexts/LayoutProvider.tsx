@@ -27,7 +27,8 @@ function createDefaultSettings(defaultLayout: ShellLayoutMode, defaultCenterTopM
   return {
     breadcrumbPlacement: 'header',
     centerTopMenu: defaultCenterTopMenu,
-    fixedHeader: false,
+    // 顶栏常驻，内容工作区滚动时保持品牌、导航与主操作可达。
+    fixedHeader: true,
     fixedSidebar: true,
     layout: defaultLayout,
     primaryColor: DEFAULT_PRIMARY_COLOR,

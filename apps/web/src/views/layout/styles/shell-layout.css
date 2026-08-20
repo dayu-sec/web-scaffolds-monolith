@@ -4,13 +4,25 @@
   overflow: hidden;
 }
 
+/*
+ * 背景光晕铺在 Shell 根上，横跨侧栏与内容工作区，形成一块连续画布。
+ * 侧栏与内容区自身不再各自铺底色，只靠 1px 弱边界分隔。
+ */
 .dy-sec-shell {
   display: grid;
   grid-template-rows: var(--dy-sec-shell-header-height) minmax(0, 1fr);
   height: 100%;
   min-height: 0;
   overflow: hidden;
-  background: var(--dy-sec-shell-bg);
+  /*
+   * 光晕强度上限由对比度决定，不由观感决定：侧栏与内容区的正文、次要文字和
+   * 链接都直接压在这层背景上，5% 是实测下 muted-foreground 与 primary 仍能
+   * 保持 WCAG AA 4.5:1 的最大值（实测最低 4.52）。调高会先击穿次要文字。
+   */
+  background:
+    radial-gradient(at 85% 0%, color-mix(in srgb, var(--primary) 5%, transparent), transparent 55%),
+    radial-gradient(at 15% 90%, color-mix(in srgb, var(--chart-3) 5%, transparent), transparent 55%),
+    var(--dy-sec-shell-bg);
   color: var(--foreground);
 }
 
@@ -126,9 +138,22 @@
   justify-content: center;
 }
 
+/*
+ * 顶栏图标按钮的点击框由 Shell 令牌拥有，不依赖社区组件的 icon 尺寸变体。
+ * 客户端产品的可点击区域不低于 36px，这里取 40px 舒适档；图标视觉尺寸单独控制，
+ * 不通过放大 SVG 代替扩大点击框。
+ */
 .dy-sec-shell-action-button,
 .dy-sec-shell-collapse-button {
+  width: var(--dy-sec-shell-action-button-size);
+  height: var(--dy-sec-shell-action-button-size);
   color: var(--dy-sec-shell-action-button-color);
+}
+
+.dy-sec-shell-action-button > svg,
+.dy-sec-shell-collapse-button > svg {
+  width: var(--dy-sec-shell-action-icon-size);
+  height: var(--dy-sec-shell-action-icon-size);
 }
 
 .dy-sec-shell-action-button:hover,
@@ -170,8 +195,8 @@
   overflow: hidden;
   border-radius: var(--dy-sec-shell-menu-item-radius);
   color: var(--dy-sec-shell-menu-item-color);
-  font-size: 12.5px;
-  font-weight: 500;
+  font-size: var(--dy-sec-shell-menu-item-font-size);
+  font-weight: var(--dy-sec-shell-menu-item-font-weight);
 }
 
 .dy-sec-shell-menu__item:hover,
@@ -180,11 +205,12 @@
   color: var(--foreground);
 }
 
+/* 选中项使用实心工作面浮起于画布之上，而不是主色弱底填充。 */
 .dy-sec-shell-menu__item[data-active='true'] {
-  border-color: color-mix(in srgb, var(--primary) 26%, transparent);
-  background: var(--sidebar-accent);
+  border-color: transparent;
+  background: var(--dy-sec-shell-menu-item-selected-surface);
   color: var(--dy-sec-shell-menu-item-selected-color);
-  font-weight: 650;
+  font-weight: var(--dy-sec-shell-menu-item-selected-font-weight);
 }
 
 .dy-sec-shell-menu--inline > .dy-sec-shell-menu__item[data-active='true']::before,
@@ -194,7 +220,8 @@
   inset-inline-start: var(--dy-sec-shell-menu-active-marker-left);
   width: var(--dy-sec-shell-menu-active-marker-width);
   height: var(--dy-sec-shell-menu-active-marker-height);
-  border-radius: 999px;
+  /* 只保留右端圆角，左端与菜单项左缘齐平。 */
+  border-radius: 0 var(--dy-sec-shell-menu-active-marker-radius) var(--dy-sec-shell-menu-active-marker-radius) 0;
   background: var(--dy-sec-shell-menu-active-marker-color);
   content: '';
 }
@@ -296,7 +323,14 @@
   border-bottom: var(--dy-sec-shell-line-width) solid var(--dy-sec-shell-border-color);
   background: var(--dy-sec-shell-surface);
   box-shadow: var(--shell-shadow-soft);
-  backdrop-filter: blur(12px);
+  backdrop-filter: var(--surface-blur-overlay);
+}
+
+/* backdrop-filter 不可用时回退为不透明顶栏，保证层级关系与文字对比度仍然成立。 */
+@supports not (backdrop-filter: blur(1px)) {
+  .dy-sec-shell-header {
+    background: var(--card);
+  }
 }
 
 .dy-sec-shell-header__start,
@@ -376,6 +410,7 @@
   white-space: nowrap;
 }
 
+/* 面包屑与主内容共享同一条对齐线。 */
 .dy-sec-shell-breadcrumb {
   flex: 0 0 auto;
   padding-block-start: var(--dy-sec-shell-breadcrumb-padding-block-start);
@@ -389,11 +424,13 @@
   overflow: auto;
   padding-block: var(--dy-sec-shell-content-padding-block);
   padding-inline: var(--dy-sec-shell-content-padding-inline);
-  background:
-    radial-gradient(circle at 88% 0%, color-mix(in srgb, var(--primary) 8%, transparent), transparent 34%),
-    var(--dy-sec-shell-bg);
+  background: transparent;
 }
 
+/*
+ * 内容工作区占据 Shell 剩余空间，不设最大宽度、不做居中收窄。
+ * 需要限制阅读宽度的长文本由具体页面在自身容器内处理。
+ */
 .dy-sec-shell-content__inner,
 .dy-sec-page-layout__container {
   width: 100%;
@@ -417,9 +454,15 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .dy-sec-shell-content {
+    padding-inline: 24px;
+  }
+}
+
 @media (max-width: 640px) {
   .dy-sec-shell-header {
-    padding-inline: 10px;
+    padding-inline: 16px;
   }
 
   .dy-sec-shell-header__breadcrumb,
@@ -428,6 +471,6 @@
   }
 
   .dy-sec-shell-content {
-    padding: 10px;
+    padding: 24px 16px;
   }
 }
