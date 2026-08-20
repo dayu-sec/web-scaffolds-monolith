@@ -8,8 +8,6 @@ import { restoreLayoutSettings } from '../utils/restore-layout-settings.js';
 const defaultSettings: LayoutSettings = {
   breadcrumbPlacement: 'header',
   centerTopMenu: false,
-  fixedHeader: false,
-  fixedSidebar: true,
   layout: 'mix',
   primaryColor: '#3871dc',
   splitMenus: false,

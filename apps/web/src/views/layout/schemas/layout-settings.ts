@@ -9,7 +9,5 @@ export const layoutSettingsSchema = z.strictObject({
   centerTopMenu: z.boolean(),
   theme: z.enum(SHELL_THEME_MODES),
   primaryColor: z.string().trim().min(1),
-  fixedHeader: z.boolean(),
-  fixedSidebar: z.boolean(),
   splitMenus: z.boolean(),
 });

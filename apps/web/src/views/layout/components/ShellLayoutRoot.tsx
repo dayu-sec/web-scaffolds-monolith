@@ -83,8 +83,6 @@ export default function ShellLayoutRoot({
     layoutMode === 'mix' &&
       (isMixTopMenuCentered ? 'dy-sec-shell--mix-top-menu-centered' : 'dy-sec-shell--mix-top-menu-start'),
     breadcrumbPlacement === 'header' && 'dy-sec-shell--breadcrumb-header',
-    settings.fixedHeader && 'dy-sec-shell--fixed-header',
-    settings.fixedSidebar && hasAside && 'dy-sec-shell--fixed-sidebar',
   ]
     .filter(Boolean)
     .join(' ');
