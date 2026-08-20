@@ -27,8 +27,6 @@ function createDefaultSettings(defaultLayout: ShellLayoutMode, defaultCenterTopM
   return {
     breadcrumbPlacement: 'header',
     centerTopMenu: defaultCenterTopMenu,
-    fixedHeader: false,
-    fixedSidebar: true,
     layout: defaultLayout,
     primaryColor: DEFAULT_PRIMARY_COLOR,
     splitMenus: false,
