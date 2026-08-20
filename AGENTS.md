@@ -37,6 +37,7 @@
 - 实现或评审业务 Service、请求配置、请求初始化、OpenAPI SDK 适配、Vite 开发代理、API 环境变量或本地 Mock 前，必须先阅读 [API 请求迁移基线](docs/api-request-baseline.md)。该文档定义当前项目的请求所有权、迁移历史和验证边界。
 - 请求实例、SDK/OpenAPI、错误与 Query 使用对应的前端请求与数据契约工作流；Mock 使用项目现有 Mock 工作流。不得只依据通用规则或遗留实现推断当前项目的 API 路径、代理、Mock 前缀或请求实例。
 - 浏览器 API 根由 `apps/web/src/constants/api.ts` 的 `API_BASE_PATH` 唯一拥有；业务 Service 只声明 API 根之后的相对路径。本地联调路由只在 `apps/web/proxy.local.jsonc` 中配置，不得为使旧实现或旧测试继续通过而保留独立浏览器基址、业务专属环境变量或第二请求实例。
+- `README.md` 及其他项目文档只描述机制、入口和唯一来源，不罗列具体服务名、端口、context path、网关命名空间等随项目演进漂移的事实。需要这些信息时读取 `apps/web/proxy.local.jsonc.example`、`proxy.schema.json`、`apps/web/src/constants/api.ts` 与业务源码——源码是真相。补充文档时同样遵守这条，不要把探索得到的具体值写回文档。
 
 ## 开发期网关与浏览器诊断
 
