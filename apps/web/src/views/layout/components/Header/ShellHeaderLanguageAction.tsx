@@ -53,7 +53,7 @@ export default function ShellHeaderLanguageAction() {
       >
         <Languages data-icon="inline-start" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" sideOffset={8}>
+      <DropdownMenuContent align="end" className="w-auto min-w-40" sideOffset={8}>
         <DropdownMenuGroup>
           {SUPPORTED_LANGUAGES.map((language) => (
             <DropdownMenuItem
