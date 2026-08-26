@@ -1,5 +1,3 @@
-import path from 'node:path';
-
 import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
@@ -54,12 +52,10 @@ export default defineConfig(({ command, mode }) => {
 
     customLogger: logger,
 
-    // 替换 `import` 或 `require` 语句中值的别名
+    // Vite 8 已原生支持 tsconfig paths，这里以 apps/web/tsconfig.json 为唯一别名来源。
+    // 不要重新引入 vite-tsconfig-paths 或手写 alias；Vite 8 检测到旧插件时会提示改用此选项。
     resolve: {
-      alias: {
-        '@': path.resolve(import.meta.dirname, 'src'),
-        '#': path.resolve(import.meta.dirname, 'mock'),
-      },
+      tsconfigPaths: true,
     },
 
     // 插件列表
