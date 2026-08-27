@@ -21,5 +21,5 @@
     },
     "types": ["node", "vite/client"]
   },
-  "include": ["vite.config.ts", "proxy.ts", "mock/**/*.ts", "test/**/*.ts", "src/types/global.d.ts"]
+  "include": ["vite.config.ts", "proxy.ts", "dev-mock.ts", "mock/**/*.ts", "test/**/*.ts", "src/types/global.d.ts"]
 }

@@ -9,7 +9,8 @@ import pages from 'vite-plugin-pages';
 import ViteRestart from 'vite-plugin-restart';
 
 import { name as appName, version as appVersion } from '../../package.json';
-import { getProxyConfig, LOCAL_PROXY_CONFIG_FILE_NAMES } from './proxy';
+import { MOCK_MODE, resolveMockEnabled } from './dev-mock';
+import { getProxyConfig, loadLocalProxyConfig, LOCAL_PROXY_CONFIG_FILE_NAME } from './proxy';
 import { API_BASE_PATH } from './src/constants/api';
 
 /**
@@ -20,20 +21,41 @@ function highlightProxySummary(message: string): string {
   return message
     .replace(/^\[Vite Proxy\]/mu, (tag) => pc.bold(pc.cyan(tag)))
     .replace(
-      /^(\s+)(\S+)( -> )(\S+)$/gmu,
-      (_line, indent: string, ruleKey: string, arrow: string, target: string) =>
-        `${indent}${pc.green(ruleKey)}${pc.dim(arrow)}${pc.yellow(target)}`
+      /^(\s+)(\S+)( -> )(\S+)(.*)$/gmu,
+      // 末尾可能跟着 proxy.ts 输出的 `[token: ...]` 来源标注，整段以弱化色跟在 target 之后。
+      (_line, indent: string, ruleKey: string, arrow: string, target: string, tokenMark: string) =>
+        `${indent}${pc.green(ruleKey)}${pc.dim(arrow)}${pc.yellow(target)}${tokenMark ? pc.dim(tokenMark) : ''}`
     );
 }
 
 // 配置 Vite
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
-  const port = Number.parseInt(env.DEV_SERVER_PORT || '5173', 10);
+  // `--mode mock` 只表达“开启 Mock”，环境变量仍按开发模式加载；
+  // 否则 `.env.development.local` 里的 DEV_SERVER_PORT / DEV_API_URL / DEV_API_TOKEN 会在 dev:mock 下全部丢失。
+  const envMode = mode === MOCK_MODE ? 'development' : mode;
+  const env = loadEnv(envMode, process.cwd(), '');
+
+  // 本地配置只读取一次，端口、Mock 开关与代理规则共用同一份解析结果。
+  const localConfig = loadLocalProxyConfig();
+  // 端口优先取本地配置；env 是弱化保留的官方兜底，开发者只需要关心 proxy.local.jsonc。
+  const port = localConfig?.['server.port'] ?? Number.parseInt(env.DEV_SERVER_PORT || '5173', 10);
   const base = env.VITE_APP_BASE || '/';
   const logger = createLogger();
   const isDevServer = command === 'serve';
+
+  const isMockEnabled = resolveMockEnabled({ mode, env, localConfig });
+
+  // `vite preview` 的 command 同样是 serve，用 mode 排除，避免预览生产制品时输出 Mock 提示。
+  if (isDevServer && envMode !== 'production') {
+    if (isMockEnabled) {
+      logger.info(
+        pc.bold(pc.yellow('\n[Vite Mock] Mock 服务已启用；未设 enabled: false 的 mock 记录都会拦截匹配请求。\n'))
+      );
+    } else {
+      logger.info(pc.dim('\n[Vite Mock] 未启用；全部请求直连真实 API / 代理。如需 Mock 请运行 pnpm dev:mock。\n'));
+    }
+  }
 
   return {
     /**
@@ -94,20 +116,25 @@ export default defineConfig(({ command, mode }) => {
       pages({
         dirs: [{ dir: 'src/views/pages', baseRoute: '' }],
         // pages 目录只存放文件路由入口，不用排除规则为非路由模块兜底。
-        importMode: mode === 'development' ? 'sync' : 'async',
+        importMode: envMode === 'development' ? 'sync' : 'async',
       }),
 
       /**
        * https://www.npmjs.com/package/vite-plugin-mock-dev-server
-       * 在开发环境里搭一个 mock API 服务器
+       * 只在显式开启 Mock 时装配，避免仓库里遗留的 mock 记录静默拦截其他开发者的真实 API 请求。
+       * 命中日志与响应标识头（`X-Mock-Power-By`、`X-File-Path`）都用插件自带的，业务侧不再包一层。
        */
-      mockDevServerPlugin({
-        prefix: API_BASE_PATH,
-      }),
+      ...(isMockEnabled
+        ? [
+            mockDevServerPlugin({
+              prefix: API_BASE_PATH,
+            }),
+          ]
+        : []),
 
-      // 本地多微服务代理：修改 proxy.local.jsonc / proxy.local.json 后由 vite-plugin-restart 重启开发服务。
+      // 本地多微服务代理：修改 proxy.local.jsonc 后由 vite-plugin-restart 重启开发服务。
       ViteRestart({
-        restart: [...LOCAL_PROXY_CONFIG_FILE_NAMES],
+        restart: [LOCAL_PROXY_CONFIG_FILE_NAME],
       }),
     ],
 
@@ -154,6 +181,7 @@ export default defineConfig(({ command, mode }) => {
       port,
       proxy: isDevServer
         ? getProxyConfig(env, {
+            localConfig,
             logger: (message) => {
               logger.info(highlightProxySummary(message));
             },

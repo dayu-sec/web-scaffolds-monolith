@@ -657,7 +657,6 @@ dist.zip
 *.local/
 .env*.local
 *.local.*
-!.env.development.local.example
 !apps/web/proxy.local.jsonc.example
 
 # tmp

@@ -1,13 +1,35 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "LocalProxyConfig",
-  "description": "Vite 8 多服务本地开发代理配置",
+  "description": "Vite 8 本地开发配置：开发服务端口、Mock 开关、共享 Token 与多服务代理",
   "type": "object",
   "additionalProperties": false,
   "properties": {
     "$schema": {
       "type": "string",
       "description": "当前配置使用的 JSON Schema 相对路径"
+    },
+    "mock": {
+      "type": "object",
+      "description": "本地 Mock 服务配置；仅在本地生效，不影响其他开发者",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否在当前本地开发服务中启用 Mock 拦截"
+        }
+      }
+    },
+    "server.port": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 65535,
+      "description": "本地开发服务端口；缺省时回退 DEV_SERVER_PORT，再回退 5173"
+    },
+    "server.proxy.token": {
+      "type": "string",
+      "description": "共享 Bearer Token，默认发给全部代理规则；缺省时回退 DEV_API_TOKEN，空字符串表示全部规则都不发送"
     },
     "server.proxy.api": {
       "type": "object",
@@ -38,6 +60,10 @@
             "default": false,
             "description": "是否启用 WebSocket 代理"
           },
+          "token": {
+            "type": "string",
+            "description": "覆盖 server.proxy.token；声明即终结，空字符串表示该规则不发送 Authorization"
+          },
           "rewrite": {
             "type": "object",
             "additionalProperties": false,
@@ -58,7 +84,9 @@
           "headers": {
             "type": "object",
             "description": "只发送给当前本地服务的自定义请求头",
-            "additionalProperties": { "type": "string" }
+            "additionalProperties": {
+              "type": "string"
+            }
           }
         }
       }

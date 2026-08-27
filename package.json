@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "pnpm --filter @workspace/web dev",
+    "dev:mock": "pnpm --filter @workspace/web dev:mock",
     "build": "pnpm --filter @workspace/web build",
     "preview": "pnpm --filter @workspace/web preview",
     "lint": "eslint --cache .",
