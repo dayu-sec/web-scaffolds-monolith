@@ -26,11 +26,14 @@ npm login --registry https://npm.cnb.cool/dy-sec/npm/-/packages/
 
 ## 开发服务配置
 
-根据应用内的环境变量示例创建本地配置：
+本地开发只需要一份配置。基于模板创建 Git 忽略的 `apps/web/proxy.local.jsonc`，
+按 `apps/web/proxy.schema.json` 声明开发端口、Mock 开关、共享 Token 和多服务代理：
 
 ```bash
-cp apps/web/.env.development.local.example apps/web/.env.development.local
+cp apps/web/proxy.local.jsonc.example apps/web/proxy.local.jsonc
 ```
+
+配置文件改动后 Vite 自动重启；字段名或类型写错会直接报错终止启动，不会静默回落到默认值。
 
 ## 开发环境
 
@@ -46,8 +49,11 @@ cp apps/web/.env.development.local.example apps/web/.env.development.local
 # 项目初始时，或在变更依赖项后，执行安装依赖
 pnpm install
 
-# 启动唯一 Web 应用
+# 启动唯一 Web 应用（默认直连真实 API / 本地代理，不加载 Mock）
 pnpm dev
+
+# 需要本地 Mock 时显式启动；单个端点用自己 defineMock 记录的 enabled 控制
+pnpm dev:mock
 
 # 类型、测试与生产构建
 pnpm check

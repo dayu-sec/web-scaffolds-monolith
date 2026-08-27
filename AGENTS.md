@@ -14,7 +14,7 @@
 - Node.js `>=22.12.0`，包管理器 `pnpm@11.13.0`。
 - 构建使用 Vite 8.1、React 19.2、TypeScript 6 严格模式；UI 基础层使用 Tailwind CSS 4、shadcn/ui `base-nova`、Base UI 与 Lucide。
 - 表单默认使用 React Hook Form、Zod 与 `@hookform/resolvers`；shadcn `Field` 负责字段结构、错误状态和可访问性。
-- `pnpm dev` 启动开发服务；`pnpm preview` 预览生产制品。
+- `pnpm dev` 启动开发服务，默认不加载 Mock；`pnpm dev:mock` 显式开启 Mock 服务；`pnpm preview` 预览生产制品。
 - `pnpm check` 运行 TypeScript 检查；`pnpm lint`、`pnpm format-check`、`pnpm test` 运行代码规范、格式和测试。
 - `pnpm build` 从根目录构建唯一应用并输出到根 `dist/`。
 - 应用路径别名：`@/* -> apps/web/src/*`、`#/* -> apps/web/mock/*`；UI 公共入口为 `@workspace/ui/*`。
@@ -39,8 +39,10 @@
 
 ## 开发期网关与浏览器诊断
 
-- 当前脚手架的应用从 `apps/web` 运行。本地开发 1~N 个服务时，基于 `apps/web/proxy.local.jsonc.example` 创建 Git 忽略的 `apps/web/proxy.local.jsonc`，并按 `proxy.schema.json` 的 `"server.proxy.api"` 契约配置路径 key、target 和按需 rewrite；源码兼容读取低优先级的 `proxy.local.json`，但它不是开发者主配置入口。
-- `DEV_API_URL` 与可选的 `DEV_API_TOKEN` 是仅供 Vite 进程读取的内部网关配置，不进入浏览器 `import.meta.env`。不得把真实地址、Token 或证书写入源码、示例环境文件、项目文档或提交物。
+- 当前脚手架的应用从 `apps/web` 运行。本地开发 1~N 个服务时，基于 `apps/web/proxy.local.jsonc.example` 创建 Git 忽略的 `apps/web/proxy.local.jsonc`，它是开发者唯一的本地配置入口，也是源码唯一读取的文件，按 `proxy.schema.json` 声明 `"server.port"`、`"mock"`、`"server.proxy.token"` 和 `"server.proxy.api"`；格式固定为 JSONC，允许注释和尾随逗号。文件名的 `proxy.` 前缀是历史沿革，不限定它只配置代理。
+- 本地配置只解析不校验：配置项由 `proxy.schema.json` 在编辑期约束，取值错误由下游自行抛出，解析层不做兼容也不兜底。新增字段同时更新 `proxy.ts` 的类型、`proxy.schema.json` 与示例文件。
+- `"server.proxy.token"` 是共享 Bearer Token，默认发给全部代理规则；优先级为规则 `headers.Authorization` > 规则 `token` > 共享 Token > `DEV_API_TOKEN`，声明即终结，空白值表示显式关闭。启动摘要只标注 Authorization 来源，不输出 Token 值。
+- `.env.development.local` 是弱化保留的官方兜底，日常开发不需要创建；`DEV_SERVER_PORT`、`DEV_API_URL`、`DEV_API_TOKEN`、`DEV_MOCK` 仅供 Vite 进程读取。取值类以本地配置文件为准，开关类的 Mock 是「或」语义——三个开关任一为开即开启。影响构建产物或进入浏览器的变量（如 `VITE_APP_BASE`）留在 `VITE_*` 机制。不得把真实地址、Token 或证书写入源码、示例文件、项目文档或提交物。
 - 开发代理由 `apps/web/proxy.ts` 的 `getProxyConfig()` 统一管理：本地规则按路径 key 长度从长到短装配；没有本地 API 根规则时，才追加由 `${API_BASE_PATH}/` 派生的网关规则。大多数服务完整透传请求路径，只有目标服务不接收完整路径时才配置正则 rewrite。
 - 本地代理文件变化后 Vite 自动重启。启动日志按实际匹配顺序列出全部 API 代理的路径 key 与脱敏 target origin，不区分本地、线上或兜底用途；没有任何代理规则时提示未配置 API 网关。
 - 使用浏览器诊断时，若当前环境已登记独立 DevTools MCP，则以其自身配置决定可用浏览器、通道和连接方式。先确认目标页面，再检查 API 响应状态、内容类型、响应体及 `X-Dev-Proxy-Target`、`X-Dev-Proxy-Rule`；不得在交付内容、日志摘要或文档中泄露认证头、Token、Cookie 或其他会话数据。
