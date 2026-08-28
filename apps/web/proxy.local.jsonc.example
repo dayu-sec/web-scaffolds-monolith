@@ -16,14 +16,15 @@
   // "server.proxy.token": "",
 
   "server.proxy.api": {
-    "/dysec/api/example-service": {
-      "target": "http://127.0.0.1:8080"
-    }
+    // 默认通过网关代理全部 API；替换为实际网关地址。
+    "/dysec/api": {
+      "target": "http://127.0.0.1:9090"
+    },
 
-    // 本机裸服务不需要鉴权时，用空字符串退出共享 Token 的继承：
-    // "/dysec/api/another-service": {
-    //   "target": "http://127.0.0.1:8081",
-    //   "token": ""
+    // 按需启用本机微服务：取消注释并替换为实际服务名与端口。
+    // 更具体的路径优先于上面的网关规则；其余 API 仍通过网关代理。
+    // "/dysec/api/example-service": {
+    //   "target": "http://127.0.0.1:8080"
     // }
   }
 }
