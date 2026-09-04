@@ -1,12 +1,30 @@
 /* global process */
 // @ts-check
-import { readFileSync } from 'node:fs';
-
+import { execFileSync } from 'node:child_process';
+import { existsSync, readFileSync } from 'node:fs';
 import pico from 'picocolors';
 
-const msgPath = process.argv[2];
+/**
+ * 兜底解析提交信息文件：Hook 未传路径时问 git 要。
+ *
+ * 不用 `.git/COMMIT_EDITMSG` 拼路径，linked worktree 和子模块里 `.git` 是文件而非目录，
+ * cwd 也不保证在仓库根。`git rev-parse --git-path` 这几种情况都能给出正确位置。
+ */
+function resolveDefaultMessagePath() {
+  try {
+    return execFileSync('git', ['rev-parse', '--git-path', 'COMMIT_EDITMSG'], {
+      encoding: 'utf-8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+  } catch {
+    return '';
+  }
+}
 
-if (!msgPath) {
+// 优先使用 Hook 传入的文件路径，缺失时兜底到 git 给出的 COMMIT_EDITMSG。
+const msgPath = process.argv[2] || resolveDefaultMessagePath();
+
+if (!existsSync(msgPath)) {
   console.error('缺少 commit-msg Hook 提供的提交信息文件路径。');
   process.exit(1);
 }

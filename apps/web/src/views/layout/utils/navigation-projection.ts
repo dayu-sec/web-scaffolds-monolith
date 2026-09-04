@@ -1,5 +1,4 @@
 import type { NavigationItem, NavigationMatch, NavigationSourceStatus } from '@/types/navigation';
-
 import type { ShellLayoutMode, ShellNavigationProjection } from '../types/layout';
 
 /**

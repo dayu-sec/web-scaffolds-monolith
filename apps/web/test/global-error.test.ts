@@ -1,8 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-
 import { normalizeError } from '@dayu-sec/bizlib-request';
-
 import { setupGlobalErrorMonitor } from '../src/configs/global-error.ts';
 
 // `configs/request.ts` 读取 Vite `define` 注入的 __APP_NAME__；node:test 直接运行时没有这个

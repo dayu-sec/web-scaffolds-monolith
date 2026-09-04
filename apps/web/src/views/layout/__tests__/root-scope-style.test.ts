@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import { createShellRootScopeCssText, getShellRootScopeSelector } from '../utils/root-scope-style.js';
 
 void describe('rootScopeStyle', () => {

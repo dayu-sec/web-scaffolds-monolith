@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import { MenuConfigError } from '../src/services/menu/error';
 import { fetchMenuConfigFrom } from '../src/services/menu/fetch';
 

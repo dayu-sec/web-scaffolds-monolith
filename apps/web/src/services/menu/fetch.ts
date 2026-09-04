@@ -1,5 +1,4 @@
 import { ZodError } from 'zod';
-
 import { MenuConfigError } from './error';
 import { type MenuConfig, parseMenuConfig } from './schema';
 import { withRuntimeConfigVersion } from './version';

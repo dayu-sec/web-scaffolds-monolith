@@ -1,5 +1,4 @@
 import type { EventChannel } from '@seed-fe/event-channel';
-
 import type { LanguagePreference } from '@/locales/languages';
 import type { Open } from '@/utils/route';
 

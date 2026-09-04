@@ -1,5 +1,4 @@
 import type { TFunction } from 'i18next';
-
 import type { MenuConfig, MenuNode } from '@/services/menu/schema';
 
 /** 递归翻译菜单标题，缺失翻译时保留运行时 JSON 中的 title。 */

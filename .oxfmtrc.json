@@ -15,15 +15,7 @@
   "singleAttributePerLine": false,
   "singleQuote": true,
   "sortImports": {
-    "groups": [
-      ["side_effect_style", "side_effect"],
-      "builtin",
-      "external",
-      ["internal", "subpath"],
-      ["parent", "sibling", "index"],
-      "style",
-      "unknown"
-    ]
+    "newlinesBetween": false
   },
   "sortPackageJson": true,
   "sortTailwindcss": {

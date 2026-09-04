@@ -4,9 +4,7 @@ import { createServer as createHttpServer } from 'node:http';
 import os from 'node:os';
 import path from 'node:path';
 import { describe, it } from 'node:test';
-
 import { createServer as createViteServer } from 'vite';
-
 import { getProxyConfig, loadLocalProxyConfig, LOCAL_PROXY_CONFIG_FILE_NAME, parseJsoncContent } from '../proxy';
 import { API_BASE_PATH } from '../src/constants/api';
 
