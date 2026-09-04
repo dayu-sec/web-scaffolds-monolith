@@ -1,5 +1,4 @@
 import { type CustomRequestConfig, normalizeError } from '@dayu-sec/bizlib-request';
-
 import { handleAuthOrPermissionError } from '@/auth/handle-auth-error';
 import { API_BASE_PATH } from '@/constants/api';
 

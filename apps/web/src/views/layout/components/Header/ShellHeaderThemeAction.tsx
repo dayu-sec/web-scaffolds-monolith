@@ -1,7 +1,6 @@
 import { Button } from '@workspace/ui/components/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/components/tooltip';
 import { Moon, Sun } from 'lucide-react';
-
 import { useLayoutSettings } from '../../hooks/useLayoutSettings';
 
 /** 渲染主应用浅色/深色主题切换入口，并复用布局设置的本地持久化。 */

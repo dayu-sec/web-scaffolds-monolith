@@ -7,7 +7,6 @@ import {
 } from '@workspace/ui/components/breadcrumb';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import { Fragment } from 'react';
-
 import type { BreadcrumbTrail, NavigationSourceStatus } from '@/types/navigation';
 
 interface ShellBreadcrumbProps {

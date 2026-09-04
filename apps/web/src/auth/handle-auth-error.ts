@@ -1,5 +1,4 @@
 import { SHELL_AUTH_ERROR_EVENT, type ShellAuthErrorDetail } from '@/types/shell';
-
 import { getAccessRecoveryUrl, isAccessRecoveryPath } from './routes';
 
 type ErrorRecord = Record<string, unknown>;

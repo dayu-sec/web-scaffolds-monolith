@@ -1,5 +1,4 @@
 import logger from '@seed-fe/logger';
-
 import { menuIconMap, type MenuIconName } from '@/services/navigation/icons';
 
 interface ShellMenuIconProps {

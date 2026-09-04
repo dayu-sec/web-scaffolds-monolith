@@ -1,5 +1,4 @@
 import type { NavigationItem, NavigationMatch, NavigationSourceStatus } from '@/types/navigation';
-
 import ShellNavigationMenu from '../Menu/ShellNavigationMenu';
 import ShellAsideMenuState from './ShellAsideMenuState';
 

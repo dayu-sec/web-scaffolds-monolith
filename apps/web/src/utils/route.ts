@@ -1,9 +1,7 @@
 import logger from '@seed-fe/logger';
 import { isUndefined } from 'lodash-es';
 import qs from 'qs';
-
 import type { URLDescriptor } from '@/types/route';
-
 import { isExternalUrl } from './url';
 
 export function stringifyUrl(urlDescriptor: URLDescriptor): string {

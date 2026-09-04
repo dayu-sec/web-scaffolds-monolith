@@ -4,7 +4,6 @@ import { toast } from '@workspace/ui/components/toast';
 import { CircleAlert, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
-
 import {
   type ExceptionFeedbackView,
   shouldClearContentAlert,

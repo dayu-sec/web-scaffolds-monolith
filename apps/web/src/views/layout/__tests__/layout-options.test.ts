@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import { shouldShowHeaderAsideCollapseButton } from '../utils/header-aside-collapse.js';
 import { isShellLayoutMode } from '../utils/layout-mode.js';
 import { getShellTopNavigationPlacement } from '../utils/navigation-placement.js';

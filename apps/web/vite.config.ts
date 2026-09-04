@@ -1,5 +1,4 @@
 import path from 'node:path';
-
 import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
@@ -9,7 +8,6 @@ import { createLogger, defineConfig, loadEnv } from 'vite';
 import { mockDevServerPlugin } from 'vite-plugin-mock-dev-server';
 import pages from 'vite-plugin-pages';
 import ViteRestart from 'vite-plugin-restart';
-
 import { name as appName, version as appVersion } from '../../package.json';
 import { MOCK_MODE, resolveMockEnabled } from './dev-mock';
 import { getProxyConfig, loadLocalProxyConfig, LOCAL_PROXY_CONFIG_FILE_NAME } from './proxy';

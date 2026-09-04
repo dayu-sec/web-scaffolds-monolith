@@ -1,8 +1,6 @@
 import { lpad } from '@seed-fe/slashify';
-
 import type { MenuNode, MenuSelectRule } from '@/services/menu/schema';
 import type { NavigationItem, NavigationSourceResult } from '@/types/navigation';
-
 import { normalizeLucideIconName } from './icons';
 
 function normalizeSelectRule(selectRule: MenuSelectRule | undefined): Pick<NavigationItem, 'path' | 'href' | 'target'> {

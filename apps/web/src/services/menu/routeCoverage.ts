@@ -1,5 +1,4 @@
 import { matchRoutes, type RouteMatch, type RouteObject } from 'react-router';
-
 import { MenuConfigError } from './error';
 import type { MenuConfig } from './schema';
 

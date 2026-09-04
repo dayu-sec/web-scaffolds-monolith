@@ -48,7 +48,7 @@ Kimi Code 原生扫描 `.agents/skills/`，技能侧无缺口。
 .claude/skills -> ../.agents/skills
 ```
 
-`.agents/skills/` 由安装脚本创建。尚未安装 Skill 时该链接处于悬空状态，属正常现象，安装后自动生效，无需重建。检查是否已生效用 `[ -e .claude/skills ]`，不要用 `ls .claude/skills`——后者对悬空链接会打印链接名并返回 0，看不出问题。
+`.agents/skills/` 由安装脚本创建。尚未安装 Skill 时该链接处于悬空状态，属正常现象，安装后自动生效，无需重建。检查是否已生效用 `[ -e .claude/skills ]`，不要用 `ls .claude/skills`，后者对悬空链接会打印链接名并返回 0，看不出问题。
 
 Windows 用户若未启用 `core.symlinks`，该链接会检出为普通文本文件；此时按 `CLAUDE.md` 的说明直接读取 `.agents/skills/`。启用方式：
 

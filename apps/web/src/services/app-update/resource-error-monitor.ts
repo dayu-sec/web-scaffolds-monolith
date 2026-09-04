@@ -1,5 +1,4 @@
 import logger from '@seed-fe/logger';
-
 import { scheduleResourceRefresh } from './refresh-controller';
 
 let cleanupResourceMonitor: (() => void) | null = null;

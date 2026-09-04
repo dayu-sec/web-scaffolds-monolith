@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-
 import ShellLogo from './ShellLogo';
 import ShellTitle from './ShellTitle';
 

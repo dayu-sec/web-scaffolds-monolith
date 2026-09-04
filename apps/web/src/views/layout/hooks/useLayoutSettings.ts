@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-
 import { LayoutContext } from '../contexts/layout-context';
 import type { LayoutContextValue } from '../types/layout';
 

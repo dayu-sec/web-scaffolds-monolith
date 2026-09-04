@@ -1,5 +1,4 @@
 import { useRouteError } from 'react-router';
-
 import { ShellFallback } from '@/views/layout';
 
 /** 将未知路由渲染异常收敛到通用失败，不从未知错误对象猜业务文案。 */

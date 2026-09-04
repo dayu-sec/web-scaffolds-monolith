@@ -1,7 +1,5 @@
 import { matchPath, type RouteObject } from 'react-router';
-
 import type { BreadcrumbEntry, NavigationItem, NavigationMatch } from '@/types/navigation';
-
 import { resolveMenuRoutePattern } from '../menu/routeCoverage';
 
 interface CandidateMatch {
