@@ -9,39 +9,31 @@
   },
 
   // https://code.visualstudio.com/docs/editing/refactoring#_code-actions-on-save
-  // https://biomejs.dev/reference/vscode/
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "source.fixAll.eslint": "explicit",
+    // 先跑 oxfmt，再套用 oxlint 的自动修复
+    "source.format.oxc": "always",
+    "source.fixAll.oxc": "always",
+    // 导入排序由 oxfmt 的 sortImports 负责，不交给编辑器的整理动作
     "source.organizeImports": "never",
-    "source.sortImports": "never",
-    "source.removeUnused": "explicit"
+    "source.sortImports": "never"
   },
-  // Prettier as default formatter
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // oxc（oxlint + oxfmt）作为默认格式化器
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   // Format on paste
   "editor.formatOnPaste": true,
-  // Format on save
-  "editor.formatOnSave": true,
+  // 保存时的格式化交给上面的 source.format.oxc，避免与 lint fix 争抢顺序
+  "editor.formatOnSave": false,
+  // 让 oxfmt 格式化整个文件，而不是仅改动行
+  "editor.formatOnSaveMode": "file",
 
-  "eslint.enable": true,
-  // ESLint CLI only search `eslint.config.js`, not support `.eslintrc.*`
-  "eslint.useFlatConfig": true,
-  // Enable eslint for all supported languages
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "vue",
-    "html",
-    "markdown",
-    "json",
-    "jsonc",
-    "yaml"
-  ],
+  // .oxlintrc.json 允许写注释，按 JSONC 解析
+  "files.associations": {
+    ".oxlintrc.json": "jsonc"
+  },
 
-  "prettier.enable": true,
+  // 其余 oxc.* 保持默认：自动发现 node_modules 下的 oxlint / oxfmt / tsgolint，
+  // 类型感知开关读取 .oxlintrc.json 的 options.typeAware
+  "oxc.enable": true,
 
   // https://mise.jdx.dev/ide-integration.html#vscode
   "terminal.integrated.automationProfile.osx": {
@@ -68,6 +60,8 @@
     "Cascader",
     "clsx",
     "lokalise",
+    "oxfmt",
+    "oxlint",
     "Popconfirm",
     "reduxjs",
     "sider",
@@ -75,9 +69,7 @@
     "vitepress",
     "vite",
     "taze",
+    "tsgolint",
     "zustand"
-  ],
-  "[toml]": {
-    "editor.defaultFormatter": "Shellomo.enhanced-toml"
-  },
+  ]
 }

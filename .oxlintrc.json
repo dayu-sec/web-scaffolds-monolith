@@ -1,0 +1,70 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "oxc", "unicorn", "react", "import", "promise"],
+  "options": {
+    // 类型感知规则由 oxlint-tsgolint 提供，按各文件自动发现的 tsconfig 求解类型。
+    "typeAware": true
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2024": true
+  },
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "warn"
+  },
+  "ignorePatterns": ["dist/**", "coverage/**", "**/*.d.ts"],
+  "rules": {
+    "typescript/consistent-type-definitions": ["error", "interface"],
+
+    // 新 JSX 运行时：tsconfig 已声明 "jsx": "react-jsx"，无需 React 在作用域内。
+    "react/react-in-jsx-scope": "off",
+    // 依赖数组中的重试触发量不在 effect 体内读取，是刻意写法。
+    "react/exhaustive-effect-dependencies": "off",
+
+    // 断言只用于 JSONC 解析、类型守卫和 CSS 变量透传，均已在运行时收窄。
+    "typescript/no-unsafe-type-assertion": "off",
+    // effect 的清理函数与提前 return 天然不一致。
+    "typescript/consistent-return": "off",
+
+    // 副作用样式导入（globals.css、*.module.css）是约定写法。
+    "import/no-unassigned-import": "off",
+    // CJS/ESM 互操作的默认导出会被误判为同名具名导出。
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off",
+
+    // 事件处理器需要留在外层作用域，才能在清理时按同一引用解绑。
+    "unicorn/consistent-function-scoping": "off",
+    // toSorted 需要 ES2023 lib，应用侧 lib 为 ES2022；被排序的都是新建数组。
+    "unicorn/no-array-sort": "off"
+  },
+  "overrides": [
+    {
+      // shadcn/ui 社区物料按只读引入：不改源码、不补兼容 Props。
+      "files": ["packages/ui/src/components/**/*.tsx", "packages/ui/src/hooks/**/*.ts"],
+      "rules": {
+        "no-shadow": "off",
+        "no-underscore-dangle": "off",
+        "no-unused-expressions": "off",
+        "typescript/consistent-type-definitions": "off",
+        "react/jsx-no-constructed-context-values": "off",
+        "react/no-array-index-key": "off",
+        "react/no-object-type-as-default-prop": "off",
+        "react/no-unstable-nested-components": "off",
+        "react/set-state-in-effect": "off"
+      }
+    },
+    {
+      // 提交钩子脚本是无类型的 Node 脚本，交给 pnpm check 之外的运行时约束。
+      "files": ["scripts/**/*.js"],
+      "rules": {
+        "typescript/no-unsafe-argument": "off",
+        "typescript/no-unsafe-assignment": "off",
+        "typescript/no-unsafe-call": "off",
+        "typescript/no-unsafe-member-access": "off"
+      }
+    }
+  ]
+}

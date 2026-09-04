@@ -59,7 +59,7 @@ export default function ExceptionAlert() {
   if (!visible) return null;
 
   return (
-    <Alert className="mb-4 border-destructive/40 border-l-4 border-l-destructive bg-destructive/5 dark:bg-destructive/10">
+    <Alert className="mb-4 border-l-4 border-destructive/40 border-l-destructive bg-destructive/5 dark:bg-destructive/10">
       <CircleAlert aria-hidden="true" className="!text-destructive" />
       <AlertTitle className="font-medium text-foreground">{EXCEPTION_TITLE}</AlertTitle>
       <AlertDescription className="text-[12px] text-muted-foreground">{EXCEPTION_DESCRIPTION}</AlertDescription>

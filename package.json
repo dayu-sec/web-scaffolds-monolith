@@ -1,20 +1,17 @@
 {
   "name": "web-project",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.13.0",
-  "engines": {
-    "node": ">=22.12.0"
-  },
   "scripts": {
     "dev": "pnpm --filter @workspace/web dev",
     "dev:mock": "pnpm --filter @workspace/web dev:mock",
     "build": "pnpm --filter @workspace/web build",
     "preview": "pnpm --filter @workspace/web preview",
-    "lint": "eslint --cache .",
-    "format": "prettier --write --cache .",
-    "format-check": "prettier --check --cache .",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format-check": "oxfmt --check",
     "check": "pnpm --filter @workspace/ui check && pnpm --filter @workspace/web check",
     "test": "pnpm --filter @workspace/web test",
     "deps-check": "ncu --workspaces",
@@ -24,20 +21,15 @@
     "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
-    "@eslint/js": "10.0.1",
-    "eslint": "10.7.0",
-    "eslint-plugin-react-hooks": "7.1.1",
-    "eslint-plugin-react-refresh": "0.5.3",
-    "eslint-plugin-simple-import-sort": "13.0.0",
-    "globals": "17.7.0",
     "lint-staged": "17.0.8",
     "npm-check-updates": "22.2.9",
+    "oxfmt": "0.66.0",
+    "oxlint": "1.81.0",
+    "oxlint-tsgolint": "7.0.2001",
     "picocolors": "1.1.1",
-    "prettier": "3.9.5",
     "shadcn": "4.17.0",
     "simple-git-hooks": "2.13.1",
-    "typescript": "6.0.3",
-    "typescript-eslint": "8.64.0"
+    "typescript": "6.0.3"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",
@@ -45,11 +37,12 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix --no-warn-ignored",
-      "prettier --write --cache"
+      "oxlint --fix --no-error-on-unmatched-pattern",
+      "oxfmt"
     ],
-    "*.{json,md,yml,yaml,css,html}": [
-      "prettier --write --cache"
+    "*.{json,jsonc,md,yml,yaml,css,html}": [
+      "oxfmt"
     ]
-  }
+  },
+  "packageManager": "pnpm@11.25.0"
 }

@@ -1,5 +1,11 @@
 export type ShellFallbackKind =
-  'loading' | 'missing-menu' | 'not-found' | 'route-error' | 'auth-expired' | 'permission-denied' | 'resource-recovery';
+  | 'loading'
+  | 'missing-menu'
+  | 'not-found'
+  | 'route-error'
+  | 'auth-expired'
+  | 'permission-denied'
+  | 'resource-recovery';
 
 export interface ShellFallbackState {
   /** 主应用降级态类别。 */
@@ -12,7 +18,12 @@ export interface ShellFallbackState {
 }
 
 export type ShellRecoveryTrigger =
-  'menu-config' | 'auth' | 'permission' | 'route-render' | 'static-resource' | 'unknown-route';
+  | 'menu-config'
+  | 'auth'
+  | 'permission'
+  | 'route-render'
+  | 'static-resource'
+  | 'unknown-route';
 
 export interface ShellRecoveryState {
   trigger: ShellRecoveryTrigger;

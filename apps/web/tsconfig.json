@@ -1,10 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "ignoreDeprecations": "6.0",
     "paths": {
-      "@/*": ["src/*"],
-      "#/*": ["mock/*"],
+      "@/*": ["./src/*"],
+      "#/*": ["./mock/*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"]
     }
   },

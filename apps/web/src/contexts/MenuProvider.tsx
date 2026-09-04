@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useMemo } from 'react';
 
 import type { MenuConfig } from '@/services/menu/schema';
 
@@ -12,5 +12,10 @@ export interface MenuProviderProps {
 
 /** 保留源主应用“翻译菜单通过 Context 更新、Router 不重建”的数据流。 */
 export function MenuProvider({ children, originalMenuConfig, translatedMenuConfig }: MenuProviderProps) {
-  return <MenuContext.Provider value={{ originalMenuConfig, translatedMenuConfig }}>{children}</MenuContext.Provider>;
+  const value = useMemo(
+    () => ({ originalMenuConfig, translatedMenuConfig }),
+    [originalMenuConfig, translatedMenuConfig]
+  );
+
+  return <MenuContext.Provider value={value}>{children}</MenuContext.Provider>;
 }

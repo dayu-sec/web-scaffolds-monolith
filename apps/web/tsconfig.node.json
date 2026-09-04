@@ -5,7 +5,6 @@
     "lib": ["ES2023", "DOM"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "ignoreDeprecations": "6.0",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
@@ -14,10 +13,9 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "#/*": ["mock/*"]
+      "@/*": ["./src/*"],
+      "#/*": ["./mock/*"]
     },
     "types": ["node", "vite/client"]
   },

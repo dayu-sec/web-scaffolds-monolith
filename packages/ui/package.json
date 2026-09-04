@@ -1,16 +1,16 @@
 {
   "name": "@workspace/ui",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
-  "scripts": {
-    "check": "tsc --incremental --noEmit"
-  },
   "exports": {
     "./globals.css": "./src/styles/globals.css",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts",
     "./lib/*": "./src/lib/*.ts"
+  },
+  "scripts": {
+    "check": "tsc --incremental --noEmit"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",
