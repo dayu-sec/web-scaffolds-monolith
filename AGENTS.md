@@ -40,14 +40,14 @@
 - 实现或评审业务 Service、请求配置、请求初始化、OpenAPI SDK 适配、Vite 开发代理、API 环境变量或本地 Mock 前，必须先阅读 [API 请求迁移基线](docs/api-request-baseline.md)。该文档定义当前项目的请求所有权、迁移历史和验证边界。
 - 请求实例、SDK/OpenAPI、错误与 Query 使用对应的前端请求与数据契约工作流；Mock 使用项目现有 Mock 工作流。不得只依据通用规则或遗留实现推断当前项目的 API 路径、代理、Mock 前缀或请求实例。
 - 浏览器 API 根由 `apps/web/src/constants/api.ts` 的 `API_BASE_PATH` 唯一拥有；业务 Service 只声明 API 根之后的相对路径。本地联调路由只在 `apps/web/proxy.local.jsonc` 中配置，不得为使旧实现或旧测试继续通过而保留独立浏览器基址、业务专属环境变量或第二请求实例。
-- `README.md` 及其他项目文档只描述机制、入口和唯一来源，不罗列具体服务名、端口、context path、网关命名空间等随项目演进漂移的事实。需要这些信息时读取 `apps/web/proxy.local.jsonc.example`、`proxy.schema.json`、`apps/web/src/constants/api.ts` 与业务源码——源码是真相。补充文档时同样遵守这条，不要把探索得到的具体值写回文档。
+- `README.md` 及其他项目文档只描述机制、入口和唯一来源，不罗列具体服务名、端口、context path、网关命名空间等随项目演进漂移的事实。需要这些信息时读取 `apps/web/proxy.local.jsonc.example`、`proxy.schema.json`、`apps/web/src/constants/api.ts` 与业务源码，源码是真相。补充文档时同样遵守这条，不要把探索得到的具体值写回文档。
 
 ## 开发期网关与浏览器诊断
 
 - 当前脚手架的应用从 `apps/web` 运行。本地开发 1~N 个服务时，基于 `apps/web/proxy.local.jsonc.example` 创建 Git 忽略的 `apps/web/proxy.local.jsonc`，它是开发者唯一的本地配置入口，也是源码唯一读取的文件，按 `proxy.schema.json` 声明 `"server.port"`、`"mock"`、`"server.proxy.token"` 和 `"server.proxy.api"`；格式固定为 JSONC，允许注释和尾随逗号。文件名的 `proxy.` 前缀是历史沿革，不限定它只配置代理。
 - 本地配置只解析不校验：配置项由 `proxy.schema.json` 在编辑期约束，取值错误由下游自行抛出，解析层不做兼容也不兜底。新增字段同时更新 `proxy.ts` 的类型、`proxy.schema.json` 与示例文件。
 - `"server.proxy.token"` 是共享 Bearer Token，默认发给全部代理规则；优先级为规则 `headers.Authorization` > 规则 `token` > 共享 Token > `DEV_API_TOKEN`，声明即终结，空白值表示显式关闭。启动摘要只标注 Authorization 来源，不输出 Token 值。
-- `.env.development.local` 是弱化保留的官方兜底，日常开发不需要创建；`DEV_SERVER_PORT`、`DEV_API_URL`、`DEV_API_TOKEN`、`DEV_MOCK` 仅供 Vite 进程读取。取值类以本地配置文件为准，开关类的 Mock 是「或」语义——三个开关任一为开即开启。影响构建产物或进入浏览器的变量（如 `VITE_APP_BASE`）留在 `VITE_*` 机制。不得把真实地址、Token 或证书写入源码、示例文件、项目文档或提交物。
+- `.env.development.local` 是弱化保留的官方兜底，日常开发不需要创建；`DEV_SERVER_PORT`、`DEV_API_URL`、`DEV_API_TOKEN`、`DEV_MOCK` 仅供 Vite 进程读取。取值类以本地配置文件为准，开关类的 Mock 是「或」语义，三个开关任一为开即开启。影响构建产物或进入浏览器的变量（如 `VITE_APP_BASE`）留在 `VITE_*` 机制。不得把真实地址、Token 或证书写入源码、示例文件、项目文档或提交物。
 - 开发代理由 `apps/web/proxy.ts` 的 `getProxyConfig()` 统一管理：本地规则按路径 key 长度从长到短装配；没有本地 API 根规则时，才追加由 `${API_BASE_PATH}/` 派生的网关规则。大多数服务完整透传请求路径，只有目标服务不接收完整路径时才配置正则 rewrite。
 - 本地代理文件变化后 Vite 自动重启。启动日志按实际匹配顺序列出全部 API 代理的路径 key 与脱敏 target origin，不区分本地、线上或兜底用途；没有任何代理规则时提示未配置 API 网关。
 - 使用浏览器诊断时，若当前环境已登记独立 DevTools MCP，则以其自身配置决定可用浏览器、通道和连接方式。先确认目标页面，再检查 API 响应状态、内容类型、响应体及 `X-Dev-Proxy-Target`、`X-Dev-Proxy-Rule`；不得在交付内容、日志摘要或文档中泄露认证头、Token、Cookie 或其他会话数据。

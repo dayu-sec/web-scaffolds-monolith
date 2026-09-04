@@ -1,6 +1,5 @@
 import { getRequestInstance, type HttpRequest, initializeRequest } from '@dayu-sec/bizlib-request';
 import { QueryClient } from '@tanstack/react-query';
-
 import { API_REQUEST_INSTANCE_NAME, requestConfig as apiRequestConfig } from '@/configs/request';
 import { getCurrentLocale } from '@/locales';
 

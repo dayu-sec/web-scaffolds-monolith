@@ -1,5 +1,4 @@
 import { z } from 'zod';
-
 import { SHELL_BREADCRUMB_PLACEMENTS, SHELL_LAYOUT_MODES, SHELL_THEME_MODES } from '../constants/layout';
 
 /** 校验本地持久化和运行时更新进入布局子系统前的完整设置契约。 */

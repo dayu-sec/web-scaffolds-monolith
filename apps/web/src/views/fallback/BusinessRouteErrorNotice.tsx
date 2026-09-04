@@ -1,7 +1,6 @@
 import { Alert, AlertAction, AlertDescription, AlertTitle } from '@workspace/ui/components/alert';
 import { Button } from '@workspace/ui/components/button';
 import { CircleAlert } from 'lucide-react';
-
 import type { BusinessRouteErrorKind } from '@/routes/business-route-error';
 
 interface BusinessRouteErrorNoticeProps {

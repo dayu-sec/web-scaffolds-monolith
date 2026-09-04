@@ -1,5 +1,4 @@
 import type { NavigationItem, NavigationMatch, NavigationSourceStatus } from '@/types/navigation';
-
 import ShellBrand from '../Brand/ShellBrand';
 import ShellAsideCollapseButton from './ShellAsideCollapseButton';
 import ShellAsideMenu from './ShellAsideMenu';

@@ -1,5 +1,4 @@
 import { createContext } from 'react';
-
 import type { MenuConfig } from '@/services/menu/schema';
 
 export interface MenuContextValue {

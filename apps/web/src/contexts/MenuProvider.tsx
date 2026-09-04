@@ -1,7 +1,5 @@
 import { type ReactNode, useMemo } from 'react';
-
 import type { MenuConfig } from '@/services/menu/schema';
-
 import { MenuContext } from './MenuContext';
 
 export interface MenuProviderProps {

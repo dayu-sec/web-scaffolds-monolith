@@ -1,5 +1,4 @@
 import { type CSSProperties, useMemo } from 'react';
-
 import { useLayoutSettings } from './useLayoutSettings';
 
 type ShellLayoutTokenStyle = CSSProperties & Record<`--dy-sec-shell-${string}`, string>;

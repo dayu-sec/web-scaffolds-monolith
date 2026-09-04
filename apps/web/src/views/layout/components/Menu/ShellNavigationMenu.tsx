@@ -14,9 +14,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@workspace/ui/component
 import { cn } from '@workspace/ui/lib/utils';
 import { ChevronDown, ChevronRight, MoreHorizontal } from 'lucide-react';
 import { useMemo, useState } from 'react';
-
 import type { NavigationItem, NavigationMatch } from '@/types/navigation';
-
 import ShellMenuIcon from './ShellMenuIcon';
 
 type ShellNavigationMenuMode = 'horizontal' | 'inline';

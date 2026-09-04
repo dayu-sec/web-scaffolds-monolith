@@ -8,7 +8,6 @@ import {
 } from '@workspace/ui/components/dropdown-menu';
 import { Check, Languages } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
 import {
   changeLanguagePreference,
   getLanguagePreference,

@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router';
-
 import { useMenu } from '@/hooks/useMenu';
 import { fileRoutes } from '@/routes/fileRoutes';
 import type { MenuConfig } from '@/services/menu/schema';
@@ -9,7 +8,6 @@ import { normalizeNavigationItems } from '@/services/navigation/normalize';
 import { createProjectMenuNavigationSource } from '@/services/navigation/source';
 import type { NavigationItem } from '@/types/navigation';
 import { open, Target } from '@/utils/route';
-
 import { resolveNavigationIntent } from '../utils/navigation-projection';
 
 /** 为四种 Shell 布局统一准备导航树、匹配、面包屑和点击行为。 */

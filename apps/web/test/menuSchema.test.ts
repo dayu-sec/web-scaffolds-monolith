@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import { parseMenuConfig } from '../src/services/menu/schema';
 
 void describe('menuConfigSchema', () => {

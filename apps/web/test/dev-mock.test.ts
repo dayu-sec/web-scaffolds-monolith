@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import { MOCK_MODE, resolveMockEnabled } from '../dev-mock';
 import { parseJsoncContent } from '../proxy';
 

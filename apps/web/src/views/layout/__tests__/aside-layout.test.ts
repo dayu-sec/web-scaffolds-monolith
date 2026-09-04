@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import { SHELL_ASIDE_BREAKPOINT } from '../constants/layout.js';
 import { createShellAsideLayoutStyle } from '../utils/aside-layout.js';
 

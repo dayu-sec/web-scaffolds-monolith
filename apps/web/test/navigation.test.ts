@@ -1,8 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import type { RouteObject } from 'react-router';
-
 import { parseMenuConfig } from '../src/services/menu/schema';
 import { matchNavigation } from '../src/services/navigation/match';
 import { normalizeNavigationItems } from '../src/services/navigation/normalize';
