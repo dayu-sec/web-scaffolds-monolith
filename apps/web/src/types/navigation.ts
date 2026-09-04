@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-
 import type { MenuConfig, MenuNode, MenuTarget } from '@/services/menu/schema';
 import type { MenuIconName } from '@/services/navigation/icons';
 

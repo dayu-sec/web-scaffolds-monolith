@@ -2,7 +2,6 @@ import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/al
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@workspace/ui/components/empty';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import { AlertTriangle, Compass } from 'lucide-react';
-
 import type { NavigationSourceStatus } from '@/types/navigation';
 
 interface ShellAsideMenuStateProps {

@@ -1,7 +1,5 @@
 import '../styles/shell-layout.css';
-
 import { type CSSProperties, useEffect, useMemo, useState } from 'react';
-
 import { useLayoutSettings } from '../hooks/useLayoutSettings';
 import useShellLayoutTokens from '../hooks/useShellLayoutTokens';
 import useShellRootScope from '../hooks/useShellRootScope';

@@ -5,7 +5,6 @@ import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouterProvider } from 'react-router';
-
 import { appConfig } from '@/configs/app';
 import { MenuProvider } from '@/contexts/MenuProvider';
 import { appRouter, fileRoutes } from '@/routes';

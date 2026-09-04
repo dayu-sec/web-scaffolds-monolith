@@ -1,8 +1,6 @@
 import { Outlet } from 'react-router';
-
 import { appConfig } from '@/configs/app';
 import { useMenu } from '@/hooks/useMenu';
-
 import { useLayoutSettings } from '../hooks/useLayoutSettings';
 import { useShellNavigation } from '../hooks/useShellNavigation';
 import ExceptionAlert from './Content/ExceptionAlert';

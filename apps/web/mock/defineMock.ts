@@ -1,7 +1,5 @@
 import path from 'node:path';
-
 import { createDefineMock } from 'vite-plugin-mock-dev-server';
-
 import { API_BASE_PATH } from '@/constants/api';
 
 const defineMock = createDefineMock((mock) => {

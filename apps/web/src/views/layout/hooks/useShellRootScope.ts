@@ -1,5 +1,4 @@
 import { useLayoutEffect } from 'react';
-
 import type { LayoutSettings, ShellLayoutMode, ShellRootScopeStyle } from '../types/layout';
 import { createShellRootScopeCssText, getShellRootScopeSelector } from '../utils/root-scope-style';
 

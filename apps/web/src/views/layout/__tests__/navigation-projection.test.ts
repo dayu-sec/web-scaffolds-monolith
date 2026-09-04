@@ -1,8 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import type { NavigationItem, NavigationMatch } from '@/types/navigation';
-
 import { isShellLayoutMode } from '../utils/layout-mode.js';
 import { createShellNavigationProjection, resolveNavigationIntent } from '../utils/navigation-projection.js';
 

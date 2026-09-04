@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import { layoutSettingsSchema } from '../schemas/layout-settings.js';
 import type { LayoutSettings } from '../types/layout.js';
 import { restoreLayoutSettings } from '../utils/restore-layout-settings.js';

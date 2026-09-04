@@ -57,19 +57,19 @@
 - `getProxyConfig()` 按路径 key 的字符串长度从长到短装配本地规则；相同长度保留声明顺序。开发者可以配置包括 `API_BASE_PATH` 当前值在内的任意路径，其覆盖范围由配置者负责。
 - 大多数本地服务只配置路径 key 和 `target`，完整请求路径会原样转发；只有本地后端不接收完整浏览器路径时才配置 `{ "pattern": string, "replacement": string }` 正则 `rewrite`，v1 不支持正则 flags。
 - `getProxyConfig()` 在没有本地 API 根规则时，才使用非空 `DEV_API_URL` 创建 `${API_BASE_PATH}/` 网关兜底规则。`DEV_API_URL` 是 Vite 进程内部配置，不是业务 Service 或本地服务配置入口。
-- `"server.proxy.token"` 是共享 Bearer Token，默认发给**全部**代理规则和网关兜底规则。单条规则的解析优先级为 `headers.Authorization` > 规则 `token` > 共享 `server.proxy.token` > `DEV_API_TOKEN`；声明即终结——某一层写了 `token` 就不再向上继承，去除首尾空白后为空表示该规则显式关闭 Authorization。
+- `"server.proxy.token"` 是共享 Bearer Token，默认发给**全部**代理规则和网关兜底规则。单条规则的解析优先级为 `headers.Authorization` > 规则 `token` > 共享 `server.proxy.token` > `DEV_API_TOKEN`；声明即终结，某一层写了 `token` 就不再向上继承，去除首尾空白后为空表示该规则显式关闭 Authorization。
 - 共享 Token 的扩散面大于单条网关规则，本地规则的 target 可能是同事机器或临时环境。启动摘要按规则标注 `[token: rule | shared | env | headers]`，只标来源不打印 Token 值，用于核对 Token 发给了哪些服务。
 - 未配置本地代理文件和网关时，返回空代理配置，Mock-only 开发模式不能形成自代理。删除或注释本地规则后，未命中的请求会继续按当前网关/Mock 配置处理。
 - 本地配置文件变化后 Vite 自动重启并重新读取规则。开发服务器按实际匹配顺序输出全部 API 代理的路径 key 与脱敏 target origin，不区分本地、线上或兜底用途；没有任何代理规则时提示未配置 API 网关。HTTP 响应使用 `X-Dev-Proxy-Target` 和 `X-Dev-Proxy-Rule` 标明命中规则，不向浏览器暴露完整 target、Token 或请求头。
-- `.env.development.local` 是 Vite 官方机制，继续被读取但已弱化为兜底，日常开发不需要创建。**取值类**配置文件优先于 env：`DEV_SERVER_PORT` 兜底 `"server.port"`、`DEV_API_TOKEN` 兜底 `"server.proxy.token"`，文件声明了同名项即以文件为准。**开关类**的 Mock 是「或」语义：`pnpm dev:mock`、`DEV_MOCK=true`、`"mock": { "enabled": true }` 任一成立即开启，`DEV_MOCK=true` 不会被文件里的 `"enabled": false` 否决——命令行形态必须能压过配置文件，否则 `pnpm dev:mock` 会被一份历史配置挡掉。`DEV_API_URL` 的等价写法是把 API 根路径直接写成一条本地规则。这些变量仅供 Vite 进程读取，不得改为 `VITE_*`，不得在浏览器代码中读取，也不得提交真实地址或凭据。
-- 影响构建产物或进入浏览器的变量（如 `VITE_APP_BASE`）留在 `.env` 与 `VITE_*` 机制，不迁入本地配置文件——构建结果不能依赖开发者本机的 Git 忽略文件。
+- `.env.development.local` 是 Vite 官方机制，继续被读取但已弱化为兜底，日常开发不需要创建。**取值类**配置文件优先于 env：`DEV_SERVER_PORT` 兜底 `"server.port"`、`DEV_API_TOKEN` 兜底 `"server.proxy.token"`，文件声明了同名项即以文件为准。**开关类**的 Mock 是「或」语义：`pnpm dev:mock`、`DEV_MOCK=true`、`"mock": { "enabled": true }` 任一成立即开启，`DEV_MOCK=true` 不会被文件里的 `"enabled": false` 否决，命令行形态必须能压过配置文件，否则 `pnpm dev:mock` 会被一份历史配置挡掉。`DEV_API_URL` 的等价写法是把 API 根路径直接写成一条本地规则。这些变量仅供 Vite 进程读取，不得改为 `VITE_*`，不得在浏览器代码中读取，也不得提交真实地址或凭据。
+- 影响构建产物或进入浏览器的变量（如 `VITE_APP_BASE`）留在 `.env` 与 `VITE_*` 机制，不迁入本地配置文件，构建结果不能依赖开发者本机的 Git 忽略文件。
 
 ## 本地 Mock
 
 **背景。** `vite-plugin-mock-dev-server` 的默认行为是「装了就生效」：插件一经注册即接管匹配请求。这在单人、少量接口的场景下没有问题，但在多人协作和长期演进下会产生三种确定的故障：
 
-- **误提交导致他人被静默拦截。** 某个开发者为联调开启 Mock 并把 mock 文件一并提交，其他人拉取后运行 `pnpm dev` 就会被拦截。Mock 响应与真实响应在浏览器里形状一致，现象通常被误判为「真实 API 失效」或「后端返回的数据不对」，排查会先怀疑后端和网关，定位成本很高。这也是要求每次命中在终端与响应头上都可见的原因——即使误开，也要能一眼分辨响应来自哪里。
-- **历史 Mock 会随开关一起复活。** 接口对接完成后 mock 文件通常不删除：它是后端未就绪期间的契约样例，也用于富态 UI 的本地预览，删掉后下次要重写。为新接口开启 Mock 时，仓库中已完成的历史 Mock 会一并生效，重新劫持已经可用的真实接口。处理方式是把它们设为 `enabled: false`，而不是反转插件的默认值——反转会让照插件文档写出的 mock 变成静默失效，反而制造新的排查成本。
+- **误提交导致他人被静默拦截。** 某个开发者为联调开启 Mock 并把 mock 文件一并提交，其他人拉取后运行 `pnpm dev` 就会被拦截。Mock 响应与真实响应在浏览器里形状一致，现象通常被误判为「真实 API 失效」或「后端返回的数据不对」，排查会先怀疑后端和网关，定位成本很高。这也是要求每次命中在终端与响应头上都可见的原因，即使误开，也要能一眼分辨响应来自哪里。
+- **历史 Mock 会随开关一起复活。** 接口对接完成后 mock 文件通常不删除：它是后端未就绪期间的契约样例，也用于富态 UI 的本地预览，删掉后下次要重写。为新接口开启 Mock 时，仓库中已完成的历史 Mock 会一并生效，重新劫持已经可用的真实接口。处理方式是把它们设为 `enabled: false`，而不是反转插件的默认值，反转会让照插件文档写出的 mock 变成静默失效，反而制造新的排查成本。
 - **Mock 与真实后端必须共存。** 实际联调几乎总是「部分接口 Mock、其余走真实后端」，未命中的请求必须原样透传给 `server.proxy`，不能形成只有 Mock 的封闭环境。开关的实现也不能影响代理装配。
 
 据此，本项目不沿用插件的服务级默认值：Mock 服务默认不装配，必须显式开启；端点级沿用插件自身的 `enabled` 语义。
@@ -82,7 +82,7 @@
 
 判定逻辑由 `apps/web/dev-mock.ts` 的 `resolveMockEnabled()` 单独拥有并被测试覆盖；`--mode mock` 只表达开关语义，不参与环境变量文件的选择。
 
-**端点级：单条记录是否被拦截。** 由该条 `defineMock` 记录自身的 `enabled` 决定，沿用插件默认值 `true`。后端就绪后把对应端点设为 `enabled: false`，请求会自动透传给 `server.proxy`，不需要删除 mock 文件或改动 Vite 配置；没有匹配到任何已启用记录的请求同样自动透传。公共层不改写这个字段的语义——反转默认值会让照插件文档写出的 mock 变成静默失效，代价大于收益。
+**端点级：单条记录是否被拦截。** 由该条 `defineMock` 记录自身的 `enabled` 决定，沿用插件默认值 `true`。后端就绪后把对应端点设为 `enabled: false`，请求会自动透传给 `server.proxy`，不需要删除 mock 文件或改动 Vite 配置；没有匹配到任何已启用记录的请求同样自动透传。公共层不改写这个字段的语义，反转默认值会让照插件文档写出的 mock 变成静默失效，代价大于收益。
 
 **可观测性。** 开发服务器启动时打印 `[Vite Mock]` 的启用或未启用状态。命中提示直接使用 vite-plugin-mock-dev-server 自带的 info 级日志（含 method、路径与来源 mock 文件，请求带 query/params/body 时一并输出），业务侧不再实现一份并行的命中日志。响应头直接使用插件内置的 `X-Mock-Power-By` 与指向命中文件的 `X-File-Path`，可在浏览器 DevTools Network 确认来源；公共层不改名也不注入自定义标识头。
 

@@ -1,14 +1,11 @@
 import '@workspace/ui/globals.css';
 import './styles/app.css';
-
 import { createEventChannel } from '@seed-fe/event-channel';
 import global from '@seed-fe/global';
 import logger from '@seed-fe/logger';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-
 import { ShellFallback } from '@/views/layout';
-
 import App from './App';
 import { setupGlobalErrorMonitor } from './configs/global-error';
 import { initGlobalI18nAPI, setupI18n } from './locales';

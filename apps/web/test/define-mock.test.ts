@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-
 import { defineMock } from '../mock/defineMock';
 import { API_BASE_PATH } from '../src/constants/api';
 

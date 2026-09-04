@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-
 import ShellAsideCollapseButton from '../Aside/ShellAsideCollapseButton';
 import ShellActionSlot from '../Slots/ShellActionSlot';
 import ShellHeaderLanguageAction from './ShellHeaderLanguageAction';

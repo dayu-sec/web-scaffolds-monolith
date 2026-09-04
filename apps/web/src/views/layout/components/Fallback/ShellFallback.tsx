@@ -1,9 +1,7 @@
 import './ShellFallback.module.css';
-
 import { Button } from '@workspace/ui/components/button';
 import { Spinner } from '@workspace/ui/components/spinner';
 import { AlertTriangle, FileQuestion, LockKeyhole, RefreshCw } from 'lucide-react';
-
 import type { ShellFallbackKind, ShellFallbackState } from '@/types/shell';
 
 interface ShellFallbackProps {

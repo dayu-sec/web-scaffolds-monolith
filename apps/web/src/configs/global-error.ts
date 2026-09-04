@@ -1,5 +1,4 @@
 import logger from '@seed-fe/logger';
-
 import { notifyException } from '@/configs/exception-notification';
 import { scheduleResourceRefresh } from '@/services/app-update/refresh-controller';
 

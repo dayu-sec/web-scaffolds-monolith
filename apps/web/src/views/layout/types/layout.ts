@@ -1,8 +1,6 @@
 import type { ReactNode } from 'react';
 import type { z } from 'zod';
-
 import type { NavigationItem, NavigationMatch, NavigationSourceStatus } from '@/types/navigation';
-
 import type { layoutSettingsSchema } from '../schemas/layout-settings';
 
 /** 经运行时 Schema 验证后的完整布局设置。 */

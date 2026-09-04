@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-
 import type { ShellSlotName } from '@/types/navigation';
 
 interface ShellActionSlotProps {

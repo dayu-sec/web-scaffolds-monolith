@@ -1,7 +1,5 @@
 import { type ReactNode, useCallback, useMemo, useState } from 'react';
-
 import { DEFAULT_PRIMARY_COLOR } from '@/theme';
-
 import { layoutSettingsSchema } from '../schemas/layout-settings';
 import type { LayoutSettings, ShellLayoutMode } from '../types/layout';
 import { restoreLayoutSettings } from '../utils/restore-layout-settings';
