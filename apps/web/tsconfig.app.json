@@ -6,7 +6,6 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "ignoreDeprecations": "6.0",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
@@ -19,10 +18,9 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "#/*": ["mock/*"],
+      "@/*": ["./src/*"],
+      "#/*": ["./mock/*"],
       "@workspace/ui/*": ["../../packages/ui/src/*"]
     },
     "types": ["vite/client", "node"]

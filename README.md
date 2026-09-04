@@ -55,11 +55,20 @@ pnpm dev
 # 需要本地 Mock 时显式启动；单个端点用自己 defineMock 记录的 enabled 控制
 pnpm dev:mock
 
+# 代码规范与格式（oxlint / oxfmt）
+pnpm lint
+pnpm lint:fix
+pnpm format
+pnpm format-check
+
 # 类型、测试与生产构建
 pnpm check
 pnpm test
 pnpm build
 ```
+
+代码规范由 `.oxlintrc.json` 单一拥有，格式由 `.oxfmtrc.json` 单一拥有；两者都不再经过 ESLint 或 Prettier。
+导入排序与 Tailwind class 排序由 oxfmt 负责，类型感知规则由 `oxlint-tsgolint` 提供，随 `pnpm lint` 一并执行。
 
 ## AI 工具支持
 

@@ -11,11 +11,14 @@
 
 ## 技术与命令
 
-- Node.js `>=22.12.0`，包管理器 `pnpm@11.13.0`。
+- Node.js `>=24`，包管理器 `pnpm@11`。
 - 构建使用 Vite 8.1、React 19.2、TypeScript 6 严格模式；UI 基础层使用 Tailwind CSS 4、shadcn/ui `base-nova`、Base UI 与 Lucide。
 - 表单默认使用 React Hook Form、Zod 与 `@hookform/resolvers`；shadcn `Field` 负责字段结构、错误状态和可访问性。
 - `pnpm dev` 启动开发服务，默认不加载 Mock；`pnpm dev:mock` 显式开启 Mock 服务；`pnpm preview` 预览生产制品。
 - `pnpm check` 运行 TypeScript 检查；`pnpm lint`、`pnpm format-check`、`pnpm test` 运行代码规范、格式和测试。
+- 代码规范与格式由 oxlint 与 oxfmt 单一拥有：规则只写在 `.oxlintrc.json`，格式只写在 `.oxfmtrc.json`。项目不安装 ESLint、Prettier 及其插件，也不新增第二套规范配置。
+- 导入排序与 Tailwind class 排序属于格式，由 oxfmt 的 `sortImports`、`sortTailwindcss` 负责，不由 lint 规则表达；类型感知规则由 `oxlint-tsgolint` 提供，`.oxlintrc.json` 的 `options.typeAware` 是唯一开关。
+- `packages/ui/src/components/**` 与 `packages/ui/src/hooks/**` 作为只读物料，在 `.oxlintrc.json` 的 overrides 中豁免；关闭任何其他规则都要在配置里写明原因。
 - `pnpm build` 从根目录构建唯一应用并输出到根 `dist/`。
 - 应用路径别名：`@/* -> apps/web/src/*`、`#/* -> apps/web/mock/*`；UI 公共入口为 `@workspace/ui/*`。
 

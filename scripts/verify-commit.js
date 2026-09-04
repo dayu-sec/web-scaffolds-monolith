@@ -1,6 +1,7 @@
 /* global process */
 // @ts-check
 import { readFileSync } from 'node:fs';
+
 import pico from 'picocolors';
 
 const msgPath = process.argv[2];
@@ -10,25 +11,34 @@ if (!msgPath) {
   process.exit(1);
 }
 
-// 只校验提交标题；后续正文不计入 50 字符限制。
+// 只校验提交标题；后续正文不计入长度限制。
 const subject = readFileSync(msgPath, 'utf-8').split(/\r?\n/, 1)[0]?.trim() ?? '';
 
-const commitRE =
-  /^(revert: )?(feat|fix|docs|style|refactor|test|workflow|build|ci|chore|types|wip|release)(\([^)]+\))?: .{1,50}$/;
+// 与 @commitlint/config-conventional 的 header-max-length 对齐：限制整行标题，而非仅描述部分。
+const MAX_LENGTH = 100;
 
-if (!commitRE.test(subject)) {
+const commitRE =
+  /^(revert: )?(feat|fix|docs|style|refactor|test|workflow|build|ci|chore|types|wip|release)(\([^)]+\))?!?: .+$/;
+
+const tooLong = subject.length > MAX_LENGTH;
+
+if (!commitRE.test(subject) || tooLong) {
   console.log();
   console.error(
     `  ${pico.white(pico.bgRed(' ERROR '))} ${pico.red('invalid commit message format.')}\n\n` +
+      (tooLong ? pico.red(`  标题超出长度：当前 ${subject.length} 字符，上限 ${MAX_LENGTH} 字符。\n\n`) : '') +
       pico.red('  提交日志需要遵循如下格式：\n\n') +
       pico.yellow('  1. 可选的 "revert: " 前缀\n') +
       pico.yellow('  2. 类型 "feat|fix|docs|style|refactor|test|workflow|build|ci|chore|types|wip|release"\n') +
       pico.yellow('  3. 可选的作用域 (xxx)\n') +
-      pico.yellow('  4. 英文冒号和空格\n') +
-      pico.yellow('  5. 1~50 字符的简要描述\n\n') +
+      pico.yellow('  4. 可选的 "!"（破坏性变更，紧贴冒号之前）\n') +
+      pico.yellow('  5. 英文冒号和空格\n') +
+      pico.yellow('  6. 非空的简要描述\n') +
+      pico.yellow(`  7. 标题整行不超过 ${MAX_LENGTH} 字符\n\n`) +
       pico.red('  示例：\n\n') +
       `    ${pico.green("feat(compiler): add 'comments' option")}\n` +
-      `    ${pico.green('fix(v-model): handle events on blur (#28)')}\n\n` +
+      `    ${pico.green('fix(v-model): handle events on blur (#28)')}\n` +
+      `    ${pico.green('refactor(api)!: drop legacy endpoint')}\n\n` +
       pico.red('  详细规范见：https://www.conventionalcommits.org/zh-hans/\n')
   );
   process.exit(1);

@@ -35,14 +35,15 @@ export default function ShellHeaderLanguageAction() {
   const handleLanguageChange = (nextPreference: LanguagePreference) => {
     if (nextPreference === currentLang) return;
     const previousLanguage = i18n.resolvedLanguage;
-    void changeLanguagePreference(nextPreference).then((resolvedLanguage) => {
+    void (async () => {
+      const resolvedLanguage = await changeLanguagePreference(nextPreference);
       setCurrentLang(nextPreference);
       window.dy?.eventChannel?.emit('locale-changed', {
         oldLocale: previousLanguage,
         newLocale: resolvedLanguage,
         source: 'main-app',
       });
-    });
+    })();
   };
 
   return (
