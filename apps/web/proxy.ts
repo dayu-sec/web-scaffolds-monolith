@@ -170,7 +170,7 @@ interface ProxySummaryRule {
 /**
  * 解析并校验本地开发配置文本。
  *
- * 按 JSONC 惯例解析：允许注释和尾随逗号，与 `tsconfig.json`、VS Code `settings.json` 一致——
+ * 按 JSONC 惯例解析：允许注释和尾随逗号，与 `tsconfig.json`、VS Code `settings.json` 一致，
  * 注释掉最后一项后留下的逗号是手写常态，不是错误。
  *
  * `sourceName` 只用于错误信息，让报错指向具体文件；语法错误以异常形式抛出，调用方不需要判空。
