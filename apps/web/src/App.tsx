@@ -1,10 +1,10 @@
 import logger from '@seed-fe/logger';
 import { QueryClientProvider } from '@tanstack/react-query';
-import { Toaster } from '@workspace/ui/components/toast';
 import { TooltipProvider } from '@workspace/ui/components/tooltip';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouterProvider } from 'react-router';
+import { Toaster } from 'sonner';
 
 import { appConfig } from '@/configs/app';
 import { MenuProvider } from '@/contexts/MenuProvider';
@@ -36,8 +36,8 @@ function ShellThemeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <TooltipProvider delay={250}>
-      {/* 全局异常的 Toast 反馈通道；默认关闭，`EXCEPTION_FEEDBACK_MODE` 切到 'toast' 时生效。 */}
-      <Toaster />
+      {/* 全局异常与轻量反馈的 Toast 通道 */}
+      <Toaster position="top-center" richColors theme={settings.theme} />
       {children}
     </TooltipProvider>
   );
