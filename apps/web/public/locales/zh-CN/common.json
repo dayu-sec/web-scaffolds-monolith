@@ -12,5 +12,12 @@
   "user_actions": "用户操作",
   "app_switch": "应用切换",
   "app_switch_empty": "暂无可切换应用",
-  "app_switch_error": "应用列表加载失败"
+  "app_switch_error": "应用列表加载失败",
+  "languageSettings": {
+    "title": "语言配置",
+    "description": "管理系统界面语言偏好与国际化运行参数",
+    "preferenceCardTitle": "界面语言偏好",
+    "preferenceCardDescription": "选择您期望的系统显示语言，偏好将保存在本地浏览器中",
+    "savedSuccess": "语言偏好已保存并生效"
+  }
 }

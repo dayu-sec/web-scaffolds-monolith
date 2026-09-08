@@ -12,5 +12,12 @@
   "user_actions": "使用者操作",
   "app_switch": "應用切換",
   "app_switch_empty": "暫無可切換應用",
-  "app_switch_error": "應用列表載入失敗"
+  "app_switch_error": "應用列表載入失敗",
+  "languageSettings": {
+    "title": "語言配置",
+    "description": "管理系統介面語言偏好與國際化運行參數",
+    "preferenceCardTitle": "介面語言偏好",
+    "preferenceCardDescription": "選擇您期望的系統顯示語言，偏好將儲存在本地瀏覽器中",
+    "savedSuccess": "語言偏好已儲存並生效"
+  }
 }
