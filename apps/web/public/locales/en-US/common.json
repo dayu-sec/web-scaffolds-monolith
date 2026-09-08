@@ -12,5 +12,12 @@
   "user_actions": "User actions",
   "app_switch": "Switch application",
   "app_switch_empty": "No applications available",
-  "app_switch_error": "Failed to load applications"
+  "app_switch_error": "Failed to load applications",
+  "languageSettings": {
+    "title": "Language Settings",
+    "description": "Manage UI language preferences and i18n runtime parameters",
+    "preferenceCardTitle": "Interface Language",
+    "preferenceCardDescription": "Select your preferred system display language, which will be saved in your browser",
+    "savedSuccess": "Language preference saved and applied"
+  }
 }
