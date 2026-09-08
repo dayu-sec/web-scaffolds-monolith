@@ -40,7 +40,7 @@ export default function ShellHeaderLanguageAction() {
       window.dy?.eventChannel?.emit('locale-changed', {
         oldLocale: previousLanguage,
         newLocale: resolvedLanguage,
-        source: 'main-app',
+        source: __APP_NAME__,
       });
     })();
   };
