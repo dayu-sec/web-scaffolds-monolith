@@ -2,7 +2,7 @@
 export interface LocaleChangeEventData {
   oldLocale?: string;
   newLocale: string;
-  source?: 'external' | 'main-app';
+  source?: string;
 }
 
 /** 平台用户登录事件契约，供后续认证模块接入。 */

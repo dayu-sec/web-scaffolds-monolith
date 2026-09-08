@@ -74,9 +74,16 @@ export default defineConfig(({ command, mode }) => {
 
     customLogger: logger,
 
-    // Vite 8 已原生支持 tsconfig paths，这里以 apps/web/tsconfig.json 为唯一别名来源。
-    // 不要重新引入 vite-tsconfig-paths 或手写 alias；Vite 8 检测到旧插件时会提示改用此选项。
+    /**
+     * 解析选项
+     */
     resolve: {
+      /**
+       * Vite 原生 tsconfig paths 解析，取代 vite-tsconfig-paths 插件。
+       * `@/*` 别名只作用于 include 覆盖 src 的 tsconfig（app 与 node 两个配置持有同一份 paths）；
+       * `#/*` 与 `@/constants/api`（mock 文件内使用）由 mock-dev-server 自带 loader 解析，
+       * `@workspace/ui/*` 走 workspace 包 exports，均不经过这个选项。
+       */
       tsconfigPaths: true,
     },
 
