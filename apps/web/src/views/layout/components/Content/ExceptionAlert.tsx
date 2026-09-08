@@ -1,9 +1,9 @@
 import { Alert, AlertAction, AlertDescription, AlertTitle } from '@workspace/ui/components/alert';
 import { Button } from '@workspace/ui/components/button';
-import { toast } from '@workspace/ui/components/toast';
 import { CircleAlert, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
+import { toast } from 'sonner';
 import {
   type ExceptionFeedbackView,
   shouldClearContentAlert,
@@ -32,7 +32,7 @@ export default function ExceptionAlert() {
   useEffect(() => {
     const show = () => {
       if (shouldRenderToast()) {
-        toast.add({ title: EXCEPTION_TITLE, type: 'error' });
+        toast.error(EXCEPTION_TITLE);
         return;
       }
       if (shouldRenderContentAlert()) setVisible(true);
