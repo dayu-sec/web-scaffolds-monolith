@@ -151,9 +151,9 @@ void describe('本地开发代理配置', () => {
     const exampleConfig = parseJsoncContent(fs.readFileSync(examplePath, 'utf-8'), path.basename(examplePath));
     const proxyConfig = getProxyConfig({}, { localConfig: exampleConfig });
 
-    assert.deepEqual(Object.keys(proxyConfig), ['/dysec/api/example-service']);
-    assert.equal(proxyConfig['/dysec/api/example-service'].target, 'http://127.0.0.1:8080');
-    assert.equal(proxyConfig['/dysec/api/example-service'].rewrite, undefined);
+    assert.deepEqual(Object.keys(proxyConfig), ['/dysec/api']);
+    assert.equal(proxyConfig['/dysec/api'].target, 'http://127.0.0.1:9090');
+    assert.equal(proxyConfig['/dysec/api'].rewrite, undefined);
   });
 
   void it('真实 Vite 代理区分本地规则与远程网关', async (context) => {
