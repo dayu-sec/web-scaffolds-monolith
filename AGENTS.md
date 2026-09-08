@@ -67,6 +67,7 @@
 - 业务源码只从 `@workspace/ui/components/<component>`、`@workspace/ui/hooks/<hook>` 和 `@workspace/ui/lib/utils` 导入；不得直接导入 `@base-ui/react`，不得建立聚合 barrel 或重新包装整套组件。
 - Alert、Empty、Badge、Separator、Skeleton、Spinner 等已有语义组件不得用带样式的普通元素重复实现。
 - 当前使用经过评审的精选基础组件快照，不预装 Chart、Questionnaire 及 Message、MessageScroller、Bubble、Marker 会话组件组；应用图表沿用现有 ECharts，场景化组件只有真实需求成立且依赖边界经过评审后才按需添加。
+- 全局轻量提示直接采用社区原生 `sonner`（`import { toast } from 'sonner'`），不进行二次造轮子封装；根组件在 `apps/web/src/App.tsx` 挂载 `<Toaster position="top-center" richColors theme={settings.theme} />` 响应主题切换。
 - Attachment 作为通用附件展示组件保留，可表达文件、图片、状态和操作；文件选择、上传、进度、重试、持久化与权限仍由应用业务层和 Service 负责。
 - 从根目录运行 `pnpm exec shadcn info --json -c apps/web` 获取项目上下文；新增或更新单个组件先运行带 `-c apps/web` 的 `--dry-run` 和 `--diff`，未经明确许可不使用 `--overwrite`。`add --all` 只用于观察 registry 全量变化，不是完整性验收，也不得用于恢复已排除组件。
 - 表单 Schema 是运行时校验与值类型的单一来源；使用 `z.infer` 推导类型，并同时设置字段的 `data-invalid` 与控件的 `aria-invalid`。
