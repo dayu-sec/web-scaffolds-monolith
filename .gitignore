@@ -641,21 +641,20 @@ FodyWeavers.xsd
 # turborepo
 .turbo
 
-# production
-/build
-/dist
-build.zip
-dist.zip
+# test & production
+.vitest-attachments/
+__screenshots__/
+fixtures/*/dist/
+playwright-report/
 *.tar
 
 # misc
-.DS_Store
 *.swp
 *.dia~
 
 # local env files
 *.local/
-.env*.local
+*.local
 *.local.*
 !apps/web/proxy.local.jsonc.example
 
@@ -668,7 +667,6 @@ TODOs.md
 # AI Assistant
 .trae/*
 !.trae/rules/
-.windsurf/
 
 # Custom
 !/src/**/logs
