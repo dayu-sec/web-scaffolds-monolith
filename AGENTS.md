@@ -11,8 +11,8 @@
 
 ## 技术与命令
 
-- Node.js `>=22.12.0`，包管理器 `pnpm@11.13.0`。
-- 构建使用 Vite 8.1、React 19.2、TypeScript 6 严格模式；UI 基础层使用 Tailwind CSS 4、shadcn/ui `base-nova`、Base UI 与 Lucide。
+- Node.js `>=22.12.0`，包管理器 pnpm 11。
+- 构建使用 Vite 8、React 19、TypeScript 6 严格模式；UI 基础层使用 Tailwind CSS 4、shadcn/ui `base-nova`、Base UI 与 Lucide。
 - 表单默认使用 React Hook Form、Zod 与 `@hookform/resolvers`；shadcn `Field` 负责字段结构、错误状态和可访问性。
 - `pnpm dev` 启动开发服务，默认不加载 Mock；`pnpm dev:mock` 显式开启 Mock 服务；`pnpm preview` 预览生产制品。
 - `pnpm check` 运行 TypeScript 检查；`pnpm lint`、`pnpm format-check`、`pnpm test` 运行代码规范、格式和测试。
@@ -36,6 +36,12 @@
 - 请求实例、SDK/OpenAPI、错误与 Query 使用对应的前端请求与数据契约工作流；Mock 使用项目现有 Mock 工作流。不得只依据通用规则或遗留实现推断当前项目的 API 路径、代理、Mock 前缀或请求实例。
 - 浏览器 API 根由 `apps/web/src/constants/api.ts` 的 `API_BASE_PATH` 唯一拥有；业务 Service 只声明 API 根之后的相对路径。本地联调路由只在 `apps/web/proxy.local.jsonc` 中配置，不得为使旧实现或旧测试继续通过而保留独立浏览器基址、业务专属环境变量或第二请求实例。
 - `README.md` 及其他项目文档只描述机制、入口和唯一来源，不罗列具体服务名、端口、context path、网关命名空间等随项目演进漂移的事实。需要这些信息时读取 `apps/web/proxy.local.jsonc.example`、`proxy.schema.json`、`apps/web/src/constants/api.ts` 与业务源码，源码是真相。补充文档时同样遵守这条，不要把探索得到的具体值写回文档。
+
+## 国际化文案
+
+- `apps/web/src/locales/` 是语言域的唯一外部入口，拥有 i18n 实例、语言常量与偏好和全局语言 API；`main.tsx` 在挂载 React 根之前完成 `setupI18n()`。
+- 文案按 `apps/web/public/locales/<lang>/<ns>.json` 存放，命名空间声明清单在 `apps/web/src/locales/index.ts`。声明清单、各语言目录下的文件与键集三者必须对齐，漂移不会导致构建失败。
+- 脚手架只自带壳层与菜单命名空间，不预置业务领域命名空间；业务领域的命名空间划分与文案粒度使用对应的国际化文案工作流。
 
 ## 开发期网关与浏览器诊断
 
